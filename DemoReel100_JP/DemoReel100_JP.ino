@@ -15,16 +15,16 @@ FASTLED_USING_NAMESPACE
 #error "Requires FastLED 3.1 or later; check github for latest code."
 #endif
 
-#define DATA_PIN    3
-#define CLK_PIN   4
+#define DATA_PIN    11
+#define CLK_PIN   13
 #define LED_TYPE    APA102
 #define COLOR_ORDER RGB
-#define NUM_LEDS    256
+#define NUM_LEDS    1024
 CRGB leds[NUM_LEDS];
 const uint8_t kMatrixWidth = 16;
 const uint8_t kMatrixHeight = 16;
 const bool    kMatrixSerpentineLayout = true;
-#define BRIGHTNESS         15
+#define BRIGHTNESS         20
 #define FRAMES_PER_SECOND  80
 
 void setup() {
@@ -34,7 +34,7 @@ void setup() {
   // tell FastLED about the LED strip configuration
   //FastLED.addLeds<LED_TYPE,DATA_PIN,COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
   //FastLED.addLeds<LED_TYPE,DATA_PIN,CLK_PIN,COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
-    FastLED.addLeds<APA102, DATA_PIN, CLK_PIN, BGR, DATA_RATE_MHZ(20)>(leds, NUM_LEDS);
+    FastLED.addLeds<APA102, DATA_PIN, CLK_PIN, BGR, DATA_RATE_MHZ(5)>(leds, NUM_LEDS);
   // set master brightness control
   FastLED.setBrightness(BRIGHTNESS);
 }
@@ -43,7 +43,8 @@ void setup() {
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
 //SimplePatternList gPatterns = { addGlitter1, confetti, sinelon, juggle, bpm};
-SimplePatternList gPatterns = { addGlitter1, confetti, sinelon};
+//SimplePatternList gPatterns = { sinelon, addGlitter1, confetti, bpm};
+SimplePatternList gPatterns = { sweep };
 
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 uint8_t gHue = 0; // rotating "base color" used by many of the patterns
@@ -59,7 +60,7 @@ void loop()
   FastLED.delay(1000/FRAMES_PER_SECOND); 
 
   // do some periodic updates
-  EVERY_N_MILLISECONDS( 5 ) { gHue=gHue+1; } // slowly cycle the "base color" through the rainbow
+  EVERY_N_MILLISECONDS( 5 ) { gHue=gHue+8; } // slowly cycle the "base color" through the rainbow
   EVERY_N_SECONDS( 10 ) { nextPattern(); } // change patterns periodically
 }
 
@@ -92,20 +93,7 @@ uint16_t XY( uint8_t x, uint8_t y)
   return i;
 }
 
-void matrix()
-{
 
-  int pos1 = random16(16);
-  int pos2 = random16(16);
-  int pos3 = random16(16);
-  for (int i = 15; i >= 0; i--) {
-    leds [ XY(pos1,i) ] = CRGB::Green;
-    leds [ XY(pos2,i) ] = CRGB::Green;
-    leds [ XY(pos3,i) ] = CRGB::Green;
-    fadeToBlackBy( leds, NUM_LEDS, 80);
-    FastLED.delay(30);
-  }
-}
 
 void mario()
 {
@@ -401,148 +389,14 @@ void lowBat()
   leds[46] += CRGB::White;
   leds[47] += CRGB::White;
 }
-void kurt()
-{
-  FastLED.clear();
-  leds[0] += CRGB::Yellow;
-  leds[1] += CRGB::Yellow;
-  leds[2] += CRGB::Yellow;
-  leds[3] += CRGB::Yellow;
-  leds[4] += CRGB::Yellow;
-  leds[5] += CRGB::Yellow;
-  leds[6] += CRGB::Yellow;
-  leds[7] += CRGB::Yellow;
-  leds[8] += CRGB::Yellow;
-  leds[9] += CRGB::Yellow;
-  leds[10] += CRGB::Yellow;
-  leds[11] += CRGB::White;
-  leds[12] += CRGB::White;
-  leds[13] += CRGB::Yellow;
-  leds[14] += CRGB::Yellow;
-  leds[15] += CRGB::Yellow;
-  leds[16] += CRGB::Yellow;
-  leds[17] += CRGB::Yellow;
-  leds[18] += CRGB::Yellow;
-  leds[19] += CRGB::Yellow;
-  leds[20] += CRGB::Yellow;
-  leds[21] += CRGB::Yellow;
-  leds[22] += CRGB::Yellow;
-  leds[23] += CRGB::Yellow;
-  leds[24] += CRGB::White;
-  leds[25] += CRGB::White;
-  leds[26] += CRGB::White;
-  leds[27] += CRGB::White;
-  leds[28] += CRGB::White;
-  leds[29] += CRGB::White;
-  leds[30] += CRGB::White;
-  leds[31] += CRGB::White;
-  leds[32] += CRGB::White;
-  leds[33] += CRGB::Red;
-  leds[34] += CRGB::Red;
-  leds[35] += CRGB::White;
-  leds[36] += CRGB::White;
-  leds[37] += CRGB::Blue;
-  leds[38] += CRGB::Blue;
-  leds[39] += CRGB::White;
-  leds[40] += CRGB::White;
-  leds[41] += CRGB::White;
-  leds[42] += CRGB::White;
-  leds[43] += CRGB::White;
-  leds[44] += CRGB::White;
-  leds[45] += CRGB::White;
-  leds[46] += CRGB::White;
-  leds[47] += CRGB::White;
-  leds[48] += CRGB::Brown;
-  leds[49] += CRGB::Brown;
-  leds[50] += CRGB::Yellow;
-  leds[51] += CRGB::Yellow;
-  leds[52] += CRGB::Yellow;
-  leds[53] += CRGB::Yellow;
-  leds[54] += CRGB::Yellow;
-  leds[55] += CRGB::Brown;
-  leds[56] += CRGB::Brown;
-  leds[57] += CRGB::Brown;
-  leds[58] += CRGB::Brown;
-  leds[59] += CRGB::Brown;
-  leds[60] += CRGB::Brown;
-  leds[61] += CRGB::Brown;
-  leds[62] += CRGB::Brown;
-  leds[63] += CRGB::Brown;
-}
-void creeper()
-{
-  FastLED.clear();
-  leds[0] += CHSV(98,100,40);
-  leds[1] += CRGB::Green;
-  leds[2] += CRGB::Blue;
-  leds[3] += CRGB::Green;
-  leds[4] += CRGB::Green;
-  leds[5] += CRGB::Blue;
-  leds[6] += CRGB::Green;
-  leds[7] += CRGB::Green;
-  leds[8] += CRGB::Green;
-  leds[9] += CRGB::Green;
-  leds[10] += CRGB::Blue;
-  leds[11] += CRGB::Blue;
-  leds[12] += CRGB::Blue;
-  leds[13] += CRGB::Blue;
-  leds[14] += CRGB::Green;
-  leds[15] += CRGB::Green;
-  leds[16] += CRGB::Green;
-  leds[17] += CRGB::Green;
-  leds[18] += CRGB::Blue;
-  leds[19] += CRGB::Blue;
-  leds[20] += CRGB::Blue;
-  leds[21] += CRGB::Blue;
-  leds[22] += CRGB::Green;
-  leds[23] += CRGB::Green;
-  leds[24] += CRGB::Green;
-  leds[25] += CRGB::Green;
-  leds[26] += CRGB::Green;
-  leds[27] += CRGB::Blue;
-  leds[28] += CRGB::Blue;
-  leds[29] += CRGB::Green;
-  leds[30] += CRGB::Green;
-  leds[31] += CRGB::Green;
-  leds[32] += CRGB::Green;
-  leds[33] += CRGB::Blue;
-  leds[34] += CRGB::Blue;
-  leds[35] += CRGB::Green;
-  leds[36] += CRGB::Green;
-  leds[37] += CRGB::Blue;
-  leds[38] += CRGB::Blue;
-  leds[39] += CRGB::Green;
-  leds[40] += CRGB::Green;
-  leds[41] += CRGB::Blue;
-  leds[42] += CRGB::Blue;
-  leds[43] += CRGB::Green;
-  leds[44] += CRGB::Green;
-  leds[45] += CRGB::Blue;
-  leds[46] += CRGB::Blue;
-  leds[47] += CRGB::Green;
-  leds[48] += CRGB::Green;
-  leds[49] += CRGB::Green;
-leds[50] += CRGB::Green;
-leds[51] += CRGB::Green;
-leds[52] += CRGB::Green;
-leds[53] += CRGB::Green;
-leds[54] += CRGB::Green;
-leds[55] += CRGB::Green;
-leds[56] += CRGB::Green;
-leds[57] += CRGB::Green;
-leds[58] += CRGB::Green;
-leds[59] += CRGB::Green;
-leds[60] += CRGB::Green;
-leds[61] += CRGB::Green;
-leds[62] += CRGB::Green;
-leds[63] += CRGB::Green;
-}
+
+
 void rainbow() 
 {
   // FastLED's built-in rainbow generator
   
   fill_rainbow( leds, NUM_LEDS, gHue, 1);
-  FastLED.delay(30);
+  FastLED.delay(10);
   
 }
 
@@ -565,12 +419,12 @@ void addGlitter1()
 {
  
   fadeToBlackBy( leds, NUM_LEDS, 5);
-  if( random8() < 100) {
+  if( random8() < 800) {
     int sparkle = random16(NUM_LEDS);
     leds[ sparkle ] += CRGB::White;
     //leds[ sparkle ] += CHSV( random(255), random(255), random(255));
     FastLED.delay(5);
-    fadeToBlackBy( leds, NUM_LEDS, 50);
+    fadeToBlackBy( leds, NUM_LEDS, 20);
     //FastLED.clear();
   }
 }
@@ -634,29 +488,147 @@ void sinelon()
 {
   // a colored dot sweeping back and forth, with fading trails
   fadeToBlackBy( leds, NUM_LEDS, 40);
-  int pos = beatsin16(25,0,kMatrixWidth);
-  for( int i = 0; i < kMatrixHeight; i++)
-  {
+  int pos = beatsin16(60,0,kMatrixHeight);
+  int pos2 = 0;
+  for( int i = 0; i < kMatrixHeight; i++){
+  
     leds[XY(pos,i)] += CHSV( gHue, 255, 192);
     leds[XY(i,pos)] += CHSV( gHue, 255, 192);
-    
+    leds[XY(pos,i+16)] += CHSV( gHue, 255, 192);
+    leds[XY(i+16,pos)] += CHSV( gHue, 255, 192);
+    if (pos == 0){
+          leds[XY(15,i)] += CHSV( gHue, 255, 192);
+          leds[XY(i,15)] += CHSV( gHue, 255, 192);
+          leds[XY(15,i+16)] += CHSV( gHue, 255, 192);
+          leds[XY(i+16,15)] += CHSV( gHue, 255, 192);
+    }
+    if (pos == 1){
+          leds[XY(14,i)] += CHSV( gHue, 255, 192);
+          leds[XY(i,14)] += CHSV( gHue, 255, 192);
+          leds[XY(14,i+16)] += CHSV( gHue, 255, 192);
+          leds[XY(i+16,14)] += CHSV( gHue, 255, 192);
+    }
+    if (pos == 2){
+          leds[XY(13,i)] += CHSV( gHue, 255, 192);
+          leds[XY(i,13)] += CHSV( gHue, 255, 192);
+          leds[XY(13,i+16)] += CHSV( gHue, 255, 192);
+          leds[XY(i+16,13)] += CHSV( gHue, 255, 192);
+    }
+    if (pos == 3){
+          leds[XY(12,i)] += CHSV( gHue, 255, 192);
+          leds[XY(i,12)] += CHSV( gHue, 255, 192);
+          leds[XY(12,i+16)] += CHSV( gHue, 255, 192);
+          leds[XY(i+16,12)] += CHSV( gHue, 255, 192);
+    }
+    if (pos == 4){
+          leds[XY(11,i)] += CHSV( gHue, 255, 192);
+          leds[XY(i,11)] += CHSV( gHue, 255, 192);
+          leds[XY(11,i+16)] += CHSV( gHue, 255, 192);
+          leds[XY(i+16,11)] += CHSV( gHue, 255, 192);
+    }
+    if (pos == 5){
+          leds[XY(10,i)] += CHSV( gHue, 255, 192);
+          leds[XY(i,10)] += CHSV( gHue, 255, 192);
+          leds[XY(10,i+16)] += CHSV( gHue, 255, 192);
+          leds[XY(i+16,10)] += CHSV( gHue, 255, 192);
+    }
+    if (pos == 6){
+          leds[XY(9,i)] += CHSV( gHue, 255, 192);
+          leds[XY(i,9)] += CHSV( gHue, 255, 192);
+          leds[XY(9,i+16)] += CHSV( gHue, 255, 192);
+          leds[XY(i+16,9)] += CHSV( gHue, 255, 192);
+    }
+    if (pos == 7){
+          leds[XY(8,i)] += CHSV( gHue, 255, 192);
+          leds[XY(i,8)] += CHSV( gHue, 255, 192);
+          leds[XY(8,i+16)] += CHSV( gHue, 255, 192);
+          leds[XY(i+16,8)] += CHSV( gHue, 255, 192);
+    }
+    if (pos == 8){
+          leds[XY(7,i)] += CHSV( gHue, 255, 192);
+          leds[XY(i,7)] += CHSV( gHue, 255, 192);
+          leds[XY(7,i+16)] += CHSV( gHue, 255, 192);
+          leds[XY(i+16,7)] += CHSV( gHue, 255, 192);
+    }
+    if (pos == 9){
+          leds[XY(6,i)] += CHSV( gHue, 255, 192);
+          leds[XY(i,6)] += CHSV( gHue, 255, 192);
+          leds[XY(6,i+16)] += CHSV( gHue, 255, 192);
+          leds[XY(i+16,6)] += CHSV( gHue, 255, 192);
+    }
+    if (pos == 10){
+          leds[XY(5,i)] += CHSV( gHue, 255, 192);
+           leds[XY(i,5)] += CHSV( gHue, 255, 192);
+           leds[XY(5,i+16)] += CHSV( gHue, 255, 192);
+           leds[XY(i+16,5)] += CHSV( gHue, 255, 192);
+    }
+    if (pos == 11){
+          leds[XY(4,i)] += CHSV( gHue, 255, 192);
+          leds[XY(i,4)] += CHSV( gHue, 255, 192);
+          leds[XY(4,i+16)] += CHSV( gHue, 255, 192);
+          leds[XY(i+16,4)] += CHSV( gHue, 255, 192);
+    }
+    if (pos == 12){
+          leds[XY(3,i)] += CHSV( gHue, 255, 192);
+          leds[XY(i,3)] += CHSV( gHue, 255, 192);
+          leds[XY(3,i+16)] += CHSV( gHue, 255, 192);
+          leds[XY(i+16,3)] += CHSV( gHue, 255, 192);
+    }
+    if (pos == 13){
+          leds[XY(2,i)] += CHSV( gHue, 255, 192);
+          leds[XY(i,2)] += CHSV( gHue, 255, 192);
+          leds[XY(2,i+16)] += CHSV( gHue, 255, 192);
+          leds[XY(i+16,2)] += CHSV( gHue, 255, 192);
+    }
+    if (pos == 14){
+          leds[XY(1,i)] += CHSV( gHue, 255, 192);
+          leds[XY(i,1)] += CHSV( gHue, 255, 192);
+          leds[XY(1,i+16)] += CHSV( gHue, 255, 192);
+          leds[XY(i+16,1)] += CHSV( gHue, 255, 192);
+    }
+    if (pos == 15){
+          leds[XY(0,i)] += CHSV( gHue, 255, 192);
+          leds[XY(i,0)] += CHSV( gHue, 255, 192);
+          leds[XY(0,i+16)] += CHSV( gHue, 255, 192);
+          leds[XY(i+16,0)] += CHSV( gHue, 255, 192);
+    }
+
+  }
+ // for( int j = kMatrixHeight-1; j > 0; j--)
+  //{
+  //   leds[XY(j,pos2)] += CHSV( gHue, 255, 192);
+   // leds[XY(pos2,j)] += CHSV( gHue, 255, 192);
+  //}
+}
+void sweep()
+{
+  for( int i = 0; i < 64; i++ )
+  
+  {
+      for( int j = 0; j<16; j++)
+      {  
+      leds[XY(j,i)] += CHSV(gHue, 255, 192);
+     
+      
+      }
+       FastLED.delay(10);
+      fadeToBlackBy( leds, NUM_LEDS, 30);
   }
 }
-
 
 void bpm()
 {
   // colored stripes pulsing at a defined Beats-Per-Minute (BPM)
   uint8_t BeatsPerMinute = 10;
-  CRGBPalette16 palette = PartyColors_p;
+  CRGBPalette16 palette = CloudColors_p;
   uint8_t beat = beatsin16( BeatsPerMinute, 64, 255);
-  //for( int i = 0; i < NUM_LEDS; i++) { //9948
-    //leds[i] = ColorFromPalette(palette, gHue+(i*2), beat-gHue+(i*20));
-    for( int i = 0; i < kMatrixWidth; i++) { //9948
-      for ( int j = 0; j < kMatrixHeight; j++) {
-      leds[ XY(i,j) ] = ColorFromPalette(palette, gHue+(i), beat-gHue*(j));
+  for( int i = 0; i < NUM_LEDS; i++) { //9948
+    leds[i] = ColorFromPalette(palette, gHue+(i*2), beat-gHue+(i*20));
+    //for( int i = 0; i < 16; i++) { //9948
+      //for ( int j = 0; j < 32; j++) {
+      //leds[ XY(i,j) ] = ColorFromPalette(palette, gHue+(i), beat-gHue*(j));
       
-      }
+      //}
     }
 }
 
