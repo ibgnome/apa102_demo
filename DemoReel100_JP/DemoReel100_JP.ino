@@ -18,23 +18,21 @@ FASTLED_USING_NAMESPACE
 #define DATA_PIN    11
 #define CLK_PIN   13
 #define LED_TYPE    APA102
-#define COLOR_ORDER RGB
+#define COLOR_ORDER BGR
 #define NUM_LEDS    1024
 CRGB leds[NUM_LEDS];
 const uint8_t kMatrixWidth = 16;
 const uint8_t kMatrixHeight = 16;
 const bool    kMatrixSerpentineLayout = true;
 #define BRIGHTNESS         20
-#define FRAMES_PER_SECOND  80
+#define FRAMES_PER_SECOND  60
 
 void setup() {
   FastLED.clear();
   delay(3000); // 3 second delay for recovery
   
   // tell FastLED about the LED strip configuration
-  //FastLED.addLeds<LED_TYPE,DATA_PIN,COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
-  //FastLED.addLeds<LED_TYPE,DATA_PIN,CLK_PIN,COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
-    FastLED.addLeds<APA102, DATA_PIN, CLK_PIN, BGR, DATA_RATE_MHZ(5)>(leds, NUM_LEDS);
+    FastLED.addLeds<LED_TYPE, DATA_PIN, CLK_PIN, COLOR_ORDER, DATA_RATE_MHZ(5)>(leds, NUM_LEDS)setCorrection(TypicalLEDStrip);
   // set master brightness control
   FastLED.setBrightness(BRIGHTNESS);
 }
@@ -93,304 +91,6 @@ uint16_t XY( uint8_t x, uint8_t y)
   return i;
 }
 
-
-
-void mario()
-{
-  leds[ XY(2,0) ] = CRGB::Brown;
-  leds[ XY(3,0) ] = CRGB::Brown;
-  leds[ XY(4,0) ] = CRGB::Brown;
-  leds[ XY(5,0) ] = CRGB::Brown;
-  leds[ XY(6,0) ] = CRGB::Brown;
-  leds[ XY(9,0) ] = CRGB::Brown;
-  leds[ XY(10,0) ] = CRGB::Brown;
-  leds[ XY(11,0) ] = CRGB::Brown;
-  leds[ XY(12,0) ] = CRGB::Brown;
-  leds[ XY(13,0) ] = CRGB::Brown;
-  leds[ XY(3,1) ] = CRGB::Brown;
-  leds[ XY(4,1) ] = CRGB::Brown;
-  leds[ XY(5,1) ] = CRGB::Brown;
-  leds[ XY(6,1) ] = CRGB::Brown;
-  leds[ XY(9,1) ] = CRGB::Brown;
-  leds[ XY(10,1) ] = CRGB::Brown;
-  leds[ XY(11,1) ] = CRGB::Brown;
-  leds[ XY(12,1) ] = CRGB::Brown;
-  leds[ XY(3,10) ] = CRGB::Brown;
-  leds[ XY(4,10) ] = CRGB::Brown;
-  leds[ XY(3,11) ] = CRGB::Brown;
-  leds[ XY(5,11) ] = CRGB::Brown;
-  leds[ XY(3,12) ] = CRGB::Brown;
-  leds[ XY(5,12) ] = CRGB::Brown;
-  leds[ XY(4,13) ] = CRGB::Brown;
-  leds[ XY(5,13) ] = CRGB::Brown;
-  leds[ XY(6,13) ] = CRGB::Brown;
-  leds[ XY(4,2) ] = CRGB::Blue;
-  leds[ XY(5,2) ] = CRGB::Blue;
-  leds[ XY(6,2) ] = CRGB::Blue;
-  leds[ XY(9,2) ] = CRGB::Blue;
-  leds[ XY(10,2) ] = CRGB::Blue;
-  leds[ XY(11,2) ] = CRGB::Blue;
-  leds[ XY(4,3) ] = CRGB::Blue;
-  leds[ XY(5,3) ] = CRGB::Blue;
-  leds[ XY(6,3) ] = CRGB::Blue;
-  leds[ XY(7,3) ] = CRGB::Blue;
-  leds[ XY(8,3) ] = CRGB::Blue;
-  leds[ XY(9,3) ] = CRGB::Blue;
-  leds[ XY(10,3) ] = CRGB::Blue;
-  leds[ XY(11,3) ] = CRGB::Blue;
-  leds[ XY(5,4) ] = CRGB::Blue;
-  leds[ XY(6,4) ] = CRGB::Blue;
-  leds[ XY(7,4) ] = CRGB::Blue;
-  leds[ XY(8,4) ] = CRGB::Blue;
-  leds[ XY(9,4) ] = CRGB::Blue;
-  leds[ XY(10,4) ] = CRGB::Blue;
-  leds[ XY(5,5) ] = CRGB::Blue;
-  leds[ XY(7,5) ] = CRGB::Blue;
-  leds[ XY(8,5) ] = CRGB::Blue;
-  leds[ XY(10,5) ] = CRGB::Blue;
-  leds[ XY(6,6) ] = CRGB::Blue;
-  leds[ XY(7,6) ] = CRGB::Blue;
-  leds[ XY(8,6) ] = CRGB::Blue;
-  leds[ XY(9,6) ] = CRGB::Blue; 
-  leds[ XY(6,7) ] = CRGB::Blue;
-  leds[ XY(9,7) ] = CRGB::Blue;
-  leds[ XY(6,8) ] = CRGB::Blue;
-  leds[ XY(10,8) ] = CRGB::Blue;
-  leds[ XY(6,5) ] = CRGB::Red;
-  leds[ XY(9,5) ] = CRGB::Red;
-  leds[ XY(2,6) ] = CRGB::Red;
-  leds[ XY(3,6) ] = CRGB::Red;
-  leds[ XY(4,6) ] = CRGB::Red;
-  leds[ XY(5,6) ] = CRGB::Red;
-  leds[ XY(13,6) ] = CRGB::Red;
-  leds[ XY(10,6) ] = CRGB::Red;
-  leds[ XY(11,6) ] = CRGB::Red;
-  leds[ XY(12,6) ] = CRGB::Red;
-  
-}
-void lunchbox()
-{
-  
-  FastLED.clear();
-  leds[ XY(0,0) ] = CRGB::Green;
-  leds[ XY(1,0) ] = CRGB::Green;
-  leds[ XY(2,0) ] = CRGB::Green;
-  leds[ XY(3,0) ] = CRGB::Green;
-  leds[ XY(4,0) ] = CRGB::Green;
-  leds[ XY(5,0) ] = CRGB::Green;
-  leds[ XY(6,0) ] = CRGB::Green;
-  leds[ XY(7,0) ] = CRGB::Green;
-  leds[ XY(7,1) ] = CRGB::Green;
-  leds[ XY(7,2) ] = CRGB::Green;
-  leds[ XY(7,3) ] = CRGB::Green;
-  leds[ XY(7,4) ] = CRGB::Green;
-  leds[ XY(7,5) ] = CRGB::Green;
-  leds[ XY(7,6) ] = CRGB::Green;
-  leds[ XY(7,7) ] = CRGB::Green;
-  FastLED.delay(1000);
-  FastLED.clear();
-  leds[ XY(1,0) ] = CRGB::Green;
-  leds[ XY(2,0) ] = CRGB::Green;
-  leds[ XY(3,0) ] = CRGB::Green;
-  leds[ XY(4,0) ] = CRGB::Green;
-  leds[ XY(5,0) ] = CRGB::Green;
-  leds[ XY(6,0) ] = CRGB::Green;
-  leds[ XY(0,1) ] = CRGB::Green;
-  leds[ XY(0,2) ] = CRGB::Green;
-  leds[ XY(0,3) ] = CRGB::Green;
-  leds[ XY(0,4) ] = CRGB::Green;
-  leds[ XY(0,5) ] = CRGB::Green;
-  leds[ XY(0,6) ] = CRGB::Green;
-  leds[ XY(0,7) ] = CRGB::Green;
-  leds[ XY(7,1) ] = CRGB::Green;
-  leds[ XY(7,2) ] = CRGB::Green;
-  leds[ XY(7,3) ] = CRGB::Green;
-  leds[ XY(7,4) ] = CRGB::Green;
-  leds[ XY(7,5) ] = CRGB::Green;
-  leds[ XY(7,6) ] = CRGB::Green;
-  leds[ XY(7,7) ] = CRGB::Green;
-  FastLED.delay(1000);
-  FastLED.clear();
-  leds[ XY(0,0) ] = CRGB::Green;
-  leds[ XY(0,1) ] = CRGB::Green;
-  leds[ XY(0,2) ] = CRGB::Green;
-  leds[ XY(0,3) ] = CRGB::Green;
-  leds[ XY(0,4) ] = CRGB::Green;
-  leds[ XY(0,5) ] = CRGB::Green;
-  leds[ XY(0,6) ] = CRGB::Green;
-  leds[ XY(0,7) ] = CRGB::Green;
-  leds[ XY(7,0) ] = CRGB::Green;
-  leds[ XY(7,1) ] = CRGB::Green;
-  leds[ XY(7,2) ] = CRGB::Green;
-  leds[ XY(7,3) ] = CRGB::Green;
-  leds[ XY(7,4) ] = CRGB::Green;
-  leds[ XY(7,5) ] = CRGB::Green;
-  leds[ XY(7,6) ] = CRGB::Green;
-  leds[ XY(7,7) ] = CRGB::Green;
-  leds[ XY(1,1) ] = CRGB::Green;
-  leds[ XY(2,2) ] = CRGB::Green;
-  leds[ XY(3,3) ] = CRGB::Green;
-  leds[ XY(4,4) ] = CRGB::Green;
-  leds[ XY(5,5) ] = CRGB::Green;
-  leds[ XY(6,6) ] = CRGB::Green;
-  FastLED.delay(1000);
-  FastLED.clear();
-  leds[ XY(1,0) ] = CRGB::Green;
-  leds[ XY(2,0) ] = CRGB::Green;
-  leds[ XY(3,0) ] = CRGB::Green;
-  leds[ XY(4,0) ] = CRGB::Green;
-  leds[ XY(5,0) ] = CRGB::Green;
-  leds[ XY(0,1) ] = CRGB::Green;
-  leds[ XY(6,1) ] = CRGB::Green;
-  leds[ XY(7,2) ] = CRGB::Green;
-  leds[ XY(7,3) ] = CRGB::Green;
-  leds[ XY(7,4) ] = CRGB::Green;
-  leds[ XY(7,5) ] = CRGB::Green;
-  leds[ XY(0,6) ] = CRGB::Green;
-  leds[ XY(6,6) ] = CRGB::Green;
-  leds[ XY(1,7) ] = CRGB::Green;
-  leds[ XY(2,7) ] = CRGB::Green;
-  leds[ XY(3,7) ] = CRGB::Green;
-  leds[ XY(4,7) ] = CRGB::Green;
-  leds[ XY(5,7) ] = CRGB::Green;
-  FastLED.delay(1000);
-  FastLED.clear();
-  leds[ XY(0,0) ] = CRGB::Green;
-  leds[ XY(0,1) ] = CRGB::Green;
-  leds[ XY(0,2) ] = CRGB::Green;
-  leds[ XY(0,3) ] = CRGB::Green;
-  leds[ XY(0,4) ] = CRGB::Green;
-  leds[ XY(0,5) ] = CRGB::Green;
-  leds[ XY(0,6) ] = CRGB::Green;
-  leds[ XY(0,7) ] = CRGB::Green;
-  leds[ XY(7,0) ] = CRGB::Green;
-  leds[ XY(7,1) ] = CRGB::Green;
-  leds[ XY(7,2) ] = CRGB::Green;
-  leds[ XY(7,3) ] = CRGB::Green;
-  leds[ XY(7,4) ] = CRGB::Green;
-  leds[ XY(7,5) ] = CRGB::Green;
-  leds[ XY(7,6) ] = CRGB::Green;
-  leds[ XY(7,7) ] = CRGB::Green;
-  leds[ XY(0,3) ] = CRGB::Green;
-  leds[ XY(1,3) ] = CRGB::Green;
-  leds[ XY(2,3) ] = CRGB::Green;
-  leds[ XY(3,3) ] = CRGB::Green;
-  leds[ XY(4,3) ] = CRGB::Green;
-  leds[ XY(5,3) ] = CRGB::Green;
-  leds[ XY(6,3) ] = CRGB::Green;
-  FastLED.delay(1000);
-  FastLED.clear();
-  leds[ XY(1,0) ] = CRGB::Green;
-  leds[ XY(2,0) ] = CRGB::Green;
-  leds[ XY(3,0) ] = CRGB::Green;
-  leds[ XY(4,0) ] = CRGB::Green;
-  leds[ XY(5,0) ] = CRGB::Green;
-  leds[ XY(6,0) ] = CRGB::Green;
-  leds[ XY(7,0) ] = CRGB::Green;
-  leds[ XY(0,1) ] = CRGB::Green;
-  leds[ XY(7,1) ] = CRGB::Green;
-  leds[ XY(0,2) ] = CRGB::Green;
-  leds[ XY(7,2) ] = CRGB::Green;
-  leds[ XY(0,3) ] = CRGB::Green;
-  leds[ XY(7,3) ] = CRGB::Green;
-  leds[ XY(1,4) ] = CRGB::Green;
-  leds[ XY(2,4) ] = CRGB::Green;
-  leds[ XY(3,4) ] = CRGB::Green;
-  leds[ XY(4,4) ] = CRGB::Green;
-  leds[ XY(5,4) ] = CRGB::Green;
-  leds[ XY(6,4) ] = CRGB::Green;
-  leds[ XY(7,4) ] = CRGB::Green;
-  leds[ XY(0,5) ] = CRGB::Green;
-  leds[ XY(7,5) ] = CRGB::Green;
-  leds[ XY(0,6) ] = CRGB::Green;
-  leds[ XY(7,6) ] = CRGB::Green;
-  leds[ XY(1,7) ] = CRGB::Green;
-  leds[ XY(2,7) ] = CRGB::Green;
-  leds[ XY(3,7) ] = CRGB::Green;
-  leds[ XY(4,7) ] = CRGB::Green;
-  leds[ XY(5,7) ] = CRGB::Green;
-  leds[ XY(6,7) ] = CRGB::Green;
-  leds[ XY(7,7) ] = CRGB::Green;
-  FastLED.delay(1000);
-  FastLED.clear();
-  leds[ XY(1,0) ] = CRGB::Green;
-  leds[ XY(2,0) ] = CRGB::Green;
-  leds[ XY(3,0) ] = CRGB::Green;
-  leds[ XY(4,0) ] = CRGB::Green;
-  leds[ XY(5,0) ] = CRGB::Green;
-  leds[ XY(6,0) ] = CRGB::Green;
-  leds[ XY(0,1) ] = CRGB::Green;
-  leds[ XY(7,1) ] = CRGB::Green;
-  leds[ XY(0,2) ] = CRGB::Green;
-  leds[ XY(7,2) ] = CRGB::Green;
-  leds[ XY(0,3) ] = CRGB::Green;
-  leds[ XY(7,3) ] = CRGB::Green;
-  leds[ XY(0,4) ] = CRGB::Green;
-  leds[ XY(7,4) ] = CRGB::Green;
-  leds[ XY(0,5) ] = CRGB::Green;
-  leds[ XY(7,5) ] = CRGB::Green;
-  leds[ XY(0,6) ] = CRGB::Green;
-  leds[ XY(7,6) ] = CRGB::Green;
-  leds[ XY(1,7) ] = CRGB::Green;
-  leds[ XY(2,7) ] = CRGB::Green;
-  leds[ XY(3,7) ] = CRGB::Green;
-  leds[ XY(4,7) ] = CRGB::Green;
-  leds[ XY(5,7) ] = CRGB::Green;
-  leds[ XY(6,7) ] = CRGB::Green;
-  FastLED.delay(1000);
-  FastLED.clear();
-  leds[ XY(0,0) ] = CRGB::Green;
-  leds[ XY(7,0) ] = CRGB::Green;
-  leds[ XY(1,1) ] = CRGB::Green;
-  leds[ XY(6,1) ] = CRGB::Green;
-  leds[ XY(2,2) ] = CRGB::Green;
-  leds[ XY(5,2) ] = CRGB::Green;
-  leds[ XY(3,3) ] = CRGB::Green;
-  leds[ XY(4,3) ] = CRGB::Green;
-  leds[ XY(4,4) ] = CRGB::Green;
-  leds[ XY(3,4) ] = CRGB::Green;
-  leds[ XY(5,5) ] = CRGB::Green;
-  leds[ XY(2,5) ] = CRGB::Green;
-  leds[ XY(6,6) ] = CRGB::Green;
-  leds[ XY(1,6) ] = CRGB::Green;
-  leds[ XY(7,7) ] = CRGB::Green;
-  leds[ XY(0,7) ] = CRGB::Green;
-  FastLED.delay(1000);
-  FastLED.clear();
-  
-  
-}
-
-
-void lowBat()
-{
-  FastLED.clear();
-  FastLED.setBrightness(50);
-  leds[16] += CRGB::White;
-  leds[17] += CRGB::White;
-  leds[18] += CRGB::White;
-  leds[19] += CRGB::White;
-  leds[20] += CRGB::White;
-  leds[21] += CRGB::White;
-  leds[22] += CRGB::White;
-  leds[23] += CRGB::White;
-  leds[24] += CRGB::White;
-  leds[25] += CRGB::Red;
-  leds[31] += CRGB::White;
-  leds[32] += CRGB::White;
-  leds[38] += CRGB::Red;
-  leds[39] += CRGB::White;
-  leds[40] += CRGB::White;
-  leds[41] += CRGB::White;
-  leds[42] += CRGB::White;
-  leds[43] += CRGB::White;
-  leds[44] += CRGB::White;
-  leds[45] += CRGB::White;
-  leds[46] += CRGB::White;
-  leds[47] += CRGB::White;
-}
-
-
 void rainbow() 
 {
   // FastLED's built-in rainbow generator
@@ -413,7 +113,6 @@ void addGlitter( fract8 chanceOfGlitter)
     leds[ random16(NUM_LEDS) ] += CRGB::White;
   }
 }
-
 
 void addGlitter1() 
 {
@@ -438,6 +137,7 @@ void lavender()
     //leds[i] += CRGB::Yellow;
   }
 }
+
 void others()
 {
   
@@ -452,28 +152,7 @@ void others()
      FastLED.delay(50);
      fadeToBlackBy(leds, NUM_LEDS, 80);
   }   
-  
-     
-
-//    if ( i % 3 == 0) {
-//      leds[i] += CRGB::Green;
-//    }
-//    if ( i % 3 == 1) {
-//      leds[i] += 0xB22222;
-//    }
-//    if ( i % 3 == 2) {
-//      leds[i] += CRGB::LawnGreen;
-//    }
-  }
-}
-void disco()
-{
- 
-  for( int i = 0; i < NUM_LEDS; i++) {
-    leds[i] += CRGB( random16(0,255), random16(0,255), random16(0,255) );
-  }
-  FastLED.delay(500);
-  FastLED.clear();
+ }
 }
 
 void confetti() 
@@ -486,7 +165,6 @@ void confetti()
 
 void sinelon()
 {
-  // a colored dot sweeping back and forth, with fading trails
   fadeToBlackBy( leds, NUM_LEDS, 40);
   int pos = beatsin16(60,0,kMatrixHeight);
   int pos2 = 0;
@@ -594,12 +272,8 @@ void sinelon()
     }
 
   }
- // for( int j = kMatrixHeight-1; j > 0; j--)
-  //{
-  //   leds[XY(j,pos2)] += CHSV( gHue, 255, 192);
-   // leds[XY(pos2,j)] += CHSV( gHue, 255, 192);
-  //}
 }
+
 void sweep()
 {
   for( int i = 0; i < 64; i++ )
@@ -619,19 +293,19 @@ void sweep()
 void bpm()
 {
   // colored stripes pulsing at a defined Beats-Per-Minute (BPM)
-  uint8_t BeatsPerMinute = 10;
+  uint8_t BeatsPerMinute = 30;
   CRGBPalette16 palette = CloudColors_p;
   uint8_t beat = beatsin16( BeatsPerMinute, 64, 255);
-  for( int i = 0; i < NUM_LEDS; i++) { //9948
-    leds[i] = ColorFromPalette(palette, gHue+(i*2), beat-gHue+(i*20));
-    //for( int i = 0; i < 16; i++) { //9948
-      //for ( int j = 0; j < 32; j++) {
-      //leds[ XY(i,j) ] = ColorFromPalette(palette, gHue+(i), beat-gHue*(j));
+  //for( int i = 0; i < NUM_LEDS; i++) { //9948
+  //leds[i] = ColorFromPalette(palette, gHue+(i*2), beat-gHue+(i*20));
+  
+  for( int i = 0; i < 64; i++) {
+     for ( int j = 0; j < 16; j++) {
+      leds[ XY(j,i) ] = ColorFromPalette(palette, gHue+(i), beat-gHue*(j));
       
-      //}
     }
+  }
 }
-
 
 void juggle() {
   // eight colored dots, weaving in and out of sync with each other
@@ -641,8 +315,7 @@ void juggle() {
   for( int i = 0; i < 8; i++) {
     leds[beatsin16(i+7,0,NUM_LEDS)] |= CHSV(dothue, 200, 255);
     dothue += 32;
-  
-    
+     
   }
 }
 
