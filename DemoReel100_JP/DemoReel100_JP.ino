@@ -35,7 +35,7 @@ void setup() {
     FastLED.addLeds<LED_TYPE, DATA_PIN, CLK_PIN, COLOR_ORDER, DATA_RATE_MHZ(5)>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
   // set master brightness control
   FastLED.setBrightness(BRIGHTNESS);
-  FastLED.setDither(0);
+  //FastLED.setDither(0);
 }
 
 
@@ -131,11 +131,11 @@ void addGlitter1()
 void lavender()
 {
   FastLED.clear();
-  CRGBPalette16 palette22 = CloudColors_p;
+  CRGBPalette16 palette22 = ForestColors_p;
   for( int i = 0; i < NUM_LEDS; i++) {
     leds[i] = ColorFromPalette( palette22, gHue+i, 75 );
   }
-  FastLED.delay(10);
+  FastLED.delay(20);
 }
 
 void confetti() 
@@ -185,7 +185,7 @@ void sweep()
       for( int j = 0; j<16; j++)
       {  
       leds[XY(j,i)] += CHSV(gHue, 255, 192);
-      leds[XY(j,63-i)] += CHSV(gHue+16, 255, 192);
+      leds[XY(j,63-i)] += CHSV(gHue+64, 255, 192);
      
       
       }
@@ -197,7 +197,7 @@ void sweep()
 void bpm()
 {
   // colored stripes pulsing at a defined Beats-Per-Minute (BPM)
-  uint8_t BeatsPerMinute = 30;
+  uint8_t BeatsPerMinute = 10;
   CRGBPalette16 palette = PartyColors_p;
   uint8_t beat = beatsin16( BeatsPerMinute, 64, 255);
   //for( int i = 0; i < NUM_LEDS; i++) { //9948
@@ -209,7 +209,7 @@ void bpm()
       
     }
   }
-  FastLED.delay(10);
+  FastLED.delay(50);
 }
 
 void juggle() {
