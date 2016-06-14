@@ -1,4 +1,4 @@
-#include "FastLED.h"
+#include <FastLED.h>
 
 FASTLED_USING_NAMESPACE
 
@@ -60,7 +60,7 @@ void loop()
 
   // do some periodic updates
   EVERY_N_MILLISECONDS( 5 ) { gHue=gHue+16; } // slowly cycle the "base color" through the rainbow
-  EVERY_N_SECONDS( 10 ) { nextPattern(); } // change patterns periodically
+  EVERY_N_SECONDS( 10 ) { CrossNoise2(); } // change patterns periodically
 }
 
 #define ARRAY_SIZE(A) (sizeof(A) / sizeof((A)[0]))
@@ -91,7 +91,51 @@ uint16_t XY( uint8_t x, uint8_t y)
   
   return i;
 }
+// the animation itself
+// basically just moves the noise in 2 dimensions
+// and oscillates the border for the mapping methods
 
+//void CrossNoise2() {
+//
+//  CRGBPalette16 currentPalette = RainbowStripeColors_p;
+//  noisesmoothing = 20;
+//
+//  y[0] += 100;
+//  z[0] += 50;
+//  scale_x[0] = beatsin16(3,1000,10000);
+//  scale_y[0] = beatsin16(2,1000,10000);
+//  FillNoise(0);
+//  
+//  byte border = beatsin8(8, 20, 236);
+//  
+//  CrossMapping(1, border);
+//}
+//
+//
+//// uses one of two mapping methods depending on the noise value
+//
+//void CrossMapping(byte colorrepeat, byte border) { 
+//  CRGBPalette16 currentPalette = RainbowStripeColors_p;
+//  int colorshift = 0;
+//  for(uint8_t i = 0; i < kMatrixWidth; i++) {
+//    for(uint8_t j = 0; j < kMatrixHeight; j++) {
+//
+//      uint8_t color1 = uint8_t noise[0][i][j];
+//      uint8_t color2 = uint8_t noise[0][j][i];
+//      
+//      CRGB pixel;
+//
+//      if (color1 > border) {
+//        pixel = ColorFromPalette( currentPalette, colorrepeat * (color1 + colorshift), color2 );
+//      }
+//      else {
+//        pixel = ColorFromPalette( currentPalette, colorrepeat * (color2 + colorshift + 128), color1 );
+//      }
+//      leds[XY(i,j)] = pixel;
+//    }
+//    colorshift++;
+//  }
+//}
 void rainbow() 
 {
   // FastLED's built-in rainbow generator
