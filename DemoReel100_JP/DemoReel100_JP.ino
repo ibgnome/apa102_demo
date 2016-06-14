@@ -22,15 +22,17 @@ FASTLED_USING_NAMESPACE
 #define NUM_LEDS    1024
 CRGB leds[NUM_LEDS];
 const uint8_t kMatrixWidth = 16;
-const uint8_t kMatrixHeight = 16;
+const uint8_t kMatrixHeight = 64;
 const bool    kMatrixSerpentineLayout = true;
+uint16_t PlasmaTime, PlasmaShift;
 #define BRIGHTNESS         20
 #define FRAMES_PER_SECOND  120
 
 void setup() {
   FastLED.clear();
   delay(3000); // 3 second delay for recovery
-  
+  PlasmaShift = (random8(0, 5) * 32) + 64;
+  PlasmaTime = 0;
   // tell FastLED about the LED strip configuration
     FastLED.addLeds<LED_TYPE, DATA_PIN, CLK_PIN, COLOR_ORDER, DATA_RATE_MHZ(5)>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
   // set master brightness control
@@ -41,9 +43,8 @@ void setup() {
 
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
-//SimplePatternList gPatterns = { addGlitter1, confetti, sinelon, juggle, bpm};
-SimplePatternList gPatterns = { sweep, sinelon, addGlitter1, confetti, lavender, bpm};
-//SimplePatternList gPatterns = { sinelon };
+//SimplePatternList gPatterns = { sweep, sinelon, addGlitter1, confetti, lavender, bpm};
+SimplePatternList gPatterns = { plasma };
 
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 uint8_t gHue = 0; // rotating "base color" used by many of the patterns
@@ -60,7 +61,7 @@ void loop()
 
   // do some periodic updates
   EVERY_N_MILLISECONDS( 5 ) { gHue=gHue+16; } // slowly cycle the "base color" through the rainbow
-  EVERY_N_SECONDS( 10 ) { CrossNoise2(); } // change patterns periodically
+  EVERY_N_SECONDS( 10 ) { nextPattern(); } // change patterns periodically
 }
 
 #define ARRAY_SIZE(A) (sizeof(A) / sizeof((A)[0]))
@@ -256,15 +257,24 @@ void bpm()
   FastLED.delay(50);
 }
 
-void juggle() {
-  // eight colored dots, weaving in and out of sync with each other
-  FastLED.clear();
-  fadeToBlackBy( leds, NUM_LEDS, 20);
-  byte dothue = 0;
-  for( int i = 0; i < 8; i++) {
-    leds[beatsin16(i+7,0,NUM_LEDS)] |= CHSV(dothue, 200, 255);
-    dothue += 32;
-     
+void plasma()
+{
+#define PLASMA_X_FACTOR  24
+#define PLASMA_Y_FACTOR  24
+
+
+for (int16_t y=0; y<kMatrixHeight; y++)
+ {
+  for (int16_t x=0; x<kMatrixWidth; x++)
+   {
+    int16_t r = sin16(PlasmaTime) / 256;
+    int16_t h = sin16(x * r * PLASMA_X_FACTOR + PlasmaTime) + cos16(y * (-r) * PLASMA_Y_FACTOR + PlasmaTime) + sin16(y * x * (cos16(-PlasmaTime) / 256) / 2);
+    leds[XY(x, y)] = CHSV((uint8_t)((h / 256) + 128), 255, 192);
+   }
   }
+  uint16_t OldPlasmaTime = PlasmaTime;
+  PlasmaTime += PlasmaShift;
+  if (OldPlasmaTime > PlasmaTime)
+     PlasmaShift = (random8(0, 5) * 32) + 64;
 }
 
