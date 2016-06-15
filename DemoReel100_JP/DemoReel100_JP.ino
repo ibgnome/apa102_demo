@@ -259,17 +259,17 @@ void bpm()
 
 void plasma()
 {
-#define PLASMA_X_FACTOR  24
-#define PLASMA_Y_FACTOR  24
+#define PLASMA_X_FACTOR  60
+#define PLASMA_Y_FACTOR  60
 
 
 for (int16_t y=0; y<kMatrixHeight; y++)
  {
   for (int16_t x=0; x<kMatrixWidth; x++)
    {
-    int16_t r = sin16(PlasmaTime) / 256;
+    int16_t r = sin16(PlasmaTime) / 512;
     int16_t h = sin16(x * r * PLASMA_X_FACTOR + PlasmaTime) + cos16(y * (-r) * PLASMA_Y_FACTOR + PlasmaTime) + sin16(y * x * (cos16(-PlasmaTime) / 256) / 2);
-    leds[XY(x, y)] = CHSV((uint8_t)((h / 256) + 128), 255, 192);
+    leds[XY(x, y)] = CHSV((uint8_t)((h / 256) + 128), 255, 160);
    }
   }
   uint16_t OldPlasmaTime = PlasmaTime;
