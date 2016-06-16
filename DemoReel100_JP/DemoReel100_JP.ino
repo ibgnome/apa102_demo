@@ -6,15 +6,6 @@
 
 FASTLED_USING_NAMESPACE
 
-// FastLED "100-lines-of-code" demo reel, showing just a few 
-// of the kinds of animation patterns you can quickly and easily 
-// compose using FastLED.  
-//
-// This example also shows one easy way to define multiple 
-// animations patterns and have them automatically rotate.
-//
-// -Mark Kriegsman, December 2014
-
 #if FASTLED_VERSION < 3001000
 #error "Requires FastLED 3.1 or later; check github for latest code."
 #endif
@@ -36,7 +27,6 @@ uint16_t PlasmaTime, PlasmaShift;
 #define FRAMES_PER_SECOND  120
 
 cLEDMatrix<MATRIX_WIDTH, MATRIX_HEIGHT, MATRIX_TYPE> leds2;
-
 cLEDText ScrollingMsg;
 
 const unsigned char TxtDemo[] = { EFFECT_FRAME_RATE "\x01"
@@ -59,13 +49,14 @@ void setup() {
   PlasmaShift = (random8(0, 5) * 32) + 64;
   PlasmaTime = 0;
     ScrollingMsg.SetFont(Font12x16Data);
-  ScrollingMsg.Init(&leds, leds.Width(), ScrollingMsg.FontHeight() + 1, 0, 0);
+  ScrollingMsg.Init(&leds2, leds2.Width(), ScrollingMsg.FontHeight() + 1, 0, 0);
   ScrollingMsg.SetText((unsigned char *)TxtDemo, sizeof(TxtDemo) - 1);
   ScrollingMsg.SetTextColrOptions(COLR_RGB | COLR_SINGLE, 0xff, 0x00, 0xff);
   Options = INSTANT_OPTIONS_MODE;
   ScrollingMsg.SetOptionsChangeMode(Options);
   // tell FastLED about the LED strip configuration
     FastLED.addLeds<LED_TYPE, DATA_PIN, CLK_PIN, COLOR_ORDER, DATA_RATE_MHZ(5)>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
+    FastLED.addLeds<LED_TYPE, DATA_PIN, CLK_PIN, COLOR_ORDER, DATA_RATE_MHZ(5)>(leds2[0], leds2.Size());
   // set master brightness control
   FastLED.setBrightness(BRIGHTNESS);
   //FastLED.setDither(0);
