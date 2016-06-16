@@ -1,4 +1,8 @@
 #include <FastLED.h>
+#include <LEDMatrix.h>
+#include <LEDText.h>
+#include <Font12x16.h>
+#include <FontMatrise.h>
 
 FASTLED_USING_NAMESPACE
 
@@ -20,6 +24,9 @@ FASTLED_USING_NAMESPACE
 #define LED_TYPE    APA102
 #define COLOR_ORDER BGR
 #define NUM_LEDS    1024
+#define MATRIX_WIDTH   -64
+#define MATRIX_HEIGHT  16
+#define MATRIX_TYPE    VERTICAL_ZIGZAG_MATRIX
 CRGB leds[NUM_LEDS];
 const uint8_t kMatrixWidth = 16;
 const uint8_t kMatrixHeight = 64;
@@ -28,11 +35,35 @@ uint16_t PlasmaTime, PlasmaShift;
 #define BRIGHTNESS         20
 #define FRAMES_PER_SECOND  120
 
+cLEDMatrix<MATRIX_WIDTH, MATRIX_HEIGHT, MATRIX_TYPE> leds2;
+
+cLEDText ScrollingMsg;
+
+const unsigned char TxtDemo[] = { EFFECT_FRAME_RATE "\x01"
+                                  EFFECT_HSV_AH "\x00\xff\xff\xff\xff\xff"
+                                  EFFECT_SCROLL_RIGHT EFFECT_CHAR_DOWN "          DRAGONCON 2016"
+                                  //EFFECT_SCROLL_UP "Quick "
+                                  //EFFECT_SCROLL_LEFT "Brown "
+                                  //EFFECT_SCROLL_DOWN "Fox"
+                                  //EFFECT_SCROLL_LEFT "Jumps "
+                                  //EFFECT_SCROLL_UP "Over  "
+                                  //EFFECT_SCROLL_LEFT "The "
+                                  //EFFECT_SCROLL_DOWN "Lazy  "
+                                  //EFFECT_SCROLL_LEFT "Dog " 
+                                  };
+uint16_t Options;
+
 void setup() {
   FastLED.clear();
   delay(3000); // 3 second delay for recovery
   PlasmaShift = (random8(0, 5) * 32) + 64;
   PlasmaTime = 0;
+    ScrollingMsg.SetFont(Font12x16Data);
+  ScrollingMsg.Init(&leds, leds.Width(), ScrollingMsg.FontHeight() + 1, 0, 0);
+  ScrollingMsg.SetText((unsigned char *)TxtDemo, sizeof(TxtDemo) - 1);
+  ScrollingMsg.SetTextColrOptions(COLR_RGB | COLR_SINGLE, 0xff, 0x00, 0xff);
+  Options = INSTANT_OPTIONS_MODE;
+  ScrollingMsg.SetOptionsChangeMode(Options);
   // tell FastLED about the LED strip configuration
     FastLED.addLeds<LED_TYPE, DATA_PIN, CLK_PIN, COLOR_ORDER, DATA_RATE_MHZ(5)>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
   // set master brightness control
@@ -44,7 +75,7 @@ void setup() {
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
 //SimplePatternList gPatterns = { sweep, sinelon, addGlitter1, confetti, lavender, bpm};
-SimplePatternList gPatterns = { plasma };
+SimplePatternList gPatterns = { plasma, sweep, dcon, sinelon, confetti };
 
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 uint8_t gHue = 0; // rotating "base color" used by many of the patterns
@@ -61,7 +92,7 @@ void loop()
 
   // do some periodic updates
   EVERY_N_MILLISECONDS( 5 ) { gHue=gHue+16; } // slowly cycle the "base color" through the rainbow
-  EVERY_N_SECONDS( 10 ) { nextPattern(); } // change patterns periodically
+  EVERY_N_SECONDS( 20 ) { nextPattern(); } // change patterns periodically
 }
 
 #define ARRAY_SIZE(A) (sizeof(A) / sizeof((A)[0]))
@@ -277,4 +308,19 @@ for (int16_t y=0; y<kMatrixHeight; y++)
   if (OldPlasmaTime > PlasmaTime)
      PlasmaShift = (random8(0, 5) * 32) + 64;
 }
+void dcon()
+{
+  if (ScrollingMsg.UpdateText() == -1)
+  {
+    ScrollingMsg.SetText((unsigned char *)TxtDemo, sizeof(TxtDemo) - 1);
+    Options ^= INSTANT_OPTIONS_MODE;
+    ScrollingMsg.SetOptionsChangeMode(0);
+    //FastLED.delay(300);
+  }
+  else
+    //leds.HorizontalMirror();
+    FastLED.show();
+  delay(10);
+}
+
 

@@ -40,7 +40,7 @@ uint16_t XY( uint8_t x, uint8_t y)
 }
 
 // The leds
-CRGB leds[kMatrixWidth * kMatrixHeight];
+CRGB leds[NUM_LEDS];
 
 // The 32bit version of our coordinates
 static uint16_t x;
