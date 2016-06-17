@@ -56,7 +56,7 @@ void setup() {
   ScrollingMsg.SetOptionsChangeMode(Options);
   // tell FastLED about the LED strip configuration
     FastLED.addLeds<LED_TYPE, DATA_PIN, CLK_PIN, COLOR_ORDER, DATA_RATE_MHZ(5)>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
-    FastLED.addLeds<LED_TYPE, DATA_PIN, CLK_PIN, COLOR_ORDER, DATA_RATE_MHZ(5)>(leds2[0], leds2.Size());
+    
   // set master brightness control
   FastLED.setBrightness(BRIGHTNESS);
   //FastLED.setDither(0);
@@ -66,7 +66,7 @@ void setup() {
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
 //SimplePatternList gPatterns = { sweep, sinelon, addGlitter1, confetti, lavender, bpm};
-SimplePatternList gPatterns = { plasma, sweep, dcon, sinelon, confetti };
+SimplePatternList gPatterns = { plasma, sweep, sinelon, confetti };
 
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 uint8_t gHue = 0; // rotating "base color" used by many of the patterns
@@ -301,6 +301,7 @@ for (int16_t y=0; y<kMatrixHeight; y++)
 }
 void dcon()
 {
+  FastLED.addLeds<LED_TYPE, DATA_PIN, CLK_PIN, COLOR_ORDER, DATA_RATE_MHZ(5)>(leds2[0], leds2.Size());
   if (ScrollingMsg.UpdateText() == -1)
   {
     ScrollingMsg.SetText((unsigned char *)TxtDemo, sizeof(TxtDemo) - 1);
