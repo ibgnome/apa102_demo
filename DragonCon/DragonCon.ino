@@ -26,7 +26,7 @@ cLEDMatrix<MATRIX_WIDTH, MATRIX_HEIGHT, MATRIX_TYPE> leds;
 cLEDText ScrollingMsg;
 
 const unsigned char TxtDemo[] = { EFFECT_FRAME_RATE "\x02"
-                                  EFFECT_HSV_AH "\x00\xff\xff\xff\xff\xff"
+                                  EFFECT_HSV_AV "\x00\xff\xff\xff\xff\xff"
                                   EFFECT_SCROLL_RIGHT EFFECT_CHAR_DOWN "          DRAGONCON 2016"
                                   //EFFECT_SCROLL_UP "Quick "
                                   //EFFECT_SCROLL_LEFT "Brown "
@@ -64,10 +64,8 @@ void loop()
     ScrollingMsg.SetText((unsigned char *)TxtDemo, sizeof(TxtDemo) - 1);
     Options ^= INSTANT_OPTIONS_MODE;
     ScrollingMsg.SetOptionsChangeMode(0);
-    //FastLED.delay(300);
   }
   else
-    //leds.HorizontalMirror();
     FastLED.show();
   delay(10);
 }

@@ -368,53 +368,53 @@ void loop()
   FastLED.clear();
   Sprites.UpdateSprites();
   Sprites.DetectCollisions();
-  if (Sprites.IsSprite(&SprPinky))
-  {
-    if (SprPill.GetFlags() & SPRITE_COLLISION)
-    {
-      Sprites.RemoveSprite(&SprPinky);
-      Sprites.RemoveSprite(&SprPacmanRight);
-      Sprites.RemoveSprite(&SprPill);
-      SprGhost.SetPositionFrameMotionOptions(SprPinky.m_X, SprPinky.m_Y, 0, 3, -1, 3, 0, 0, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
-      Sprites.AddSprite(&SprGhost);
+//  if (Sprites.IsSprite(&SprPinky))
+//  {
+//    if (SprPill.GetFlags() & SPRITE_COLLISION)
+//    {
+//      Sprites.RemoveSprite(&SprPinky);
+//      Sprites.RemoveSprite(&SprPacmanRight);
+//      Sprites.RemoveSprite(&SprPill);
+//      SprGhost.SetPositionFrameMotionOptions(SprPinky.m_X, SprPinky.m_Y, 0, 3, -1, 3, 0, 0, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+//      Sprites.AddSprite(&SprGhost);
       SprPacmanLeft.SetPositionFrameMotionOptions(SprPacmanRight.m_X, SprPacmanRight.m_Y, 0, 4, -1, 2, 0, 0, SPRITE_DETECT_EDGE);
       Sprites.AddSprite(&SprPacmanLeft);
-    }
-  }
-  else if (Sprites.IsSprite(&SprGhost))
-  {
-    if (SprGhost.GetFlags() & SPRITE_COLLISION)
-    {
-      Sprites.RemoveSprite(&SprGhost);
-      Spr200.SetPositionFrameMotionOptions(SprGhost.m_X, SprGhost.m_Y, 0, 0, 0, 0, 0, 0);
-      Sprites.AddSprite(&Spr200);
-      Sprites.ChangePriority(&Spr200, SPR_BACK);
-    }
-  }
-  else if (Sprites.IsSprite(&Spr200))
-  {
-    if (SprPacmanLeft.GetFlags() & SPRITE_EDGE_X_MIN)
-    {
-      Sprites.RemoveSprite(&Spr200);
-      SprEyes.SetPositionFrameMotionOptions(Spr200.m_X, Spr200.m_Y, 0, 0, +1, 2, 0, 0, SPRITE_DETECT_EDGE);
-      Sprites.AddSprite(&SprEyes);
-      Sprites.ChangePriority(&SprEyes, SPR_BACK);
-    }
-  }
-  else
-  {
-    if (SprEyes.GetFlags() & SPRITE_MATRIX_X_OFF)
-    {
-      Sprites.RemoveSprite(&SprEyes);
-      Sprites.RemoveSprite(&SprPacmanLeft);
-      SprPill.SetPositionFrameMotionOptions(MATRIX_WIDTH - POWER_PILL_SIZE - 1/*X*/, (MY_SPRITE_HEIGHT - POWER_PILL_SIZE) / 2/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 0/*XRate*/, 0/*YChange*/, 0/*YRate*/);
-      Sprites.AddSprite(&SprPill);
-      SprPacmanRight.SetPositionFrameMotionOptions(-12/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
-      Sprites.AddSprite(&SprPacmanRight);
-      SprPinky.SetPositionFrameMotionOptions(-26/*X*/, 0/*Y*/, 0/*Frame*/, 2/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE);
-      Sprites.AddSprite(&SprPinky);
-    }
-  }
+//    }
+//  }
+//  else if (Sprites.IsSprite(&SprGhost))
+//  {
+//    if (SprGhost.GetFlags() & SPRITE_COLLISION)
+//    {
+//      Sprites.RemoveSprite(&SprGhost);
+//      Spr200.SetPositionFrameMotionOptions(SprGhost.m_X, SprGhost.m_Y, 0, 0, 0, 0, 0, 0);
+//      Sprites.AddSprite(&Spr200);
+//      Sprites.ChangePriority(&Spr200, SPR_BACK);
+//    }
+//  }
+//  else if (Sprites.IsSprite(&Spr200))
+//  {
+//    if (SprPacmanLeft.GetFlags() & SPRITE_EDGE_X_MIN)
+//    {
+//      Sprites.RemoveSprite(&Spr200);
+//      SprEyes.SetPositionFrameMotionOptions(Spr200.m_X, Spr200.m_Y, 0, 0, +1, 2, 0, 0, SPRITE_DETECT_EDGE);
+//      Sprites.AddSprite(&SprEyes);
+//      Sprites.ChangePriority(&SprEyes, SPR_BACK);
+//    }
+//  }
+//  else
+//  {
+//    if (SprEyes.GetFlags() & SPRITE_MATRIX_X_OFF)
+//    {
+//      Sprites.RemoveSprite(&SprEyes);
+//      Sprites.RemoveSprite(&SprPacmanLeft);
+//      SprPill.SetPositionFrameMotionOptions(MATRIX_WIDTH - POWER_PILL_SIZE - 1/*X*/, (MY_SPRITE_HEIGHT - POWER_PILL_SIZE) / 2/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 0/*XRate*/, 0/*YChange*/, 0/*YRate*/);
+//      Sprites.AddSprite(&SprPill);
+//      SprPacmanRight.SetPositionFrameMotionOptions(-12/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+//      Sprites.AddSprite(&SprPacmanRight);
+//      SprPinky.SetPositionFrameMotionOptions(-26/*X*/, 0/*Y*/, 0/*Frame*/, 2/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE);
+//      Sprites.AddSprite(&SprPinky);
+//    }
+//  }
   Sprites.RenderSprites();
   FastLED.show();
   delay(10);
