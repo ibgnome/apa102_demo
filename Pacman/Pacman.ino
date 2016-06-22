@@ -377,8 +377,8 @@ void loop()
 //      Sprites.RemoveSprite(&SprPill);
 //      SprGhost.SetPositionFrameMotionOptions(SprPinky.m_X, SprPinky.m_Y, 0, 3, -1, 3, 0, 0, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
 //      Sprites.AddSprite(&SprGhost);
-      SprPacmanLeft.SetPositionFrameMotionOptions(SprPacmanRight.m_X, SprPacmanRight.m_Y, 0, 4, -1, 2, 0, 0, SPRITE_DETECT_EDGE);
-      Sprites.AddSprite(&SprPacmanLeft);
+//      SprPacmanLeft.SetPositionFrameMotionOptions(SprPacmanRight.m_X, SprPacmanRight.m_Y, 0, 4, -1, 2, 0, 0, SPRITE_DETECT_EDGE);
+//      Sprites.AddSprite(&SprPacmanLeft);
 //    }
 //  }
 //  else if (Sprites.IsSprite(&SprGhost))

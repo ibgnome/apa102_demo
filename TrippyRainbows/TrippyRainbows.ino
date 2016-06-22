@@ -21,7 +21,7 @@ int16_t counter;
 
 void setup()
 {
-  FastLED.addLeds<CHIPSET, DATA_PIN, CLK_PIN, COLOR_ORDER, DATA_RATE_MHZ(5)>(leds[0], leds.Size());
+  FastLED.addLeds<CHIPSET, DATA_PIN, CLK_PIN, COLOR_ORDER, DATA_RATE_MHZ(5)>(leds[0], leds.Size()).setCorrection(TypicalLEDStrip);
   FastLED.setBrightness(20);
   FastLED.clear(true);
 //  delay(500);
@@ -68,7 +68,7 @@ void loop()
   }
   hue+=4;
 
-  if (counter < 125)
+  if (counter < 0)
     ;
   else if (counter < 375)
     leds.HorizontalMirror();
@@ -76,10 +76,10 @@ void loop()
     leds.VerticalMirror();
   else if (counter < 875)
     leds.QuadrantMirror();
-  else if (counter < 1125)
-    leds.QuadrantRotateMirror();
   else if (counter < 1250)
-    ;
+    leds.QuadrantRotateMirror();
+  //else if (counter < 1250)
+    //;
   else if (counter < 1500)
     leds.TriangleTopMirror();
   else if (counter < 1750)
@@ -93,6 +93,6 @@ void loop()
   if (counter >= 2250)
     counter = 0;
   FastLED.show();
-  FastLED.delay(10);
+  FastLED.delay(20);
 }
 
