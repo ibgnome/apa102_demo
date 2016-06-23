@@ -28,7 +28,12 @@ cLEDSprites Sprites(&leds);
 #define MARIO_SIZE 16
 
 #define POWER_PILL_SIZE	4
-int count = 0;
+
+
+#define ARRAY_SIZE(A) (sizeof(A) / sizeof((A)[0]))
+int count;
+uint8_t hue = 0;
+int16_t counter = 0;
 const uint8_t MarioData[] =
 {
   // Mario Run 1
@@ -472,19 +477,43 @@ void setup()
   //delay(1000);
   //FastLED.showColor(CRGB::Blue);
   //delay(1000);
-  FastLED.showColor(CRGB::White);
+  //FastLED.showColor(CRGB::White);
   delay(1000);
+  count = 0;
   FastLED.show();
 
   //SprPill.SetPositionFrameMotionOptions(MATRIX_WIDTH - POWER_PILL_SIZE - 1/*X*/, (MY_SPRITE_HEIGHT - POWER_PILL_SIZE) / 2/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 0/*XRate*/, 0/*YChange*/, 0/*YRate*/);
   //Sprites.AddSprite(&SprPill);
 
-  //SprPinky.SetPositionFrameMotionOptions(26/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE  | SPRITE_Y_KEEPIN);
-  //Sprites.AddSprite(&SprPinky);
+//  SprPinky.SetPositionFrameMotionOptions(26/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE  | SPRITE_Y_KEEPIN);
+//  Sprites.AddSprite(&SprPinky);
 }
+// List of patterns to cycle through.  Each is defined as a separate function below.
+typedef void (*SimplePatternList[])();
 
+SimplePatternList gPatterns = { Mario, TrippyRainbow};
+
+uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 
 void loop()
+{
+  // Call the current pattern function once, updating the 'leds' array
+  gPatterns[gCurrentPatternNumber]();
+
+  // send the 'leds' array out to the actual LED strip
+  FastLED.show();  
+
+  // do some periodic updates
+  EVERY_N_SECONDS( 30 ) { nextPattern(); } // change patterns periodically
+}
+
+void nextPattern()
+{
+  // add one to the current pattern number, and wrap around at the end
+  gCurrentPatternNumber = (gCurrentPatternNumber + 1) % ARRAY_SIZE( gPatterns);
+}
+
+void Mario()
 {
   FastLED.clear();
   Sprites.UpdateSprites();
@@ -493,19 +522,31 @@ void loop()
   {
   SprMarioRight.SetPositionFrameMotionOptions(0/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION | SPRITE_Y_KEEPIN);
   Sprites.AddSprite(&SprMarioRight);
+  count = 1;
   }
+  if (Sprites.IsSprite(&SprMarioRight))
+  {
    if (SprMarioRight.GetFlags() & SPRITE_MATRIX_X_OFF)
    {
+//      Sprites.RemoveSprite(&SprMarioRight); 
+      //Sprites.RemoveSprite(&SprPinky);  
       SprMarioRight.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
       Sprites.AddSprite(&SprMarioRight);
-    
+    count = 0;
    }
-//  if ( SprPinky.GetFlags() & SPRITE_MATRIX_X_OFF)
-//  {
-//   SprPinky.SetPositionFrameMotionOptions(0/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_Y_KEEPIN);
-//  Sprites.AddSprite(&SprPinky);
-//  }
+  }
 //  if (Sprites.IsSprite(&SprPinky))
+//  {
+// if ( SprPinky.GetFlags() & SPRITE_MATRIX_X_OFF)
+//  {
+//   Sprites.RemoveSprite(&SprPinky);
+//    Sprites.RemoveSprite(&SprMarioRight); 
+//   SprMarioRight.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_Y_KEEPIN);
+//  Sprites.AddSprite(&SprMarioRight);
+//  count = 0;
+// }
+//  }
+//  if (Sprites.IsSprite(&SprMarioRight))
 //  {
 //    if (SprPill.GetFlags() & )
 //    {
@@ -558,3 +599,60 @@ void loop()
   delay(15);
   count++;
 }
+
+void TrippyRainbow()
+{
+    int16_t sx, sy, x, y;
+  uint8_t h;
+
+  FastLED.clear();
+  
+  h = hue;
+  if (counter < 1125)
+  {
+    // ** Fill LED's with diagonal stripes
+    for (x=0; x<(leds.Width()+leds.Height()); ++x)
+    {
+      leds.DrawLine(x - leds.Height(), leds.Height() - 1, x, 0, CHSV(h, 255, 192));
+      h+=16;
+    }
+  }
+  else
+  {
+    // ** Fill LED's with horizontal stripes
+    for (y=0; y<leds.Height(); ++y)
+    {
+      leds.DrawLine(0, y, leds.Width() - 1, y, CHSV(h, 255, 192));
+      h+=16;
+    }
+  }
+  hue+=4;
+
+  if (counter < 0)
+    ;
+  else if (counter < 375)
+    leds.HorizontalMirror();
+  else if (counter < 625)
+    leds.VerticalMirror();
+  else if (counter < 875)
+    leds.QuadrantMirror();
+  else if (counter < 1250)
+    leds.QuadrantRotateMirror();
+  //else if (counter < 1250)
+    //;
+  else if (counter < 1500)
+    leds.TriangleTopMirror();
+  else if (counter < 1750)
+    leds.TriangleBottomMirror();
+  else if (counter < 2000)
+    leds.QuadrantTopTriangleMirror();
+  else if (counter < 2250)
+    leds.QuadrantBottomTriangleMirror();
+
+  counter++;
+  if (counter >= 2250)
+    counter = 0;
+  FastLED.show();
+  FastLED.delay(10);
+}
+
