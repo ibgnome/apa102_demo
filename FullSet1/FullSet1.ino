@@ -2,6 +2,9 @@
 
 #include <LEDMatrix.h>
 #include <LEDSprites.h>
+#include <LEDText.h>
+#include <Font12x16.h>
+#include <FontMatrise.h>
 
 // Change the next 6 defines to match your matrix type and size
 
@@ -31,6 +34,15 @@ cLEDSprites Sprites(&leds);
 
 
 #define ARRAY_SIZE(A) (sizeof(A) / sizeof((A)[0]))
+
+  cLEDText ScrollingMsg;
+
+const unsigned char TxtDemo[] = { EFFECT_FRAME_RATE "\x02"
+                                  EFFECT_HSV_AV "\x00\xff\xff\xff\xff\xff"
+                                  EFFECT_SCROLL_LEFT "         DRAGONCON" 
+                                  };
+uint16_t Options;
+
 int count;
 uint8_t hue = 0;
 int16_t counter = 0;
@@ -284,8 +296,11 @@ const uint8_t PinkyMask[] =
   B8_1BIT(11111111),B8_1BIT(11100000),
   B8_1BIT(10011011),B8_1BIT(00100000),
 };
-const struct CRGB PinkyColTab[] =  {  CRGB(255, 0, 0), CRGB(255, 255, 255), CRGB(0, 0, 255)  };
 
+const struct CRGB PinkyColTab[] =  {  CRGB(255, 0, 0), CRGB(255, 255, 255), CRGB(0, 0, 255)  };
+const struct CRGB BlinkyColTab[] =  {  CRGB::Pink, CRGB(255, 255, 255), CRGB(0, 0, 255)  };
+const struct CRGB InkyColTab[] =  {  CRGB::Cyan, CRGB(255, 255, 255), CRGB(0, 0, 255)  };
+const struct CRGB ClydeColTab[] =  {  CRGB::Orange, CRGB(255, 255, 255), CRGB(0, 0, 255)  };
 const uint8_t PacmanLeftData[] = 
 {
   // Pacman Open
@@ -458,6 +473,9 @@ const struct CRGB EyesColTab[] =  {  CRGB(255, 255, 255), CRGB(0, 0, 255), CRGB(
 cSprite SprPacmanRight(MY_SPRITE_WIDTH, MY_SPRITE_HEIGHT, PacmanRightData, PACMAN_FRAMES, _2BIT, PacmanRightColTab, PacmanRightMask);
 cSprite SprMarioRight(MARIO_SIZE, MARIO_SIZE, MarioData, MARIO_FRAMES, _2BIT, MarioColTab, MarioMask);
 cSprite SprPinky(MY_SPRITE_WIDTH, MY_SPRITE_HEIGHT, PinkyData, PINKY_FRAMES, _2BIT, PinkyColTab, PinkyMask);
+cSprite SprBlinky(MY_SPRITE_WIDTH, MY_SPRITE_HEIGHT, PinkyData, PINKY_FRAMES, _2BIT, BlinkyColTab, PinkyMask);
+cSprite SprInky(MY_SPRITE_WIDTH, MY_SPRITE_HEIGHT, PinkyData, PINKY_FRAMES, _2BIT, InkyColTab, PinkyMask);
+cSprite SprClyde(MY_SPRITE_WIDTH, MY_SPRITE_HEIGHT, PinkyData, PINKY_FRAMES, _2BIT, ClydeColTab, PinkyMask);
 cSprite SprPacmanLeft(MY_SPRITE_WIDTH, MY_SPRITE_HEIGHT, PacmanLeftData, PACMAN_FRAMES, _2BIT, PacmanLeftColTab, PacmanLeftMask);
 cSprite SprGhost(MY_SPRITE_WIDTH, MY_SPRITE_HEIGHT, GhostData, PINKY_FRAMES, _2BIT, GhostColTab, GhostMask);
 cSprite SprPill(POWER_PILL_SIZE, POWER_PILL_SIZE, PowerPillData, 1, _1BIT, PowerPillColTab, PowerPillData);
@@ -471,16 +489,16 @@ void setup()
   FastLED.setBrightness(20);
   FastLED.clear(true);
   delay(500);
-  //FastLED.showColor(CRGB::Red);
-  //delay(1000);
-  //FastLED.showColor(CRGB::Lime);
-  //delay(1000);
-  //FastLED.showColor(CRGB::Blue);
-  //delay(1000);
-  //FastLED.showColor(CRGB::White);
   delay(1000);
   count = 0;
   FastLED.show();
+
+    ScrollingMsg.SetFont(Font12x16Data);
+  ScrollingMsg.Init(&leds, leds.Width(), ScrollingMsg.FontHeight() + 1, 0, 0);
+  ScrollingMsg.SetText((unsigned char *)TxtDemo, sizeof(TxtDemo) - 1);
+  ScrollingMsg.SetTextColrOptions(COLR_RGB | COLR_SINGLE, 0xff, 0x00, 0xff);
+  Options = INSTANT_OPTIONS_MODE;
+  ScrollingMsg.SetOptionsChangeMode(Options);
 
   //SprPill.SetPositionFrameMotionOptions(MATRIX_WIDTH - POWER_PILL_SIZE - 1/*X*/, (MY_SPRITE_HEIGHT - POWER_PILL_SIZE) / 2/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 0/*XRate*/, 0/*YChange*/, 0/*YRate*/);
   //Sprites.AddSprite(&SprPill);
@@ -491,7 +509,7 @@ void setup()
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
 
-SimplePatternList gPatterns = { Mario, TrippyRainbow};
+SimplePatternList gPatterns = { Dcon, Mario, TrippyRainbow};
 
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 
@@ -528,24 +546,67 @@ void Mario()
   {
    if (SprMarioRight.GetFlags() & SPRITE_MATRIX_X_OFF)
    {
-//      Sprites.RemoveSprite(&SprMarioRight); 
+      Sprites.RemoveSprite(&SprMarioRight); 
       //Sprites.RemoveSprite(&SprPinky);  
-      SprMarioRight.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
-      Sprites.AddSprite(&SprMarioRight);
-    count = 0;
+      SprPacmanRight.SetPositionFrameMotionOptions(-10/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+      Sprites.AddSprite(&SprPacmanRight);
+    
    }
   }
-//  if (Sprites.IsSprite(&SprPinky))
-//  {
-// if ( SprPinky.GetFlags() & SPRITE_MATRIX_X_OFF)
-//  {
-//   Sprites.RemoveSprite(&SprPinky);
-//    Sprites.RemoveSprite(&SprMarioRight); 
-//   SprMarioRight.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_Y_KEEPIN);
-//  Sprites.AddSprite(&SprMarioRight);
-//  count = 0;
-// }
-//  }
+ else if (Sprites.IsSprite(&SprPacmanRight))
+  {
+   if (SprPacmanRight.GetFlags() & SPRITE_MATRIX_X_OFF)
+   {
+      Sprites.RemoveSprite(&SprPacmanRight); 
+      //Sprites.RemoveSprite(&SprPinky);  
+      SprPinky.SetPositionFrameMotionOptions(-10/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+      Sprites.AddSprite(&SprPinky);
+    
+   }
+  }
+  else if (Sprites.IsSprite(&SprPinky))
+  {
+ if ( SprPinky.GetFlags() & SPRITE_MATRIX_X_OFF)
+  {
+   Sprites.RemoveSprite(&SprPinky);
+ //   Sprites.RemoveSprite(&SprMarioRight); 
+   SprBlinky.SetPositionFrameMotionOptions(-10/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_Y_KEEPIN);
+  Sprites.AddSprite(&SprBlinky);
+  
+ }
+  }
+  else if (Sprites.IsSprite(&SprBlinky))
+  {
+ if ( SprBlinky.GetFlags() & SPRITE_MATRIX_X_OFF)
+  {
+   Sprites.RemoveSprite(&SprBlinky);
+ //   Sprites.RemoveSprite(&SprMarioRight); 
+   SprClyde.SetPositionFrameMotionOptions(-10/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_Y_KEEPIN);
+  Sprites.AddSprite(&SprClyde);
+  }
+  }
+  else if (Sprites.IsSprite(&SprClyde))
+  {
+ if ( SprClyde.GetFlags() & SPRITE_MATRIX_X_OFF)
+  {
+   Sprites.RemoveSprite(&SprClyde);
+ //   Sprites.RemoveSprite(&SprMarioRight); 
+   SprInky.SetPositionFrameMotionOptions(-10/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_Y_KEEPIN);
+  Sprites.AddSprite(&SprInky);
+  }
+  }
+  else
+  {
+ if ( SprInky.GetFlags() & SPRITE_MATRIX_X_OFF)
+  {
+   Sprites.RemoveSprite(&SprInky);
+ //   Sprites.RemoveSprite(&SprMarioRight); 
+   SprMarioRight.SetPositionFrameMotionOptions(-10/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_Y_KEEPIN);
+  Sprites.AddSprite(&SprMarioRight);
+  
+ }
+  }
+  
 //  if (Sprites.IsSprite(&SprMarioRight))
 //  {
 //    if (SprPill.GetFlags() & )
@@ -608,13 +669,13 @@ void TrippyRainbow()
   FastLED.clear();
   
   h = hue;
-  if (counter < 1125)
+  if (counter < 1500)
   {
     // ** Fill LED's with diagonal stripes
     for (x=0; x<(leds.Width()+leds.Height()); ++x)
     {
       leds.DrawLine(x - leds.Height(), leds.Height() - 1, x, 0, CHSV(h, 255, 192));
-      h+=16;
+      h+=20;
     }
   }
   else
@@ -623,36 +684,51 @@ void TrippyRainbow()
     for (y=0; y<leds.Height(); ++y)
     {
       leds.DrawLine(0, y, leds.Width() - 1, y, CHSV(h, 255, 192));
-      h+=16;
+      h+=20;
     }
   }
   hue+=4;
 
   if (counter < 0)
     ;
-  else if (counter < 375)
+  else if (counter < 500)
     leds.HorizontalMirror();
-  else if (counter < 625)
+  else if (counter < 1000)
     leds.VerticalMirror();
-  else if (counter < 875)
-    leds.QuadrantMirror();
-  else if (counter < 1250)
-    leds.QuadrantRotateMirror();
+  else if (counter < 1500)
+   leds.QuadrantMirror();
+ // else if (counter < 1250)
+   // leds.QuadrantRotateMirror();
   //else if (counter < 1250)
     //;
-  else if (counter < 1500)
-    leds.TriangleTopMirror();
-  else if (counter < 1750)
-    leds.TriangleBottomMirror();
+//  else if (counter < 1500)
+//    leds.TriangleTopMirror();
+  //else if (counter < 1750)
+ //   leds.TriangleBottomMirror();
+ // else if (counter < 2000)
+ //   leds.QuadrantTopTriangleMirror();
   else if (counter < 2000)
-    leds.QuadrantTopTriangleMirror();
-  else if (counter < 2250)
     leds.QuadrantBottomTriangleMirror();
 
   counter++;
-  if (counter >= 2250)
+  if (counter >= 2000)
     counter = 0;
   FastLED.show();
   FastLED.delay(10);
+}
+
+void Dcon()
+{
+
+
+    if (ScrollingMsg.UpdateText() == -1)
+  {
+    ScrollingMsg.SetText((unsigned char *)TxtDemo, sizeof(TxtDemo) - 1);
+    Options ^= INSTANT_OPTIONS_MODE;
+    ScrollingMsg.SetOptionsChangeMode(0);
+  }
+  else
+    FastLED.show();
+  delay(10);
 }
 
