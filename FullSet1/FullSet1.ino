@@ -46,6 +46,10 @@ uint16_t Options;
 int count;
 uint8_t hue = 0;
 int16_t counter = 0;
+
+
+uint16_t PlasmaTime, PlasmaShift;
+
 const uint8_t MarioData[] =
 {
   // Mario Run 1
@@ -160,8 +164,132 @@ const uint8_t MarioMask[] =
   B8_2BIT(00001111),B8_2BIT(11000000)
 };
 
-const struct CRGB MarioColTab[] =  {  CRGB::Red, CRGB::Brown, CRGB::Yellow  };
+const struct CRGB MarioColTab[] =  {  CRGB::Red, CRGB(152,102,17), CRGB::Gold  };
+const struct CRGB LuigiColTab[] =  {  CRGB::White, CRGB::Green, CRGB::Gold  };
 
+const uint8_t MushroomData[] =
+{
+  B8_2BIT(00001111),B8_2BIT(11110000),
+  B8_2BIT(00011223),B8_2BIT(32211000),
+  B8_2BIT(00112223),B8_2BIT(32221100),
+  B8_2BIT(01132233),B8_2BIT(33223110),
+  B8_2BIT(01233333),B8_2BIT(33333210),
+  B8_2BIT(11223322),B8_2BIT(22332211),
+  B8_2BIT(12223222),B8_2BIT(22232221),
+  B8_2BIT(12223222),B8_2BIT(22232221),
+  B8_2BIT(12233222),B8_2BIT(22233221),
+  B8_2BIT(13333322),B8_2BIT(22333331),
+  B8_2BIT(13311111),B8_2BIT(11111331),
+  B8_2BIT(11112212),B8_2BIT(21221111),
+  B8_2BIT(01122212),B8_2BIT(21222110),
+  B8_2BIT(00122222),B8_2BIT(22222100),
+  B8_2BIT(00112222),B8_2BIT(22221100),
+  B8_2BIT(00011111),B8_2BIT(11111000)
+
+  
+};
+
+const uint8_t MushroomMask[] = 
+{
+  B8_2BIT(00001111),B8_2BIT(11110000),
+  B8_2BIT(00011111),B8_2BIT(1111000),
+  B8_2BIT(00111111),B8_2BIT(11111100),
+  B8_2BIT(01111111),B8_2BIT(11111110),
+  B8_2BIT(01111111),B8_2BIT(11111110),
+  B8_2BIT(11111111),B8_2BIT(11111111),
+  B8_2BIT(11111111),B8_2BIT(11111111),
+  B8_2BIT(11111111),B8_2BIT(11111111),
+  B8_2BIT(11111111),B8_2BIT(11111111),
+  B8_2BIT(11111111),B8_2BIT(11111111),
+  B8_2BIT(11111111),B8_2BIT(11111111),
+  B8_2BIT(11111111),B8_2BIT(11111111),
+  B8_2BIT(01111111),B8_2BIT(11111110),
+  B8_2BIT(00111111),B8_2BIT(11111100),
+  B8_2BIT(00111111),B8_2BIT(11111100),
+  B8_2BIT(00011111),B8_2BIT(11111000)
+};
+
+const struct CRGB MushroomColTab[] =  {  CRGB::Black, CRGB::White, CRGB::Red  };
+
+const uint8_t GoombaData[] =
+{
+  B8_2BIT(00000011),B8_2BIT(11000000),
+  B8_2BIT(00000111),B8_2BIT(11100000),
+  B8_2BIT(00001111),B8_2BIT(11110000),
+  B8_2BIT(00011111),B8_2BIT(11111000),
+  B8_2BIT(00122111),B8_2BIT(11122100),
+  B8_2BIT(01113211),B8_2BIT(11231110),
+  B8_2BIT(01113222),B8_2BIT(22231110),
+  B8_2BIT(11113231),B8_2BIT(13231111),
+  B8_2BIT(11113331),B8_2BIT(13331111),
+  B8_2BIT(11111111),B8_2BIT(11111111),
+  B8_2BIT(01111333),B8_2BIT(33311110),
+  B8_2BIT(00003333),B8_2BIT(33330000),
+  B8_2BIT(00003333),B8_2BIT(33332200),
+  B8_2BIT(00022333),B8_2BIT(32222220),
+  B8_2BIT(00022233),B8_2BIT(22222220),
+  B8_2BIT(00002220),B8_2BIT(02222200),
+
+  B8_2BIT(00000011),B8_2BIT(11000000),
+  B8_2BIT(00000111),B8_2BIT(11100000),
+  B8_2BIT(00001111),B8_2BIT(11110000),
+  B8_2BIT(00011111),B8_2BIT(11111000),
+  B8_2BIT(00122111),B8_2BIT(11122100),
+  B8_2BIT(01113211),B8_2BIT(11231110),
+  B8_2BIT(01113222),B8_2BIT(22231110),
+  B8_2BIT(11113231),B8_2BIT(13231111),
+  B8_2BIT(11113331),B8_2BIT(13331111),
+  B8_2BIT(11111111),B8_2BIT(11111111),
+  B8_2BIT(01111333),B8_2BIT(33311110),
+  B8_2BIT(00003333),B8_2BIT(33330000),
+  B8_2BIT(00223333),B8_2BIT(33330000),
+  B8_2BIT(02222223),B8_2BIT(33322000),
+  B8_2BIT(02222222),B8_2BIT(33222000),
+  B8_2BIT(00222220),B8_2BIT(02220000)
+
+  
+};
+
+const uint8_t GoombaMask[] =
+{
+  B8_2BIT(00000011),B8_2BIT(11000000),
+  B8_2BIT(00000111),B8_2BIT(11100000),
+  B8_2BIT(00001111),B8_2BIT(11110000),
+  B8_2BIT(00011111),B8_2BIT(11111000),
+  B8_2BIT(00111111),B8_2BIT(11111100),
+  B8_2BIT(01111111),B8_2BIT(11111110),
+  B8_2BIT(01111111),B8_2BIT(11111110),
+  B8_2BIT(11111111),B8_2BIT(11111111),
+  B8_2BIT(11111111),B8_2BIT(11111111),
+  B8_2BIT(11111111),B8_2BIT(11111111),
+  B8_2BIT(01111111),B8_2BIT(11111110),
+  B8_2BIT(00001111),B8_2BIT(11110000),
+  B8_2BIT(00001111),B8_2BIT(11111100),
+  B8_2BIT(00011111),B8_2BIT(11111110),
+  B8_2BIT(00011111),B8_2BIT(11111110),
+  B8_2BIT(00001110),B8_2BIT(01111100),
+
+  B8_2BIT(00000011),B8_2BIT(11000000),
+  B8_2BIT(00000111),B8_2BIT(11100000),
+  B8_2BIT(00001111),B8_2BIT(11110000),
+  B8_2BIT(00011111),B8_2BIT(11111000),
+  B8_2BIT(00111111),B8_2BIT(11111100),
+  B8_2BIT(01111111),B8_2BIT(11111110),
+  B8_2BIT(01111111),B8_2BIT(11111110),
+  B8_2BIT(11111111),B8_2BIT(11111111),
+  B8_2BIT(11111111),B8_2BIT(11111111),
+  B8_2BIT(11111111),B8_2BIT(11111111),
+  B8_2BIT(01111111),B8_2BIT(11111110),
+  B8_2BIT(00001111),B8_2BIT(11110000),
+  B8_2BIT(00111111),B8_2BIT(11110000),
+  B8_2BIT(01111111),B8_2BIT(11111000),
+  B8_2BIT(01111111),B8_2BIT(11111000),
+  B8_2BIT(00111110),B8_2BIT(01110000)
+
+  
+};
+
+const struct CRGB GoombaColTab[] =  {  CRGB(152,102,17), CRGB::Black, CRGB::White  };
 
 const uint8_t PowerPillData[] = 
 {
@@ -470,8 +598,12 @@ const uint8_t EyesMask[] =
 };
 const struct CRGB EyesColTab[] =  {  CRGB(255, 255, 255), CRGB(0, 0, 255), CRGB(0, 0, 0)  };
 
+
 cSprite SprPacmanRight(MY_SPRITE_WIDTH, MY_SPRITE_HEIGHT, PacmanRightData, PACMAN_FRAMES, _2BIT, PacmanRightColTab, PacmanRightMask);
 cSprite SprMarioRight(MARIO_SIZE, MARIO_SIZE, MarioData, MARIO_FRAMES, _2BIT, MarioColTab, MarioMask);
+cSprite SprMarioRight2(MARIO_SIZE, MARIO_SIZE, MarioData, MARIO_FRAMES, _2BIT, LuigiColTab, MarioMask);
+cSprite SprMarioRight3(MARIO_SIZE, MARIO_SIZE, MarioData, MARIO_FRAMES, _2BIT, MarioColTab, MarioMask);
+cSprite SprMarioRight4(MARIO_SIZE, MARIO_SIZE, MarioData, MARIO_FRAMES, _2BIT, MarioColTab, MarioMask);
 cSprite SprPinky(MY_SPRITE_WIDTH, MY_SPRITE_HEIGHT, PinkyData, PINKY_FRAMES, _2BIT, PinkyColTab, PinkyMask);
 cSprite SprBlinky(MY_SPRITE_WIDTH, MY_SPRITE_HEIGHT, PinkyData, PINKY_FRAMES, _2BIT, BlinkyColTab, PinkyMask);
 cSprite SprInky(MY_SPRITE_WIDTH, MY_SPRITE_HEIGHT, PinkyData, PINKY_FRAMES, _2BIT, InkyColTab, PinkyMask);
@@ -481,8 +613,8 @@ cSprite SprGhost(MY_SPRITE_WIDTH, MY_SPRITE_HEIGHT, GhostData, PINKY_FRAMES, _2B
 cSprite SprPill(POWER_PILL_SIZE, POWER_PILL_SIZE, PowerPillData, 1, _1BIT, PowerPillColTab, PowerPillData);
 cSprite Spr200(MY_SPRITE_WIDTH, MY_SPRITE_HEIGHT, S200Data, 1, _1BIT, S200ColTab, S200Data);
 cSprite SprEyes(MY_SPRITE_WIDTH, MY_SPRITE_HEIGHT, EyesData, 1, _2BIT, EyesColTab, EyesMask);
-
-
+cSprite SprMushroom(MARIO_SIZE, MARIO_SIZE, MushroomData, 1, _2BIT, MushroomColTab, MushroomMask);
+cSprite SprGoomba(MARIO_SIZE, MARIO_SIZE, GoombaData, 2, _2BIT, GoombaColTab, GoombaMask);
 void setup()
 {
   FastLED.addLeds<CHIPSET, DATA_PIN, CLK_PIN, COLOR_ORDER, DATA_RATE_MHZ(5)>(leds[0], leds.Size()).setCorrection(TypicalLEDStrip);
@@ -500,6 +632,9 @@ void setup()
   Options = INSTANT_OPTIONS_MODE;
   ScrollingMsg.SetOptionsChangeMode(Options);
 
+    PlasmaShift = (random8(0, 5) * 32) + 64;
+  PlasmaTime = 0;
+
   //SprPill.SetPositionFrameMotionOptions(MATRIX_WIDTH - POWER_PILL_SIZE - 1/*X*/, (MY_SPRITE_HEIGHT - POWER_PILL_SIZE) / 2/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 0/*XRate*/, 0/*YChange*/, 0/*YRate*/);
   //Sprites.AddSprite(&SprPill);
 
@@ -509,7 +644,8 @@ void setup()
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
 
-SimplePatternList gPatterns = { Dcon, Mario, TrippyRainbow};
+SimplePatternList gPatterns = { Dcon, MultiMario, TrippyRainbow, Plasma};
+//SimplePatternList gPatterns = { Plasma };
 
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 
@@ -522,7 +658,7 @@ void loop()
   FastLED.show();  
 
   // do some periodic updates
-  EVERY_N_SECONDS( 30 ) { nextPattern(); } // change patterns periodically
+  EVERY_N_SECONDS( 60 ) { nextPattern(); } // change patterns periodically
 }
 
 void nextPattern()
@@ -531,6 +667,11 @@ void nextPattern()
   gCurrentPatternNumber = (gCurrentPatternNumber + 1) % ARRAY_SIZE( gPatterns);
 }
 
+void cooldown()
+{
+  FastLED.clear();
+  FastLED.delay(6000);
+}
 void Mario()
 {
   FastLED.clear();
@@ -720,7 +861,6 @@ void TrippyRainbow()
 void Dcon()
 {
 
-
     if (ScrollingMsg.UpdateText() == -1)
   {
     ScrollingMsg.SetText((unsigned char *)TxtDemo, sizeof(TxtDemo) - 1);
@@ -730,5 +870,93 @@ void Dcon()
   else
     FastLED.show();
   delay(10);
+}
+
+void MultiMario()
+{
+    FastLED.clear();
+     // Fill background with dim plasma
+//    #define PLASMA_X_FACTOR  24
+//    #define PLASMA_Y_FACTOR  24
+    for (int16_t x=0; x<64; x++)
+    {
+      for (int16_t y=0; y<16; y++)
+      {
+//        int16_t r = sin16(PlasmaTime) / 256;
+//        int16_t h = sin16(x * r * PLASMA_X_FACTOR + PlasmaTime) + cos16(y * (-r) * PLASMA_Y_FACTOR + PlasmaTime) + sin16(y * x * (cos16(-PlasmaTime) / 256) / 2);
+        leds(x, y) = CHSV(150,200,100);
+      }
+    }
+//    uint16_t OldPlasmaTime = PlasmaTime;
+//    PlasmaTime += PlasmaShift;
+//    if (OldPlasmaTime > PlasmaTime)
+//      PlasmaShift = (random8(0, 5) * 32) + 64;
+
+  Sprites.UpdateSprites();
+  Sprites.DetectCollisions();
+  if (count == 0)
+  {
+  SprMushroom.SetPositionFrameMotionOptions(-10/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprMushroom);
+  count = 1;
+  }
+
+   if (SprMushroom.GetFlags() & SPRITE_MATRIX_X_OFF)
+   {
+      //Sprites.RemoveSprite(&SprMarioRight); 
+      //Sprites.RemoveSprite(&SprPinky);  
+      SprMushroom.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+      Sprites.AddSprite(&SprMushroom);
+    
+   }
+   if (SprMushroom.m_X == 4)
+   {
+    SprMarioRight.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprMarioRight);
+   }
+
+   if (SprMarioRight.m_X == 4)
+   {
+    SprMarioRight2.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprMarioRight2);
+   }
+
+   
+   if (SprMarioRight2.m_X == 4)
+   {
+    SprGoomba.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprGoomba);
+   }
+
+
+    Sprites.RenderSprites();
+  FastLED.show();
+  delay(10);
+  count++;
+  
+}
+
+void Plasma()
+{
+
+    // Fill background with dim plasma
+    #define PLASMA_X_FACTOR  16
+    #define PLASMA_Y_FACTOR  16
+    for (int16_t x=0; x<64; x++)
+    {
+      for (int16_t y=0; y<16; y++)
+      {
+        int16_t r = sin16(PlasmaTime) / 256;
+        int16_t h = sin16(x * r * PLASMA_X_FACTOR + PlasmaTime) + cos16(y * (-r) * PLASMA_Y_FACTOR + PlasmaTime) + sin16(y * x * (cos16(-PlasmaTime) / 256) / 2);
+        leds(x, y) = CHSV((uint8_t)((h / 256) + 128), 255, 130);
+      }
+    }
+    uint16_t OldPlasmaTime = PlasmaTime;
+    PlasmaTime += PlasmaShift;
+    if (OldPlasmaTime > PlasmaTime)
+      PlasmaShift = (random8(0, 5) * 32) + 64;
+      
+    FastLED.show();
+    FastLED.delay(10);
 }
 
