@@ -45,6 +45,7 @@ uint16_t Options;
 
 int count;
 uint8_t hue = 0;
+uint8_t gHue = 0;
 int16_t counter = 0;
 
 uint16_t PlasmaTime, PlasmaShift;
@@ -672,6 +673,7 @@ void loop()
   // send the 'leds' array out to the actual LED strip
   FastLED.show();  
 
+EVERY_N_MILLISECONDS( 5 ) { gHue=gHue+16; }
   // do some periodic updates
   EVERY_N_SECONDS( 60 ) { nextPattern(); } // change patterns periodically
 }
@@ -851,4 +853,15 @@ if (eye_count == 0)
   Sprites.AddSprite(&SprEyesLeftDown);
   }
 }
+
+void starfield()
+{
+}
+
+void confetti()
+{
+}
+
+
+
 
