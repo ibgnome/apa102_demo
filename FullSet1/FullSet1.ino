@@ -846,7 +846,6 @@ void Eyes()
 {
   FastLED.clear();
 
-
   Sprites.RemoveSprite(&SprMushroom);
   Sprites.RemoveSprite(&SprMarioRight);
   Sprites.RemoveSprite(&SprMarioRight2);
@@ -854,23 +853,19 @@ void Eyes()
   
   Sprites.UpdateSprites();
   Sprites.DetectCollisions();
-if (eye_count == 0)
-{
-  SprEyes.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, 0/*Frame*/, 1/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+
+  SprEyes.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, random16(4)/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
   
   Sprites.AddSprite(&SprEyes);
  
-}
-if (eye_count > 0)
-{
-  SprEyes.SetPosition(random8(50)+1, random8(11));
-  
-  
-}
+//if (eye_count > 0)
+//{
+//  SprEyes.SetPosition(random8(50)+1, random8(11));
+//}
  
     Sprites.RenderSprites();
   FastLED.show();
-  delay(random16(100));
+  delay(random16(600)+30);
   eye_count++;
 }
 
