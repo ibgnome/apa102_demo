@@ -43,7 +43,7 @@ const unsigned char TxtDemo[] = { EFFECT_FRAME_RATE "\x02"
                                   };
 uint16_t Options;
 
-int count;
+int count, eye_count = 0;
 uint8_t hue = 0;
 uint8_t gHue = 0;
 int16_t counter = 0;
@@ -570,35 +570,26 @@ const uint8_t S200Data[] =
 };
 const struct CRGB S200ColTab[] =  {  CRGB(0, 192, 255)  };
 
-const uint8_t EyesRightDownData[] = 
+const uint8_t EyesData[] = 
 {
   B8_2BIT(01110001),B8_2BIT(11000000),
   B8_2BIT(11111011),B8_2BIT(11100000),
   B8_2BIT(11122011),B8_2BIT(12200000),
   B8_2BIT(11122011),B8_2BIT(12200000),
-  B8_2BIT(01110001),B8_2BIT(11000000)
-};
-
-const uint8_t EyesRightUpData[] = 
-{
+  B8_2BIT(01110001),B8_2BIT(11000000),
+  
   B8_2BIT(01110001),B8_2BIT(11000000),
   B8_2BIT(11122011),B8_2BIT(12200000),
   B8_2BIT(11122011),B8_2BIT(12200000),
   B8_2BIT(11111011),B8_2BIT(11100000),
-  B8_2BIT(01110001),B8_2BIT(11000000)
-};
-
-const uint8_t EyesLeftDownData[] = 
-{
+  B8_2BIT(01110001),B8_2BIT(11000000),
+  
   B8_2BIT(01110001),B8_2BIT(11000000),
   B8_2BIT(11111011),B8_2BIT(11100000),
   B8_2BIT(22111022),B8_2BIT(11100000),
   B8_2BIT(22111022),B8_2BIT(11100000),
-  B8_2BIT(01110001),B8_2BIT(11000000)
-};
-
-const uint8_t EyesLeftUpData[] = 
-{
+  B8_2BIT(01110001),B8_2BIT(11000000),
+  
   B8_2BIT(01110001),B8_2BIT(11000000),
   B8_2BIT(22111022),B8_2BIT(11100000),
   B8_2BIT(22111022),B8_2BIT(11100000),
@@ -608,6 +599,24 @@ const uint8_t EyesLeftUpData[] =
 const uint8_t EyesMask[] = 
 {
 
+  B8_1BIT(01110001),B8_1BIT(11000000),
+  B8_1BIT(11111011),B8_1BIT(11100000),
+  B8_1BIT(11111011),B8_1BIT(11100000),
+  B8_1BIT(11111011),B8_1BIT(11100000),
+  B8_1BIT(01110001),B8_1BIT(11000000),
+  
+  B8_1BIT(01110001),B8_1BIT(11000000),
+  B8_1BIT(11111011),B8_1BIT(11100000),
+  B8_1BIT(11111011),B8_1BIT(11100000),
+  B8_1BIT(11111011),B8_1BIT(11100000),
+  B8_1BIT(01110001),B8_1BIT(11000000),
+  
+  B8_1BIT(01110001),B8_1BIT(11000000),
+  B8_1BIT(11111011),B8_1BIT(11100000),
+  B8_1BIT(11111011),B8_1BIT(11100000),
+  B8_1BIT(11111011),B8_1BIT(11100000),
+  B8_1BIT(01110001),B8_1BIT(11000000),
+  
   B8_1BIT(01110001),B8_1BIT(11000000),
   B8_1BIT(11111011),B8_1BIT(11100000),
   B8_1BIT(11111011),B8_1BIT(11100000),
@@ -630,10 +639,7 @@ cSprite SprPacmanLeft(MY_SPRITE_WIDTH, MY_SPRITE_HEIGHT, PacmanLeftData, PACMAN_
 cSprite SprGhost(MY_SPRITE_WIDTH, MY_SPRITE_HEIGHT, GhostData, PINKY_FRAMES, _2BIT, GhostColTab, GhostMask);
 cSprite SprPill(POWER_PILL_SIZE, POWER_PILL_SIZE, PowerPillData, 1, _1BIT, PowerPillColTab, PowerPillData);
 cSprite Spr200(MY_SPRITE_WIDTH, MY_SPRITE_HEIGHT, S200Data, 1, _1BIT, S200ColTab, S200Data);
-cSprite SprEyesRightDown(MY_SPRITE_WIDTH, 5, EyesRightDownData, 1, _2BIT, EyesColTab, EyesMask);
-cSprite SprEyesRightUp(MY_SPRITE_WIDTH, 5, EyesRightUpData, 1, _2BIT, EyesColTab, EyesMask);
-cSprite SprEyesLeftDown(MY_SPRITE_WIDTH, 5, EyesLeftDownData, 1, _2BIT, EyesColTab, EyesMask);
-cSprite SprEyesLeftUp(MY_SPRITE_WIDTH, 5, EyesLeftUpData, 1, _2BIT, EyesColTab, EyesMask);
+cSprite SprEyes(11, 5, EyesData, 4, _2BIT, EyesColTab, EyesMask);
 cSprite SprMushroom(MARIO_SIZE, MARIO_SIZE, MushroomData, 1, _2BIT, MushroomColTab, MushroomMask);
 cSprite SprGoomba(MARIO_SIZE, MARIO_SIZE, GoombaData, 2, _2BIT, GoombaColTab, GoombaMask);
 void setup()
@@ -652,6 +658,7 @@ void setup()
   ScrollingMsg.SetTextColrOptions(COLR_RGB | COLR_SINGLE, 0xff, 0x00, 0xff);
   Options = INSTANT_OPTIONS_MODE;
   ScrollingMsg.SetOptionsChangeMode(Options);
+  SprEyes.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, 0/*Frame*/, 1/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
 
     PlasmaShift = (random8(0, 5) * 32) + 64;
   PlasmaTime = 0;
@@ -660,8 +667,8 @@ void setup()
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
 
-SimplePatternList gPatterns = { Dcon, MultiMario, TrippyRainbow, Plasma};
-//SimplePatternList gPatterns = { Plasma };
+//SimplePatternList gPatterns = { Dcon, MultiMario, TrippyRainbow, Plasma};
+SimplePatternList gPatterns = { Eyes };
 
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 
@@ -837,21 +844,34 @@ void Plasma()
 
 void Eyes()
 {
+  FastLED.clear();
+
+
   Sprites.RemoveSprite(&SprMushroom);
   Sprites.RemoveSprite(&SprMarioRight);
   Sprites.RemoveSprite(&SprMarioRight2);
   Sprites.RemoveSprite(&SprGoomba);
+  
+  Sprites.UpdateSprites();
+  Sprites.DetectCollisions();
 if (eye_count == 0)
-  {
-  SprEyesRightUp.SetPositionFrameMotionOptions(random16(11)/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
-  SprEyesRightDown.SetPositionFrameMotionOptions(random16(11)/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
-  SprEyesLeftUp.SetPositionFrameMotionOptions(random16(11)/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
-  SprEyesLeftDown.SetPositionFrameMotionOptions(random16(11)/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
-  Sprites.AddSprite(&SprEyesRightUp);
-  Sprites.AddSprite(&SprEyesRightDown);
-  Sprites.AddSprite(&SprEyesLeftUp);
-  Sprites.AddSprite(&SprEyesLeftDown);
-  }
+{
+  SprEyes.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, 0/*Frame*/, 1/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+  
+  Sprites.AddSprite(&SprEyes);
+ 
+}
+if (eye_count > 0)
+{
+  SprEyes.SetPosition(random8(50)+1, random8(11));
+  
+  
+}
+ 
+    Sprites.RenderSprites();
+  FastLED.show();
+  delay(random16(100));
+  eye_count++;
 }
 
 void starfield()
