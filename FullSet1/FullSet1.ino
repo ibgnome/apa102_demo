@@ -42,7 +42,7 @@ const unsigned char TxtDemo[] = { EFFECT_FRAME_RATE "\x02"
                                   EFFECT_SCROLL_LEFT "         DRAGONCON" 
                                   };
 uint16_t Options;
-
+int randcount;
 int count, eye_count = 0;
 uint8_t hue = 0;
 uint8_t gHue = 0;
@@ -570,29 +570,43 @@ const uint8_t S200Data[] =
 };
 const struct CRGB S200ColTab[] =  {  CRGB(0, 192, 255)  };
 
-const uint8_t EyesData[] = 
+const uint8_t Eyes1Data[] = 
 {
   B8_2BIT(01110001),B8_2BIT(11000000),
   B8_2BIT(11111011),B8_2BIT(11100000),
   B8_2BIT(11122011),B8_2BIT(12200000),
   B8_2BIT(11122011),B8_2BIT(12200000),
-  B8_2BIT(01110001),B8_2BIT(11000000),
-  
+  B8_2BIT(01110001),B8_2BIT(11000000)
+};
+const uint8_t Eyes2Data[] =
+{
   B8_2BIT(01110001),B8_2BIT(11000000),
   B8_2BIT(11122011),B8_2BIT(12200000),
   B8_2BIT(11122011),B8_2BIT(12200000),
   B8_2BIT(11111011),B8_2BIT(11100000),
-  B8_2BIT(01110001),B8_2BIT(11000000),
-  
+  B8_2BIT(01110001),B8_2BIT(11000000)
+};
+const uint8_t Eyes3Data[] =  
+{
   B8_2BIT(01110001),B8_2BIT(11000000),
   B8_2BIT(11111011),B8_2BIT(11100000),
   B8_2BIT(22111022),B8_2BIT(11100000),
   B8_2BIT(22111022),B8_2BIT(11100000),
-  B8_2BIT(01110001),B8_2BIT(11000000),
-  
+  B8_2BIT(01110001),B8_2BIT(11000000)
+};
+const uint8_t Eyes4Data[] =  
+{
   B8_2BIT(01110001),B8_2BIT(11000000),
   B8_2BIT(22111022),B8_2BIT(11100000),
   B8_2BIT(22111022),B8_2BIT(11100000),
+  B8_2BIT(11111011),B8_2BIT(11100000),
+  B8_2BIT(01110001),B8_2BIT(11000000)
+};
+const uint8_t Eyes5Data[] =
+{
+  B8_2BIT(01110001),B8_2BIT(11000000),
+  B8_2BIT(11221012),B8_2BIT(21100000),
+  B8_2BIT(11221012),B8_2BIT(21100000),
   B8_2BIT(11111011),B8_2BIT(11100000),
   B8_2BIT(01110001),B8_2BIT(11000000)
 };
@@ -603,25 +617,8 @@ const uint8_t EyesMask[] =
   B8_1BIT(11111011),B8_1BIT(11100000),
   B8_1BIT(11111011),B8_1BIT(11100000),
   B8_1BIT(11111011),B8_1BIT(11100000),
-  B8_1BIT(01110001),B8_1BIT(11000000),
-  
-  B8_1BIT(01110001),B8_1BIT(11000000),
-  B8_1BIT(11111011),B8_1BIT(11100000),
-  B8_1BIT(11111011),B8_1BIT(11100000),
-  B8_1BIT(11111011),B8_1BIT(11100000),
-  B8_1BIT(01110001),B8_1BIT(11000000),
-  
-  B8_1BIT(01110001),B8_1BIT(11000000),
-  B8_1BIT(11111011),B8_1BIT(11100000),
-  B8_1BIT(11111011),B8_1BIT(11100000),
-  B8_1BIT(11111011),B8_1BIT(11100000),
-  B8_1BIT(01110001),B8_1BIT(11000000),
-  
-  B8_1BIT(01110001),B8_1BIT(11000000),
-  B8_1BIT(11111011),B8_1BIT(11100000),
-  B8_1BIT(11111011),B8_1BIT(11100000),
-  B8_1BIT(11111011),B8_1BIT(11100000),
   B8_1BIT(01110001),B8_1BIT(11000000)
+  
 };
 const struct CRGB EyesColTab[] =  {  CRGB(255, 255, 255), CRGB(0, 0, 255), CRGB(0, 0, 0)  };
 
@@ -639,7 +636,11 @@ cSprite SprPacmanLeft(MY_SPRITE_WIDTH, MY_SPRITE_HEIGHT, PacmanLeftData, PACMAN_
 cSprite SprGhost(MY_SPRITE_WIDTH, MY_SPRITE_HEIGHT, GhostData, PINKY_FRAMES, _2BIT, GhostColTab, GhostMask);
 cSprite SprPill(POWER_PILL_SIZE, POWER_PILL_SIZE, PowerPillData, 1, _1BIT, PowerPillColTab, PowerPillData);
 cSprite Spr200(MY_SPRITE_WIDTH, MY_SPRITE_HEIGHT, S200Data, 1, _1BIT, S200ColTab, S200Data);
-cSprite SprEyes(11, 5, EyesData, 4, _2BIT, EyesColTab, EyesMask);
+cSprite SprEyes1(11, 5, Eyes1Data, 1, _2BIT, EyesColTab, EyesMask);
+cSprite SprEyes2(11, 5, Eyes2Data, 1, _2BIT, EyesColTab, EyesMask);
+cSprite SprEyes3(11, 5, Eyes3Data, 1, _2BIT, EyesColTab, EyesMask);
+cSprite SprEyes4(11, 5, Eyes4Data, 1, _2BIT, EyesColTab, EyesMask);
+cSprite SprEyes5(11, 5, Eyes5Data, 1, _2BIT, EyesColTab, EyesMask);
 cSprite SprMushroom(MARIO_SIZE, MARIO_SIZE, MushroomData, 1, _2BIT, MushroomColTab, MushroomMask);
 cSprite SprGoomba(MARIO_SIZE, MARIO_SIZE, GoombaData, 2, _2BIT, GoombaColTab, GoombaMask);
 void setup()
@@ -658,7 +659,7 @@ void setup()
   ScrollingMsg.SetTextColrOptions(COLR_RGB | COLR_SINGLE, 0xff, 0x00, 0xff);
   Options = INSTANT_OPTIONS_MODE;
   ScrollingMsg.SetOptionsChangeMode(Options);
-  SprEyes.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, 0/*Frame*/, 1/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+  
 
     PlasmaShift = (random8(0, 5) * 32) + 64;
   PlasmaTime = 0;
@@ -853,21 +854,77 @@ void Eyes()
   
   Sprites.UpdateSprites();
   Sprites.DetectCollisions();
-
-  SprEyes.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, random16(4)/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+if (eye_count == 0)
+{
+  SprEyes4.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, 1/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
   
-  Sprites.AddSprite(&SprEyes);
- 
-//if (eye_count > 0)
-//{
-//  SprEyes.SetPosition(random8(50)+1, random8(11));
-//}
- 
+  Sprites.AddSprite(&SprEyes4);
+}
+
+
+int randcount = random8(1,7);
+if (randcount == 1)
+{
+  Sprites.RemoveSprite(&SprEyes1);
+  Sprites.RemoveSprite(&SprEyes2);
+  Sprites.RemoveSprite(&SprEyes3);
+  Sprites.RemoveSprite(&SprEyes4);
+  Sprites.RemoveSprite(&SprEyes5);
+  SprEyes1.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+  
+  Sprites.AddSprite(&SprEyes1);
+}
+else if (randcount == 2)
+{
+  Sprites.RemoveSprite(&SprEyes1);
+  Sprites.RemoveSprite(&SprEyes2);
+  Sprites.RemoveSprite(&SprEyes3);
+  Sprites.RemoveSprite(&SprEyes4);
+  Sprites.RemoveSprite(&SprEyes5);
+  SprEyes2.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+  
+  Sprites.AddSprite(&SprEyes2);
+}
+else if (randcount == 3)
+{
+  Sprites.RemoveSprite(&SprEyes1);
+  Sprites.RemoveSprite(&SprEyes2);
+  Sprites.RemoveSprite(&SprEyes3);
+  Sprites.RemoveSprite(&SprEyes4);
+  Sprites.RemoveSprite(&SprEyes5);
+  SprEyes3.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+  
+  Sprites.AddSprite(&SprEyes3);
+}
+else if (randcount == 5)
+{
+  Sprites.RemoveSprite(&SprEyes1);
+  Sprites.RemoveSprite(&SprEyes2);
+  Sprites.RemoveSprite(&SprEyes3);
+  Sprites.RemoveSprite(&SprEyes4);
+  Sprites.RemoveSprite(&SprEyes5);
+  SprEyes4.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+  
+  Sprites.AddSprite(&SprEyes4);
+}
+else  
+{
+  Sprites.RemoveSprite(&SprEyes1);
+  Sprites.RemoveSprite(&SprEyes2);
+  Sprites.RemoveSprite(&SprEyes3);
+  Sprites.RemoveSprite(&SprEyes4);
+  Sprites.RemoveSprite(&SprEyes5);
+  SprEyes5.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+  
+  Sprites.AddSprite(&SprEyes5);
+}
+
     Sprites.RenderSprites();
   FastLED.show();
-  delay(random16(600)+30);
+  delay(random16(1500));
   eye_count++;
 }
+
 
 void starfield()
 {
