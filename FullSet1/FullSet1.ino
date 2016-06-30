@@ -42,6 +42,7 @@ const unsigned char TxtDemo[] = { EFFECT_FRAME_RATE "\x02"
                                   EFFECT_SCROLL_LEFT "         DRAGONCON" 
                                   };
 uint16_t Options;
+uint8_t angle = 0;
 int randcount;
 int count, eye_count = 0;
 uint8_t hue = 0;
@@ -636,11 +637,11 @@ cSprite SprPacmanLeft(MY_SPRITE_WIDTH, MY_SPRITE_HEIGHT, PacmanLeftData, PACMAN_
 cSprite SprGhost(MY_SPRITE_WIDTH, MY_SPRITE_HEIGHT, GhostData, PINKY_FRAMES, _2BIT, GhostColTab, GhostMask);
 cSprite SprPill(POWER_PILL_SIZE, POWER_PILL_SIZE, PowerPillData, 1, _1BIT, PowerPillColTab, PowerPillData);
 cSprite Spr200(MY_SPRITE_WIDTH, MY_SPRITE_HEIGHT, S200Data, 1, _1BIT, S200ColTab, S200Data);
-cSprite SprEyes1(11, 5, Eyes1Data, 1, _2BIT, EyesColTab, EyesMask);
-cSprite SprEyes2(11, 5, Eyes2Data, 1, _2BIT, EyesColTab, EyesMask);
-cSprite SprEyes3(11, 5, Eyes3Data, 1, _2BIT, EyesColTab, EyesMask);
-cSprite SprEyes4(11, 5, Eyes4Data, 1, _2BIT, EyesColTab, EyesMask);
-cSprite SprEyes5(11, 5, Eyes5Data, 1, _2BIT, EyesColTab, EyesMask);
+cSprite SprEyesRightDown(11, 5, Eyes1Data, 1, _2BIT, EyesColTab, EyesMask);
+cSprite SprEyesRightUp(11, 5, Eyes2Data, 1, _2BIT, EyesColTab, EyesMask);
+cSprite SprEyesLeftDown(11, 5, Eyes3Data, 1, _2BIT, EyesColTab, EyesMask);
+cSprite SprEyesLeftUp(11, 5, Eyes4Data, 1, _2BIT, EyesColTab, EyesMask);
+cSprite SprEyesCenter(11, 5, Eyes5Data, 1, _2BIT, EyesColTab, EyesMask);
 cSprite SprMushroom(MARIO_SIZE, MARIO_SIZE, MushroomData, 1, _2BIT, MushroomColTab, MushroomMask);
 cSprite SprGoomba(MARIO_SIZE, MARIO_SIZE, GoombaData, 2, _2BIT, GoombaColTab, GoombaMask);
 void setup()
@@ -668,7 +669,7 @@ void setup()
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
 
-//SimplePatternList gPatterns = { Dcon, MultiMario, TrippyRainbow, Plasma};
+//SimplePatternList gPatterns = { Dcon, MultiMario, TrippyRainbow, Plasma, Wave };
 SimplePatternList gPatterns = { Eyes };
 
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
@@ -771,6 +772,12 @@ void Dcon()
 void MultiMario()
 {
     FastLED.clear();
+    Sprites.RemoveSprite(&SprEyesRightDown);
+    Sprites.RemoveSprite(&SprEyesRightUp);
+    Sprites.RemoveSprite(&SprEyesLeftDown);
+    Sprites.RemoveSprite(&SprEyesLeftUp);
+    Sprites.RemoveSprite(&SprEyesCenter);
+    
     for (int16_t x=0; x<64; x++)
     {
       for (int16_t y=0; y<16; y++)
@@ -856,67 +863,67 @@ void Eyes()
   Sprites.DetectCollisions();
 if (eye_count == 0)
 {
-  SprEyes4.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, 1/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+  SprEyesLeftUp.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, 1/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
   
-  Sprites.AddSprite(&SprEyes4);
+  Sprites.AddSprite(&SprEyesLeftUp);
 }
 
 
 int randcount = random8(1,7);
 if (randcount == 1)
 {
-  Sprites.RemoveSprite(&SprEyes1);
-  Sprites.RemoveSprite(&SprEyes2);
-  Sprites.RemoveSprite(&SprEyes3);
-  Sprites.RemoveSprite(&SprEyes4);
-  Sprites.RemoveSprite(&SprEyes5);
-  SprEyes1.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+  Sprites.RemoveSprite(&SprEyesRightDown);
+  Sprites.RemoveSprite(&SprEyesRightUp);
+  Sprites.RemoveSprite(&SprEyesLeftDown);
+  Sprites.RemoveSprite(&SprEyesLeftUp);
+  Sprites.RemoveSprite(&SprEyesCenter);
+  SprEyesRightDown.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
   
-  Sprites.AddSprite(&SprEyes1);
+  Sprites.AddSprite(&SprEyesRightDown);
 }
 else if (randcount == 2)
 {
-  Sprites.RemoveSprite(&SprEyes1);
-  Sprites.RemoveSprite(&SprEyes2);
-  Sprites.RemoveSprite(&SprEyes3);
-  Sprites.RemoveSprite(&SprEyes4);
-  Sprites.RemoveSprite(&SprEyes5);
-  SprEyes2.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+  Sprites.RemoveSprite(&SprEyesRightDown);
+  Sprites.RemoveSprite(&SprEyesRightUp);
+  Sprites.RemoveSprite(&SprEyesLeftDown);
+  Sprites.RemoveSprite(&SprEyesLeftUp);
+  Sprites.RemoveSprite(&SprEyesCenter);
+  SprEyesRightUp.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
   
-  Sprites.AddSprite(&SprEyes2);
+  Sprites.AddSprite(&SprEyesRightUp);
 }
 else if (randcount == 3)
 {
-  Sprites.RemoveSprite(&SprEyes1);
-  Sprites.RemoveSprite(&SprEyes2);
-  Sprites.RemoveSprite(&SprEyes3);
-  Sprites.RemoveSprite(&SprEyes4);
-  Sprites.RemoveSprite(&SprEyes5);
-  SprEyes3.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+  Sprites.RemoveSprite(&SprEyesRightDown);
+  Sprites.RemoveSprite(&SprEyesRightUp);
+  Sprites.RemoveSprite(&SprEyesLeftDown);
+  Sprites.RemoveSprite(&SprEyesLeftUp);
+  Sprites.RemoveSprite(&SprEyesCenter);
+  SprEyesLeftDown.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
   
-  Sprites.AddSprite(&SprEyes3);
+  Sprites.AddSprite(&SprEyesLeftDown);
 }
 else if (randcount == 5)
 {
-  Sprites.RemoveSprite(&SprEyes1);
-  Sprites.RemoveSprite(&SprEyes2);
-  Sprites.RemoveSprite(&SprEyes3);
-  Sprites.RemoveSprite(&SprEyes4);
-  Sprites.RemoveSprite(&SprEyes5);
-  SprEyes4.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+  Sprites.RemoveSprite(&SprEyesRightDown);
+  Sprites.RemoveSprite(&SprEyesRightUp);
+  Sprites.RemoveSprite(&SprEyesLeftDown);
+  Sprites.RemoveSprite(&SprEyesLeftUp);
+  Sprites.RemoveSprite(&SprEyesCenter);
+  SprEyesLeftUp.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
   
-  Sprites.AddSprite(&SprEyes4);
+  Sprites.AddSprite(&SprEyesLeftUp);
 }
 else  
 {
-  Sprites.RemoveSprite(&SprEyes1);
-  Sprites.RemoveSprite(&SprEyes2);
-  Sprites.RemoveSprite(&SprEyes3);
-  Sprites.RemoveSprite(&SprEyes4);
-  Sprites.RemoveSprite(&SprEyes5);
-  SprEyes5.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+  Sprites.RemoveSprite(&SprEyesRightDown);
+  Sprites.RemoveSprite(&SprEyesRightUp);
+  Sprites.RemoveSprite(&SprEyesLeftDown);
+  Sprites.RemoveSprite(&SprEyesLeftUp);
+  Sprites.RemoveSprite(&SprEyesCenter);
+  SprEyesCenter.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
   
-  Sprites.AddSprite(&SprEyes5);
+  Sprites.AddSprite(&SprEyesCenter);
 }
 
     Sprites.RenderSprites();
@@ -925,15 +932,30 @@ else
   eye_count++;
 }
 
+void Wave()
+{
+  uint8_t h = sin8(angle);
+  leds.ShiftLeft();
+  for (int16_t y=leds.Height()-1; y>=0; --y)
+  {
+    if (h > 160 && h < 240)
+	{
+    leds(leds.Width()-1, y) = CHSV(h, 255, 255);
+    	}
+    h += 32;
+  }
+  angle += 4;
+  FastLED.show();
+  delay(20);
+}
 
 void starfield()
 {
+FastLED.clear();
+
 }
 
 void confetti()
 {
 }
-
-
-
 
