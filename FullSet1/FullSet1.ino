@@ -669,8 +669,8 @@ void setup()
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
 
-//SimplePatternList gPatterns = { Dcon, MultiMario, TrippyRainbow, Plasma, Wave };
-SimplePatternList gPatterns = { Eyes };
+SimplePatternList gPatterns = { Dcon, MultiMario, Matrix, TrippyRainbow, Eyes, Plasma, Wave, starfield };
+//SimplePatternList gPatterns = { Matrix };
 
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 
@@ -823,6 +823,7 @@ void MultiMario()
   FastLED.show();
   delay(10);
   count++;
+  eye_count=0;
   
 }
 
@@ -863,7 +864,7 @@ void Eyes()
   Sprites.DetectCollisions();
 if (eye_count == 0)
 {
-  SprEyesLeftUp.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, 1/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+  SprEyesLeftUp.SetPositionFrameMotionOptions(11/*X*/, 5/*Y*/, 1/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
   
   Sprites.AddSprite(&SprEyesLeftUp);
 }
@@ -877,7 +878,7 @@ if (randcount == 1)
   Sprites.RemoveSprite(&SprEyesLeftDown);
   Sprites.RemoveSprite(&SprEyesLeftUp);
   Sprites.RemoveSprite(&SprEyesCenter);
-  SprEyesRightDown.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+  SprEyesRightDown.SetPositionFrameMotionOptions(11/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
   
   Sprites.AddSprite(&SprEyesRightDown);
 }
@@ -888,7 +889,7 @@ else if (randcount == 2)
   Sprites.RemoveSprite(&SprEyesLeftDown);
   Sprites.RemoveSprite(&SprEyesLeftUp);
   Sprites.RemoveSprite(&SprEyesCenter);
-  SprEyesRightUp.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+  SprEyesRightUp.SetPositionFrameMotionOptions(11/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
   
   Sprites.AddSprite(&SprEyesRightUp);
 }
@@ -899,7 +900,7 @@ else if (randcount == 3)
   Sprites.RemoveSprite(&SprEyesLeftDown);
   Sprites.RemoveSprite(&SprEyesLeftUp);
   Sprites.RemoveSprite(&SprEyesCenter);
-  SprEyesLeftDown.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+  SprEyesLeftDown.SetPositionFrameMotionOptions(11/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
   
   Sprites.AddSprite(&SprEyesLeftDown);
 }
@@ -910,7 +911,7 @@ else if (randcount == 5)
   Sprites.RemoveSprite(&SprEyesLeftDown);
   Sprites.RemoveSprite(&SprEyesLeftUp);
   Sprites.RemoveSprite(&SprEyesCenter);
-  SprEyesLeftUp.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+  SprEyesLeftUp.SetPositionFrameMotionOptions(11/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
   
   Sprites.AddSprite(&SprEyesLeftUp);
 }
@@ -921,15 +922,17 @@ else
   Sprites.RemoveSprite(&SprEyesLeftDown);
   Sprites.RemoveSprite(&SprEyesLeftUp);
   Sprites.RemoveSprite(&SprEyesCenter);
-  SprEyesCenter.SetPositionFrameMotionOptions(26/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+  SprEyesCenter.SetPositionFrameMotionOptions(11/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
   
   Sprites.AddSprite(&SprEyesCenter);
 }
 
     Sprites.RenderSprites();
+    leds.HorizontalMirror();
   FastLED.show();
   delay(random16(1500));
   eye_count++;
+  count = 0;
 }
 
 void Wave()
@@ -947,14 +950,48 @@ void Wave()
   angle += 4;
   FastLED.show();
   delay(20);
+  
 }
 
 void starfield()
 {
-FastLED.clear();
+int star1, star2, star3, star4, star5, star6;
+star1 = random16(15);
+star2 = random16(15);
+star3 = random16(15);
+star4 = random16(15);
+star5 = random16(15);
+star6 = random16(15);
 
+leds.ShiftLeft();
+leds(leds.Width()-1, star1) = CRGB::White;
+//leds(leds.Width()-1, star2) = CRGB::White;
+//leds(leds.Width()-1, star3) = CRGB::White;
+//leds(leds.Width()-1, star4) = CRGB::White;
+//leds(leds.Width()-1, star5) = CRGB::White;
+//leds(leds.Width()-1, star6) = CRGB::White;
+
+FastLED.show();
+delay(15);
 }
 
+void Matrix()
+{
+  int star1, star2, star3, star4;
+star1 = random16(64);
+star2 = random16(64);
+star3 = random16(64);
+star4 = random16(64);
+
+leds.ShiftDown();
+leds(star1, leds.Height()-1) = CRGB::Green;
+leds(star2, leds.Height()-1) = CRGB::Green;
+leds(star3, leds.Height()-1) = CRGB::Green;
+leds(star4, leds.Height()-1) = CRGB::Green;
+
+FastLED.show();
+delay(15);
+}
 void confetti()
 {
 }
