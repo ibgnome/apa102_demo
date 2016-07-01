@@ -4,6 +4,7 @@
 #include <LEDSprites.h>
 #include <LEDText.h>
 #include <Font12x16.h>
+#include <FontP16x16.h>
 #include <FontMatrise.h>
 
 
@@ -17,6 +18,9 @@
 #define MATRIX_WIDTH   64
 #define MATRIX_HEIGHT  -16
 #define MATRIX_TYPE    VERTICAL_ZIGZAG_MATRIX
+
+#define SPARKING 120
+#define COOLING  55
 
 cLEDMatrix<MATRIX_WIDTH, MATRIX_HEIGHT, MATRIX_TYPE> leds;
 
@@ -39,7 +43,7 @@ cLEDSprites Sprites(&leds);
 
 const unsigned char TxtDemo[] = { EFFECT_FRAME_RATE "\x02"
                                   EFFECT_HSV_AV "\x00\xff\xff\xff\xff\xff"
-                                  EFFECT_SCROLL_LEFT "         DRAGONCON" 
+                                  EFFECT_SCROLL_LEFT "          DRAGON*CON" 
                                   };
 uint16_t Options;
 uint8_t angle = 0;
@@ -50,6 +54,8 @@ uint8_t gHue = 0;
 int16_t counter = 0;
 
 uint16_t PlasmaTime, PlasmaShift;
+
+bool gReverseDirection = false;
 
 const uint8_t MarioData[] =
 {
@@ -654,7 +660,8 @@ void setup()
   count = 0;
   FastLED.show();
 
-    ScrollingMsg.SetFont(Font12x16Data);
+  //ScrollingMsg.SetFont(Font12x16Data);
+  ScrollingMsg.SetFont(MatriseFontData);
   ScrollingMsg.Init(&leds, leds.Width(), ScrollingMsg.FontHeight() + 1, 0, 0);
   ScrollingMsg.SetText((unsigned char *)TxtDemo, sizeof(TxtDemo) - 1);
   ScrollingMsg.SetTextColrOptions(COLR_RGB | COLR_SINGLE, 0xff, 0x00, 0xff);
@@ -676,6 +683,7 @@ uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 
 void loop()
 {
+  random16_add_entropy( random());
   // Call the current pattern function once, updating the 'leds' array
   gPatterns[gCurrentPatternNumber]();
 
@@ -992,7 +1000,45 @@ leds(star4, leds.Height()-1) = CRGB::Green;
 FastLED.show();
 delay(15);
 }
-void confetti()
+
+void Fire()
 {
+  FastLED.clear();
+  static byte heat[16];
+  for (int x = 0; x < leds.Width(); x++) 
+  {
+        // Step 1.  Cool down every cell a little
+        for (int i = 0; i < leds.Height(); i++) 
+        {
+         
+          heat[i] = qsub8( heat[i],  random8(0, ((COOLING * 10) / leds.Height()) + 2));
+    
+        }
+        for( int k= leds.Height() - 1; k >= 2; k--) 
+        {
+          heat[k] = (heat[k - 1] + heat[k - 2] + heat[k - 2] ) / 3;
+        } 
+         
+        if( random8() < SPARKING ) 
+        {
+          int y = random8(7);
+          heat[y] = qadd8( heat[y], random8(160,255) );
+        }
+
+        for( int j = 0; j < leds.Height(); j++) 
+        {
+          CRGB color = HeatColor( heat[j]);
+          int pixelnumber;
+          if( gReverseDirection ) 
+          {
+              pixelnumber = (leds.Height()-1) - j;
+          }   
+          else 
+          {
+              pixelnumber = j;
+          }
+          leds(x,pixelnumber) = color;
+    	}
+  }
 }
 
