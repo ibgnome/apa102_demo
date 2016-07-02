@@ -19,8 +19,8 @@
 #define MATRIX_HEIGHT  -16
 #define MATRIX_TYPE    VERTICAL_ZIGZAG_MATRIX
 
-#define SPARKING 120
-#define COOLING  55
+#define SPARKING 200
+#define COOLING  100
 
 cLEDMatrix<MATRIX_WIDTH, MATRIX_HEIGHT, MATRIX_TYPE> leds;
 
@@ -42,8 +42,8 @@ cLEDSprites Sprites(&leds);
   cLEDText ScrollingMsg;
 
 const unsigned char TxtDemo[] = { EFFECT_FRAME_RATE "\x02"
-                                  EFFECT_HSV_AV "\x00\xff\xff\xff\xff\xff"
-                                  EFFECT_SCROLL_LEFT "          DRAGON*CON" 
+                                  EFFECT_HSV_AV "\x00\xff\xff\x40\xff\xff"
+                                  EFFECT_SCROLL_LEFT "           DRAGON*CON  " 
                                   };
 uint16_t Options;
 uint8_t angle = 0;
@@ -676,8 +676,8 @@ void setup()
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
 
-SimplePatternList gPatterns = { Dcon, MultiMario, Matrix, TrippyRainbow, Eyes, Plasma, Wave, starfield };
-//SimplePatternList gPatterns = { Matrix };
+SimplePatternList gPatterns = { Dcon, MultiMario, Matrix, TrippyRainbow, Eyes, Plasma, Fire, Wave};
+//SimplePatternList gPatterns = { starfield };
 
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 
@@ -774,7 +774,7 @@ void Dcon()
   }
   else
     FastLED.show();
-  delay(10);
+  delay(5);
 }
 
 void MultiMario()
@@ -945,17 +945,18 @@ else
 
 void Wave()
 {
+ 
   uint8_t h = sin8(angle);
   leds.ShiftLeft();
   for (int16_t y=leds.Height()-1; y>=0; --y)
   {
-    if (h > 160 && h < 240)
-	{
+    if (h > 120 && h < 200)
+	  {
     leds(leds.Width()-1, y) = CHSV(h, 255, 255);
-    	}
+    }
     h += 32;
   }
-  angle += 4;
+  angle += 12;
   FastLED.show();
   delay(20);
   
@@ -964,7 +965,7 @@ void Wave()
 void starfield()
 {
 int star1, star2, star3, star4, star5, star6;
-star1 = random16(15);
+star1 = random16(16);
 star2 = random16(15);
 star3 = random16(15);
 star4 = random16(15);
@@ -972,7 +973,8 @@ star5 = random16(15);
 star6 = random16(15);
 
 leds.ShiftLeft();
-leds(leds.Width()-1, star1) = CRGB::White;
+leds.HorizontalMirror();
+leds(31, star1) = CRGB::White;
 //leds(leds.Width()-1, star2) = CRGB::White;
 //leds(leds.Width()-1, star3) = CRGB::White;
 //leds(leds.Width()-1, star4) = CRGB::White;
@@ -1005,8 +1007,9 @@ void Fire()
 {
   FastLED.clear();
   static byte heat[16];
-  for (int x = 0; x < leds.Width(); x++) 
-  {
+  //for (int x = 0; x < leds.Width(); x++) 
+ // {
+ //int x = 1;
         // Step 1.  Cool down every cell a little
         for (int i = 0; i < leds.Height(); i++) 
         {
@@ -1027,6 +1030,7 @@ void Fire()
 
         for( int j = 0; j < leds.Height(); j++) 
         {
+
           CRGB color = HeatColor( heat[j]);
           int pixelnumber;
           if( gReverseDirection ) 
@@ -1037,8 +1041,15 @@ void Fire()
           {
               pixelnumber = j;
           }
-          leds(x,pixelnumber) = color;
+          for (int x=0; x < leds.Width(); x++)
+          {
+            leds(x,pixelnumber) = color;
+          }	
     	}
+     FastLED.delay(50);
   }
-}
+  
+//}
+
+
 
