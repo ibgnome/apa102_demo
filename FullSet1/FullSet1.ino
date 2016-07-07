@@ -993,6 +993,7 @@ else
   delay(random16(1500));
   eye_count++;
   count = 0;
+  mcount = 0;
 }
 
 void Wave()
