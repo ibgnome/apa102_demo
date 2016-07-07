@@ -48,7 +48,7 @@ const unsigned char TxtDemo[] = { EFFECT_FRAME_RATE "\x02"
 uint16_t Options;
 uint8_t angle = 0;
 int randcount;
-int count, eye_count = 0;
+int count, eye_count, mcount = 0;
 uint8_t hue = 0;
 uint8_t gHue = 0;
 int16_t counter = 0;
@@ -632,7 +632,9 @@ const struct CRGB EyesColTab[] =  {  CRGB(255, 255, 255), CRGB(0, 0, 255), CRGB(
 
 cSprite SprPacmanRight(MY_SPRITE_WIDTH, MY_SPRITE_HEIGHT, PacmanRightData, PACMAN_FRAMES, _2BIT, PacmanRightColTab, PacmanRightMask);
 cSprite SprMarioRight(MARIO_SIZE, MARIO_SIZE, MarioData, MARIO_FRAMES, _2BIT, MarioColTab, MarioMask);
-cSprite SprMarioRight2(MARIO_SIZE, MARIO_SIZE, MarioData, MARIO_FRAMES, _2BIT, LuigiColTab, MarioMask);
+cSprite SprMarioRight2(MARIO_SIZE, MARIO_SIZE, MarioData, MARIO_FRAMES, _2BIT, MarioColTab, MarioMask);
+cSprite SprLuigiRight(MARIO_SIZE, MARIO_SIZE, MarioData, MARIO_FRAMES, _2BIT, LuigiColTab, MarioMask);
+cSprite SprLuigiRight2(MARIO_SIZE, MARIO_SIZE, MarioData, MARIO_FRAMES, _2BIT, LuigiColTab, MarioMask);
 cSprite SprMarioRight3(MARIO_SIZE, MARIO_SIZE, MarioData, MARIO_FRAMES, _2BIT, MarioColTab, MarioMask);
 cSprite SprMarioRight4(MARIO_SIZE, MARIO_SIZE, MarioData, MARIO_FRAMES, _2BIT, MarioColTab, MarioMask);
 cSprite SprPinky(MY_SPRITE_WIDTH, MY_SPRITE_HEIGHT, PinkyData, PINKY_FRAMES, _2BIT, PinkyColTab, PinkyMask);
@@ -649,7 +651,9 @@ cSprite SprEyesLeftDown(11, 5, Eyes3Data, 1, _2BIT, EyesColTab, EyesMask);
 cSprite SprEyesLeftUp(11, 5, Eyes4Data, 1, _2BIT, EyesColTab, EyesMask);
 cSprite SprEyesCenter(11, 5, Eyes5Data, 1, _2BIT, EyesColTab, EyesMask);
 cSprite SprMushroom(MARIO_SIZE, MARIO_SIZE, MushroomData, 1, _2BIT, MushroomColTab, MushroomMask);
+cSprite SprMushroom2(MARIO_SIZE, MARIO_SIZE, MushroomData, 1, _2BIT, MushroomColTab, MushroomMask);
 cSprite SprGoomba(MARIO_SIZE, MARIO_SIZE, GoombaData, 2, _2BIT, GoombaColTab, GoombaMask);
+cSprite SprGoomba2(MARIO_SIZE, MARIO_SIZE, GoombaData, 2, _2BIT, GoombaColTab, GoombaMask);
 void setup()
 {
   FastLED.addLeds<CHIPSET, DATA_PIN, CLK_PIN, COLOR_ORDER, DATA_RATE_MHZ(5)>(leds[0], leds.Size()).setCorrection(TypicalLEDStrip);
@@ -677,7 +681,7 @@ void setup()
 typedef void (*SimplePatternList[])();
 
 SimplePatternList gPatterns = { Dcon, MultiMario, Matrix, TrippyRainbow, Eyes, Plasma, Fire, Wave};
-//SimplePatternList gPatterns = { starfield };
+//SimplePatternList gPatterns = { MultiMario };
 
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 
@@ -765,7 +769,8 @@ void TrippyRainbow()
 
 void Dcon()
 {
-
+  
+    FastLED.clear();
     if (ScrollingMsg.UpdateText() == -1)
   {
     ScrollingMsg.SetText((unsigned char *)TxtDemo, sizeof(TxtDemo) - 1);
@@ -802,26 +807,69 @@ void MultiMario()
     Sprites.AddSprite(&SprMushroom);
   count = 1;
   }
-
-   if (SprMushroom.GetFlags() & SPRITE_MATRIX_X_OFF)
-   { 
-      SprMushroom.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
-      Sprites.AddSprite(&SprMushroom);
-   }
-   if (SprMushroom.m_X == 4)
+  if (mcount == 0)
+  {
+   if (SprMushroom.m_X == 0)
    {
     SprMarioRight.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
     Sprites.AddSprite(&SprMarioRight);
    }
 
-   if (SprMarioRight.m_X == 4)
+   if (SprMarioRight.m_X == 0)
+   {
+    SprLuigiRight.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprLuigiRight);
+   }
+   
+   if (SprLuigiRight.m_X == 1)
+   {
+    SprGoomba.SetPositionFrameMotionOptions(-16/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprGoomba);
+    mcount = 1;
+   }
+    
+  }
+
+  
+   if (SprMushroom.m_X == 49)
+   {
+    SprMushroom2.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprMushroom2);
+   }
+      if (SprMushroom2.m_X == 49)
+   {
+    SprMushroom.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprMushroom);
+   }
+
+      if (SprMarioRight.m_X == 49)
    {
     SprMarioRight2.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
     Sprites.AddSprite(&SprMarioRight2);
    }
+      if (SprMarioRight2.m_X == 49)
+   {
+    SprMarioRight.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprMarioRight);
+   }
 
-   
-   if (SprMarioRight2.m_X == 4)
+      if (SprLuigiRight.m_X == 49)
+   {
+    SprLuigiRight2.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprLuigiRight2);
+   }
+      if (SprLuigiRight2.m_X == 49)
+   {
+    SprLuigiRight.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprLuigiRight);
+   }
+
+      if (SprGoomba.m_X == 49)
+   {
+    SprGoomba2.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprGoomba2);
+   }
+      if (SprGoomba2.m_X == 49)
    {
     SprGoomba.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
     Sprites.AddSprite(&SprGoomba);
@@ -865,8 +913,12 @@ void Eyes()
 
   Sprites.RemoveSprite(&SprMushroom);
   Sprites.RemoveSprite(&SprMarioRight);
-  Sprites.RemoveSprite(&SprMarioRight2);
+  Sprites.RemoveSprite(&SprLuigiRight);
   Sprites.RemoveSprite(&SprGoomba);
+  Sprites.RemoveSprite(&SprMushroom2);
+  Sprites.RemoveSprite(&SprMarioRight2);
+  Sprites.RemoveSprite(&SprLuigiRight2);
+  Sprites.RemoveSprite(&SprGoomba2);
   
   Sprites.UpdateSprites();
   Sprites.DetectCollisions();
@@ -1050,6 +1102,5 @@ void Fire()
   }
   
 //}
-
 
 
