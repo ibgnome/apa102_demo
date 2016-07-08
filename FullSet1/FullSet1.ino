@@ -43,7 +43,7 @@ cLEDSprites Sprites(&leds);
 
 const unsigned char TxtDemo[] = { EFFECT_FRAME_RATE "\x02"
                                   EFFECT_HSV_AV "\x00\xff\xff\x40\xff\xff"
-                                  EFFECT_SCROLL_LEFT "           DRAGON*CON  " 
+                                  EFFECT_SCROLL_LEFT "         DRAGON*CON " 
                                   };
 uint16_t Options;
 uint8_t angle = 0;
@@ -681,7 +681,7 @@ void setup()
 typedef void (*SimplePatternList[])();
 
 SimplePatternList gPatterns = { Dcon, MultiMario, Matrix, TrippyRainbow, Eyes, Plasma, Fire, Wave};
-//SimplePatternList gPatterns = { MultiMario };
+//SimplePatternList gPatterns = { TrippyRainbow };
 
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 
@@ -696,7 +696,7 @@ void loop()
 
 EVERY_N_MILLISECONDS( 5 ) { gHue=gHue+16; }
   // do some periodic updates
-  EVERY_N_SECONDS( 60 ) { nextPattern(); } // change patterns periodically
+  EVERY_N_SECONDS( 20 ) { nextPattern(); } // change patterns periodically
 }
 
 void nextPattern()
@@ -725,7 +725,7 @@ void TrippyRainbow()
     for (x=0; x<(leds.Width()+leds.Height()); ++x)
     {
       leds.DrawLine(x - leds.Height(), leds.Height() - 1, x, 0, CHSV(h, 255, 192));
-      h+=20;
+      h+=4;
     }
   }
   else
@@ -734,7 +734,7 @@ void TrippyRainbow()
     for (y=0; y<leds.Height(); ++y)
     {
       leds.DrawLine(0, y, leds.Width() - 1, y, CHSV(h, 255, 192));
-      h+=20;
+      h+=4;
     }
   }
   hue+=4;
@@ -764,7 +764,7 @@ void TrippyRainbow()
   if (counter >= 2000)
     counter = 0;
   FastLED.show();
-  FastLED.delay(10);
+  FastLED.delay(50);
 }
 
 void Dcon()
@@ -779,7 +779,7 @@ void Dcon()
   }
   else
     FastLED.show();
-  delay(5);
+  delay(25);
 }
 
 void MultiMario()
@@ -1058,6 +1058,8 @@ delay(15);
 
 void Fire()
 {
+  CRGBPalette16 gPal = HeatColors_p;
+
   FastLED.clear();
   static byte heat[16];
   //for (int x = 0; x < leds.Width(); x++) 
@@ -1083,8 +1085,9 @@ void Fire()
 
         for( int j = 0; j < leds.Height(); j++) 
         {
-
-          CRGB color = HeatColor( heat[j]);
+          byte colorindex = scale8( heat[j], 240);
+      CRGB color = ColorFromPalette( gPal, colorindex);
+          //CRGB color = HeatColor( heat[j]);
           int pixelnumber;
           if( gReverseDirection ) 
           {
