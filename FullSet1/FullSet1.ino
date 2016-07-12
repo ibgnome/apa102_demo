@@ -56,7 +56,41 @@ cLEDSprites Sprites(&leds);
 
 const unsigned char TxtDemo[] = { EFFECT_FRAME_RATE "\x02"
                                   EFFECT_HSV_AV "\x00\xff\xff\x40\xff\xff"
-                                  EFFECT_SCROLL_LEFT "         DRAGON*CON " 
+                                  EFFECT_SCROLL_LEFT "        DRAGON*CON" 
+                                  EFFECT_HSV_AV "\x00\xff\xff\x40\xff\xff"
+                                  EFFECT_SCROLL_LEFT " DRAGON*CON"
+                                  EFFECT_HSV_AV "\x00\xff\xff\x40\xff\xff"
+                                  EFFECT_SCROLL_LEFT " DRAGON*CON"
+                                  EFFECT_HSV_AV "\x00\xff\xff\x40\xff\xff"
+                                  EFFECT_SCROLL_LEFT " DRAGON*CON"
+                                  EFFECT_HSV_AV "\x00\xff\xff\x40\xff\xff"
+                                  EFFECT_SCROLL_LEFT " DRAGON*CON"
+                                  EFFECT_HSV_AV "\x00\xff\xff\x40\xff\xff"
+                                  EFFECT_SCROLL_LEFT " DRAGON*CON"
+                                  EFFECT_HSV_AV "\x00\xff\xff\x40\xff\xff"
+                                  EFFECT_SCROLL_LEFT " DRAGON*CON"
+                                  EFFECT_HSV_AV "\x00\xff\xff\x40\xff\xff"
+                                  EFFECT_SCROLL_LEFT " DRAGON*CON"
+                                  EFFECT_HSV_AV "\x00\xff\xff\x40\xff\xff"
+                                  EFFECT_SCROLL_LEFT " DRAGON*CON"
+                                  EFFECT_HSV_AV "\x00\xff\xff\x40\xff\xff"
+                                  EFFECT_SCROLL_LEFT " DRAGON*CON"
+                                  EFFECT_HSV_AV "\x00\xff\xff\x40\xff\xff"
+                                  EFFECT_SCROLL_LEFT " DRAGON*CON"
+                                  EFFECT_HSV_AV "\x00\xff\xff\x40\xff\xff"
+                                  EFFECT_SCROLL_LEFT " DRAGON*CON"
+                                  EFFECT_HSV_AV "\x00\xff\xff\x40\xff\xff"
+                                  EFFECT_SCROLL_LEFT " DRAGON*CON"
+                                  EFFECT_HSV_AV "\x00\xff\xff\x40\xff\xff"
+                                  EFFECT_SCROLL_LEFT " DRAGON*CON"
+                                  EFFECT_HSV_AV "\x00\xff\xff\x40\xff\xff"
+                                  EFFECT_SCROLL_LEFT " DRAGON*CON"
+                                  EFFECT_HSV_AV "\x00\xff\xff\x40\xff\xff"
+                                  EFFECT_SCROLL_LEFT " DRAGON*CON"
+                                  EFFECT_HSV_AV "\x00\xff\xff\x40\xff\xff"
+                                  EFFECT_SCROLL_LEFT " DRAGON*CON"
+                                  EFFECT_HSV_AV "\x00\xff\xff\x40\xff\xff"
+                                  EFFECT_SCROLL_LEFT " DRAGON*CON"
                                   };
 uint16_t Options;
 uint8_t angle = 0;
@@ -1039,8 +1073,8 @@ void setup()
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
 
-SimplePatternList gPatterns = { Dcon, MultiMario, Matrix, TrippyRainbow, Brow, Plasma, Fire, Wave};
-//SimplePatternList gPatterns = { Brow };
+SimplePatternList gPatterns = { Dcon, MultiMario, Matrix, TrippyRainbow, Brow, Glitter, Plasma, Fire, Wave};
+//SimplePatternList gPatterns = { Glitter };
 
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 
@@ -1138,7 +1172,7 @@ void Dcon()
   }
   else
     FastLED.show();
-  delay(25);
+  delay(10);
 }
 
 void MultiMario()
@@ -1363,7 +1397,7 @@ void Wave()
   leds.ShiftLeft();
   for (int16_t y=leds.Height()-1; y>=0; --y)
   {
-    if (h > 120 && h < 200)
+    if (h > 120 && h < 220)
 	  {
     leds(leds.Width()-1, y) = CHSV(h, 255, 255);
     }
@@ -1375,27 +1409,38 @@ void Wave()
   
 }
 
-void starfield()
+void Glitter()
 {
-int star1, star2, star3, star4, star5, star6;
-star1 = random16(16);
-star2 = random16(15);
-star3 = random16(15);
-star4 = random16(15);
-star5 = random16(15);
-star6 = random16(15);
+  FastLED.clear();
+int star1, star2, star3, star4, star5, star6, star7, star8, star9, star10, star11, star12;
+star1 = random16(1023);
+star2 = random16(1023);
+star3 = random16(1023);
+star4 = random16(1023);
+star5 = random16(1023);
+star6 = random16(1023);
+star7 = random16(1023);
+star8 = random16(1023);
+star9 = random16(1023);
+star10 = random16(1023);
+star11 = random16(1023);
+star12 = random16(1023);
 
-leds.ShiftLeft();
-leds.HorizontalMirror();
-leds(31, star1) = CRGB::White;
-//leds(leds.Width()-1, star2) = CRGB::White;
-//leds(leds.Width()-1, star3) = CRGB::White;
-//leds(leds.Width()-1, star4) = CRGB::White;
-//leds(leds.Width()-1, star5) = CRGB::White;
-//leds(leds.Width()-1, star6) = CRGB::White;
+leds(star1) = CRGB::White;
+leds(star2) = CRGB::White;
+leds(star3) = CRGB::White;
+leds(star4) = CRGB::Red;
+leds(star5) = CRGB::Green;
+leds(star6) = CRGB::Blue;
+leds(star7) = CRGB::SkyBlue;
+leds(star8) = CRGB::LimeGreen;
+leds(star9) = CRGB::Pink;
+leds(star10) = CRGB::Red;
+leds(star11) = CRGB::Green;
+leds(star12) = CRGB::Blue;
 
 FastLED.show();
-delay(15);
+delay(30);
 }
 
 void Matrix()
