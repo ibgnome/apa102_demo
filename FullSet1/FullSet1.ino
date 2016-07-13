@@ -95,7 +95,7 @@ const unsigned char TxtDemo[] = { EFFECT_FRAME_RATE "\x02"
 uint16_t Options;
 uint8_t angle = 0;
 int randcount, randbrow;
-int count, eye_count, mcount = 0;
+int count, eye_count, mcount, cube_count = 0;
 uint8_t hue = 0;
 uint8_t gHue = 0;
 int16_t counter = 0;
@@ -687,7 +687,49 @@ const uint8_t BrowMask[] =
 
 const struct CRGB BrowColTab[] =  {  CRGB(152,102,17), CRGB::Black, CRGB::White, CRGB::DarkGreen }; 
 
+const uint8_t CompCubeData[] =
+{
+  B8_2BIT(01111011),B8_2BIT(10111100),
+  B8_2BIT(11111211),B8_2BIT(12111110),
+  B8_2BIT(11111223),B8_2BIT(22111110),
+  B8_2BIT(11112223),B8_2BIT(22211110),
+  B8_2BIT(11122211),B8_2BIT(12221110),
+  B8_2BIT(02222111),B8_2BIT(11222200),
+  B8_2BIT(11221131),B8_2BIT(31122110),
+  B8_2BIT(11331333),B8_2BIT(33133110),
+  B8_2BIT(11221133),B8_2BIT(31122110),
+  B8_2BIT(02222113),B8_2BIT(11222200),
+  B8_2BIT(11122211),B8_2BIT(12221110),
+  B8_2BIT(11112223),B8_2BIT(22211110),
+  B8_2BIT(11112223),B8_2BIT(22211110),
+  B8_2BIT(11111211),B8_2BIT(12111110),
+  B8_2BIT(01111011),B8_2BIT(10111100)
 
+  
+};
+
+const uint8_t CompCubeMask[] =
+{
+  B8_2BIT(01111011),B8_2BIT(10111100),
+  B8_2BIT(11111111),B8_2BIT(11111110),
+  B8_2BIT(11111111),B8_2BIT(11111110),
+  B8_2BIT(11111111),B8_2BIT(11111110),
+  B8_2BIT(11111111),B8_2BIT(11111110),
+  B8_2BIT(01111111),B8_2BIT(11111100),
+  B8_2BIT(11111111),B8_2BIT(11111110),
+  B8_2BIT(11111111),B8_2BIT(11111110),
+  B8_2BIT(11111111),B8_2BIT(11111110),
+  B8_2BIT(01111111),B8_2BIT(11111100),
+  B8_2BIT(11111111),B8_2BIT(11111110),
+  B8_2BIT(11111111),B8_2BIT(11111111),
+  B8_2BIT(11111111),B8_2BIT(11111110),
+  B8_2BIT(11111111),B8_2BIT(11111110),
+  B8_2BIT(01111011),B8_2BIT(10111100)
+
+  
+};
+
+const struct CRGB CompCubeColTab[] =  {  CRGB::White, CHSV(128,128,120), CRGB::Purple  };
 
 const uint8_t PowerPillData[] = 
 {
@@ -1046,6 +1088,10 @@ cSprite SprMushroom2(MARIO_SIZE, MARIO_SIZE, MushroomData, 1, _2BIT, MushroomCol
 cSprite SprGoomba(MARIO_SIZE, MARIO_SIZE, GoombaData, 2, _2BIT, GoombaColTab, GoombaMask);
 cSprite SprGoomba2(MARIO_SIZE, MARIO_SIZE, GoombaData, 2, _2BIT, GoombaColTab, GoombaMask);
 cSprite SprBrow(BROW_WIDTH, BROW_HEIGHT, BrowData, 11, _3BIT, BrowColTab, BrowMask);
+cSprite SprCompCube1(15, 15, CompCubeData, 1, _2BIT, CompCubeColTab, CompCubeMask);
+cSprite SprCompCube2(15, 15, CompCubeData, 1, _2BIT, CompCubeColTab, CompCubeMask);
+cSprite SprCompCube3(15, 15, CompCubeData, 1, _2BIT, CompCubeColTab, CompCubeMask);
+cSprite SprCompCube4(15, 15, CompCubeData, 1, _2BIT, CompCubeColTab, CompCubeMask);
 void setup()
 {
   FastLED.addLeds<CHIPSET, DATA_PIN, CLK_PIN, COLOR_ORDER, DATA_RATE_MHZ(5)>(leds[0], leds.Size()).setCorrection(TypicalLEDStrip);
@@ -1073,8 +1119,8 @@ void setup()
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
 
-SimplePatternList gPatterns = { Dcon, MultiMario, Matrix, TrippyRainbow, Brow, Glitter, Plasma, Fire, Wave};
-//SimplePatternList gPatterns = { Glitter };
+SimplePatternList gPatterns = { Dcon, MultiMario, Matrix, TrippyRainbow, Brow, Glitter, CompCube, Plasma, Fire, Wave};
+//SimplePatternList gPatterns = { CompCube };
 
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 
@@ -1157,7 +1203,7 @@ void TrippyRainbow()
   if (counter >= 2000)
     counter = 0;
   FastLED.show();
-  FastLED.delay(50);
+  FastLED.delay(10);
 }
 
 void Dcon()
@@ -1178,12 +1224,11 @@ void Dcon()
 void MultiMario()
 {
     FastLED.clear();
-    Sprites.RemoveSprite(&SprEyesRightDown);
-    Sprites.RemoveSprite(&SprEyesRightUp);
-    Sprites.RemoveSprite(&SprEyesLeftDown);
-    Sprites.RemoveSprite(&SprEyesLeftUp);
-    Sprites.RemoveSprite(&SprEyesCenter);
     Sprites.RemoveSprite(&SprBrow);
+    Sprites.RemoveSprite(&SprCompCube1);
+    Sprites.RemoveSprite(&SprCompCube2);
+    Sprites.RemoveSprite(&SprCompCube3);
+    Sprites.RemoveSprite(&SprCompCube4);
     
     for (int16_t x=0; x<64; x++)
     {
@@ -1301,95 +1346,6 @@ void Plasma()
     FastLED.delay(10);
 }
 
-void Eyes()
-{
-  FastLED.clear();
-
-  Sprites.RemoveSprite(&SprMushroom);
-  Sprites.RemoveSprite(&SprMarioRight);
-  Sprites.RemoveSprite(&SprLuigiRight);
-  Sprites.RemoveSprite(&SprGoomba);
-  Sprites.RemoveSprite(&SprMushroom2);
-  Sprites.RemoveSprite(&SprMarioRight2);
-  Sprites.RemoveSprite(&SprLuigiRight2);
-  Sprites.RemoveSprite(&SprGoomba2);
-  
-  Sprites.UpdateSprites();
-  Sprites.DetectCollisions();
-if (eye_count == 0)
-{
-  SprEyesLeftUp.SetPositionFrameMotionOptions(11/*X*/, 5/*Y*/, 1/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
-  
-  Sprites.AddSprite(&SprEyesLeftUp);
-}
-
-
-int randcount = random8(1,7);
-if (randcount == 1)
-{
-  Sprites.RemoveSprite(&SprEyesRightDown);
-  Sprites.RemoveSprite(&SprEyesRightUp);
-  Sprites.RemoveSprite(&SprEyesLeftDown);
-  Sprites.RemoveSprite(&SprEyesLeftUp);
-  Sprites.RemoveSprite(&SprEyesCenter);
-  SprEyesRightDown.SetPositionFrameMotionOptions(11/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
-  
-  Sprites.AddSprite(&SprEyesRightDown);
-}
-else if (randcount == 2)
-{
-  Sprites.RemoveSprite(&SprEyesRightDown);
-  Sprites.RemoveSprite(&SprEyesRightUp);
-  Sprites.RemoveSprite(&SprEyesLeftDown);
-  Sprites.RemoveSprite(&SprEyesLeftUp);
-  Sprites.RemoveSprite(&SprEyesCenter);
-  SprEyesRightUp.SetPositionFrameMotionOptions(11/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
-  
-  Sprites.AddSprite(&SprEyesRightUp);
-}
-else if (randcount == 3)
-{
-  Sprites.RemoveSprite(&SprEyesRightDown);
-  Sprites.RemoveSprite(&SprEyesRightUp);
-  Sprites.RemoveSprite(&SprEyesLeftDown);
-  Sprites.RemoveSprite(&SprEyesLeftUp);
-  Sprites.RemoveSprite(&SprEyesCenter);
-  SprEyesLeftDown.SetPositionFrameMotionOptions(11/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
-  
-  Sprites.AddSprite(&SprEyesLeftDown);
-}
-else if (randcount == 5)
-{
-  Sprites.RemoveSprite(&SprEyesRightDown);
-  Sprites.RemoveSprite(&SprEyesRightUp);
-  Sprites.RemoveSprite(&SprEyesLeftDown);
-  Sprites.RemoveSprite(&SprEyesLeftUp);
-  Sprites.RemoveSprite(&SprEyesCenter);
-  SprEyesLeftUp.SetPositionFrameMotionOptions(11/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
-  
-  Sprites.AddSprite(&SprEyesLeftUp);
-}
-else  
-{
-  Sprites.RemoveSprite(&SprEyesRightDown);
-  Sprites.RemoveSprite(&SprEyesRightUp);
-  Sprites.RemoveSprite(&SprEyesLeftDown);
-  Sprites.RemoveSprite(&SprEyesLeftUp);
-  Sprites.RemoveSprite(&SprEyesCenter);
-  SprEyesCenter.SetPositionFrameMotionOptions(11/*X*/, 5/*Y*/, 0/*Frame*/, 0/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
-  
-  Sprites.AddSprite(&SprEyesCenter);
-}
-
-    Sprites.RenderSprites();
-    leds.HorizontalMirror();
-  FastLED.show();
-  delay(random16(1500));
-  eye_count++;
-  count = 0;
-  mcount = 0;
-}
-
 void Wave()
 {
  
@@ -1412,7 +1368,7 @@ void Wave()
 void Glitter()
 {
   FastLED.clear();
-int star1, star2, star3, star4, star5, star6, star7, star8, star9, star10, star11, star12;
+int star1, star2, star3, star4, star5, star6, star7, star8, star9, star10, star11, star12, star13, star14, star15, star16, star17, star18, star19, star20, star21, star22, star23, star24;
 star1 = random16(1023);
 star2 = random16(1023);
 star3 = random16(1023);
@@ -1425,6 +1381,18 @@ star9 = random16(1023);
 star10 = random16(1023);
 star11 = random16(1023);
 star12 = random16(1023);
+star13 = random16(1023);
+star14 = random16(1023);
+star15 = random16(1023);
+star16 = random16(1023);
+star17 = random16(1023);
+star18 = random16(1023);
+star19 = random16(1023);
+star20 = random16(1023);
+star21 = random16(1023);
+star22 = random16(1023);
+star23 = random16(1023);
+star24 = random16(1023);
 
 leds(star1) = CRGB::White;
 leds(star2) = CRGB::White;
@@ -1438,6 +1406,18 @@ leds(star9) = CRGB::Pink;
 leds(star10) = CRGB::Red;
 leds(star11) = CRGB::Green;
 leds(star12) = CRGB::Blue;
+leds(star13) = CRGB::White;
+leds(star14) = CRGB::White;
+leds(star15) = CRGB::White;
+leds(star16) = CRGB::Red;
+leds(star17) = CRGB::Green;
+leds(star18) = CRGB::Blue;
+leds(star19) = CRGB::SkyBlue;
+leds(star20) = CRGB::LimeGreen;
+leds(star21) = CRGB::Pink;
+leds(star22) = CRGB::Red;
+leds(star23) = CRGB::Green;
+leds(star24) = CRGB::Blue;
 
 FastLED.show();
 delay(30);
@@ -1518,6 +1498,10 @@ void Brow()
   Sprites.RemoveSprite(&SprMarioRight2);
   Sprites.RemoveSprite(&SprLuigiRight2);
   Sprites.RemoveSprite(&SprGoomba2);
+  Sprites.RemoveSprite(&SprCompCube1);
+  Sprites.RemoveSprite(&SprCompCube2);
+  Sprites.RemoveSprite(&SprCompCube3);
+  Sprites.RemoveSprite(&SprCompCube4);
   
     for (int16_t x=0; x<64; x++)
     {
@@ -1534,6 +1518,7 @@ void Brow()
   SprBrow.SetPositionFrameMotionOptions(20/*X*/, 1/*Y*/, 0/*Frame*/, 4/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
   Sprites.AddSprite(&SprBrow);
   eye_count = 1;
+  cube_count = 1;
   }
 if (SprBrow.GetCurrentFrame() != 10)
 {
@@ -1623,4 +1608,54 @@ if (SprBrow.GetCurrentFrame() != 10)
   mcount = 0;
 }
 
+void CompCube()
+{
+  Sprites.RemoveSprite(&SprMushroom);
+  Sprites.RemoveSprite(&SprMarioRight);
+  Sprites.RemoveSprite(&SprLuigiRight);
+  Sprites.RemoveSprite(&SprGoomba);
+  Sprites.RemoveSprite(&SprMushroom2);
+  Sprites.RemoveSprite(&SprMarioRight2);
+  Sprites.RemoveSprite(&SprLuigiRight2);
+  Sprites.RemoveSprite(&SprGoomba2);
+  Sprites.RemoveSprite(&SprBrow);
+  
+  FastLED.clear();
+  Sprites.UpdateSprites();
+  Sprites.DetectCollisions();
+  if (cube_count == 0)
+    {
+    SprCompCube1.SetPositionFrameMotionOptions(0/*X*/, 1/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprCompCube1);
+    SprCompCube3.SetPositionFrameMotionOptions(32/*X*/, 1/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprCompCube3);
+    cube_count = 1;
+    }
+
+    if (SprCompCube1.m_X == 50)
+   {
+    SprCompCube2.SetPositionFrameMotionOptions(-14/*X*/, 1/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprCompCube2);
+   }
+
+       if (SprCompCube2.m_X == 50)
+   {
+    SprCompCube1.SetPositionFrameMotionOptions(-14/*X*/, 1/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprCompCube1);
+   }
+
+       if (SprCompCube3.m_X == 50)
+   {
+    SprCompCube4.SetPositionFrameMotionOptions(-14/*X*/, 1/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprCompCube4);
+   }
+
+       if (SprCompCube4.m_X == 50)
+   {
+    SprCompCube3.SetPositionFrameMotionOptions(-14/*X*/, 1/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprCompCube3);
+   }
+      Sprites.RenderSprites();
+      FastLED.delay(20);
+}
 
