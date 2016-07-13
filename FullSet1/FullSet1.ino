@@ -1518,7 +1518,6 @@ void Brow()
   SprBrow.SetPositionFrameMotionOptions(20/*X*/, 1/*Y*/, 0/*Frame*/, 4/*FrameRate*/, 0/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
   Sprites.AddSprite(&SprBrow);
   eye_count = 1;
-  cube_count = 1;
   }
 if (SprBrow.GetCurrentFrame() != 10)
 {
@@ -1606,6 +1605,7 @@ if (SprBrow.GetCurrentFrame() != 10)
   FastLED.delay(30);
   count = 0;
   mcount = 0;
+  cube_count = 0;
 }
 
 void CompCube()
