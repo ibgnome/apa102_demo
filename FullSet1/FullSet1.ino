@@ -34,6 +34,7 @@
 #define COOLING  200
 #define HOT 300
 #define MAXHOT HOT*HEIGHT
+#define MAX_DIMENSION ((WIDTH>HEIGHT) ? WIDTH : HEIGHT)
 
 cLEDMatrix<MATRIX_WIDTH, MATRIX_HEIGHT, MATRIX_TYPE> leds;
 
@@ -107,6 +108,13 @@ int16_t counter = 0;
 uint16_t PlasmaTime, PlasmaShift;
 
 bool gReverseDirection = false;
+
+static uint16_t f;
+static uint16_t g;
+static uint16_t h;
+uint16_t scale = 90;
+uint16_t speed = 15;
+uint8_t noise[MAX_DIMENSION][MAX_DIMENSION];
 
 const uint8_t MarioData[] =
 {
@@ -1119,13 +1127,14 @@ void setup()
 
     PlasmaShift = (random8(0, 5) * 32) + 64;
   PlasmaTime = 0;
+
 }
 
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
 
-SimplePatternList gPatterns = { Dcon, MultiMario, MultiMario, Matrix, TrippyRainbow, Brow, Brow, Glitter, CompCube, Plasma, Fireplace, Wave};
-//SimplePatternList gPatterns = { Fireplace };
+SimplePatternList gPatterns = { Dcon, MultiMario, MultiMario, Matrix, TrippyRainbow, Brow, Brow, Glitter, CompCube, Plasma, Noise, Fireplace, Wave};
+//SimplePatternList gPatterns = { Test };
 
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 
@@ -1331,8 +1340,8 @@ void Plasma()
 {
 
     // Fill background with dim plasma
-    #define PLASMA_X_FACTOR  16
-    #define PLASMA_Y_FACTOR  16
+    #define PLASMA_X_FACTOR  10
+    #define PLASMA_Y_FACTOR  10
     for (int16_t x=0; x<64; x++)
     {
       for (int16_t y=0; y<16; y++)
@@ -1346,7 +1355,7 @@ void Plasma()
     PlasmaTime += PlasmaShift;
     if (OldPlasmaTime > PlasmaTime)
     PlasmaShift = (random8(0, 5) * 32) + 64;
-      
+    leds.HorizontalMirror();  
     FastLED.show();
     FastLED.delay(10);
 }
@@ -1356,9 +1365,10 @@ void Wave()
  
   uint8_t h = sin8(angle);
   leds.ShiftLeft();
+
   for (int16_t y=leds.Height()-1; y>=0; --y)
   {
-    if (h > 120 && h < 220)
+    if (h > 100 && h < 220)
 	  {
     leds(leds.Width()-1, y) = CHSV(h, 255, 255);
     }
@@ -1614,7 +1624,7 @@ void CompCube()
     Sprites.AddSprite(&SprCompCube3);
    }
       Sprites.RenderSprites();
-      FastLED.delay(20);
+      FastLED.delay(30);
 }
 
 void Fireplace () {
@@ -1665,4 +1675,57 @@ void Fireplace () {
   }
   FastLED.delay(20);
 }
+
+void fillnoise8() {
+  for(int i = 0; i < MAX_DIMENSION; i++) {
+    int ioffset = scale * i;
+    for(int j = 0; j < MAX_DIMENSION; j++) {
+      int joffset = scale * j;
+      noise[i][j] = inoise8(f + ioffset,g + joffset,h);
+    }
+  }
+  h += speed;
+}
+
+void Noise() {
+  FastLED.clear();
+  
+  static uint8_t ihue=0;
+  fillnoise8();
+  for(int i = 0; i < WIDTH; i++) {
+    for(int j = 0; j < HEIGHT; j++) {
+      // We use the value at the (i,j) coordinate in the noise
+      // array for our brightness, and the flipped value from (j,i)
+      // for our pixel's hue.
+      //leds(i,j) = CHSV(noise[j][i],255,noise[i][j]);
+
+      // You can also explore other ways to constrain the hue used, like below
+       leds(i,j) = CHSV(ihue + (noise[j][i]>>2),200,noise[i][j]);
+    }
+  }
+  ihue+=4;
+  leds.QuadrantMirror();
+  LEDS.show();
+  // delay(10);
+}
+
+void Test()
+{
+  
+ 
+    for (int j=0; j < leds.Width(); j++)
+    {
+      if (j % 2 == 1)
+      {
+      leds(j,0) += CRGB::Green;
+      }
+    }
+  
+  leds.ShiftUp();
+  leds.ShiftLeft();
+  leds.ShiftRight();
+  FastLED.show();
+  FastLED.delay(30);
+}
+
 
