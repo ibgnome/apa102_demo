@@ -28,14 +28,18 @@
 #define MATRIX_WIDTH   64
 #define MATRIX_HEIGHT  -16
 #define MATRIX_TYPE    VERTICAL_ZIGZAG_MATRIX
-
+#define WIDTH   64
+#define HEIGHT  16
 #define SPARKING 200
-#define COOLING  100
+#define COOLING  200
+#define HOT 300
+#define MAXHOT HOT*HEIGHT
 
 cLEDMatrix<MATRIX_WIDTH, MATRIX_HEIGHT, MATRIX_TYPE> leds;
 
 
 cLEDSprites Sprites(&leds);
+CRGBPalette16 gPal;
 
 #define MY_SPRITE_WIDTH  11
 #define MY_SPRITE_HEIGHT 10
@@ -1098,6 +1102,7 @@ void setup()
   FastLED.setBrightness(20);
   FastLED.setDither(0);
   FastLED.clear(true);
+  gPal = HeatColors_p;
   delay(500);
   delay(1000);
   count = 0;
@@ -1105,7 +1110,7 @@ void setup()
 
   //ScrollingMsg.SetFont(Font12x16Data);
   ScrollingMsg.SetFont(MatriseFontData);
-  ScrollingMsg.Init(&leds, leds.Width(), ScrollingMsg.FontHeight() + 1, 0, 0);
+  ScrollingMsg.Init(&leds, leds.Width(), ScrollingMsg.FontHeight() + 1, 0, 5);
   ScrollingMsg.SetText((unsigned char *)TxtDemo, sizeof(TxtDemo) - 1);
   ScrollingMsg.SetTextColrOptions(COLR_RGB | COLR_SINGLE, 0xff, 0x00, 0xff);
   Options = INSTANT_OPTIONS_MODE;
@@ -1119,8 +1124,8 @@ void setup()
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
 
-SimplePatternList gPatterns = { Dcon, MultiMario, Matrix, TrippyRainbow, Brow, Glitter, CompCube, Plasma, Fire, Wave};
-//SimplePatternList gPatterns = { CompCube };
+SimplePatternList gPatterns = { Dcon, MultiMario, MultiMario, Matrix, TrippyRainbow, Brow, Brow, Glitter, CompCube, Plasma, Fireplace, Wave};
+//SimplePatternList gPatterns = { Fireplace };
 
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 
@@ -1441,53 +1446,6 @@ FastLED.show();
 delay(15);
 }
 
-void Fire()
-{
-  CRGBPalette16 gPal = HeatColors_p;
-
-  FastLED.clear();
-  static byte heat[16];
-
-        // Step 1.  Cool down every cell a little
-        for (int i = 0; i < leds.Height(); i++) 
-        {
-         
-          heat[i] = qsub8( heat[i],  random8(0, ((COOLING * 10) / leds.Height()) + 2));
-    
-        }
-        for( int k= leds.Height() - 1; k >= 2; k--) 
-        {
-          heat[k] = (heat[k - 1] + heat[k - 2] + heat[k - 2] ) / 3;
-        } 
-         
-        if( random8() < SPARKING ) 
-        {
-          int y = random8(7);
-          heat[y] = qadd8( heat[y], random8(160,255) );
-        }
-
-        for( int j = 0; j < leds.Height(); j++) 
-        {
-          byte colorindex = scale8( heat[j], 240);
-      CRGB color = ColorFromPalette( gPal, colorindex);
-          //CRGB color = HeatColor( heat[j]);
-          int pixelnumber;
-          if( gReverseDirection ) 
-          {
-              pixelnumber = (leds.Height()-1) - j;
-          }   
-          else 
-          {
-              pixelnumber = j;
-          }
-          for (int x=0; x < leds.Width(); x++)
-          {
-            leds(x,pixelnumber) = color;
-          }	
-    	}
-     FastLED.delay(50);
-}
-
 void Brow()
 {
   Sprites.RemoveSprite(&SprMushroom);
@@ -1657,5 +1615,54 @@ void CompCube()
    }
       Sprites.RenderSprites();
       FastLED.delay(20);
+}
+
+void Fireplace () {
+  FastLED.clear();
+  static unsigned int spark[WIDTH]; // base heat
+  CRGB stack[WIDTH][HEIGHT];        // stacks that are cooler
+ 
+  // 1. Generate sparks to re-heat
+  for( int i = 0; i < WIDTH; i++) {
+    if (spark[i] < HOT ) {
+      int base = HOT * 2;
+      spark[i] = random16( base, MAXHOT );
+    }
+  }
+  
+  // 2. Cool all the sparks
+  for( int i = 0; i < WIDTH; i++) {
+    spark[i] = qsub8( spark[i], random8(0, COOLING) );
+  }
+  
+  // 3. Build the stack
+  /*    This works on the idea that pixels are "cooler"
+        as they get further from the spark at the bottom */
+  for( int i = 0; i < WIDTH; i++) {
+    unsigned int heat = constrain(spark[i], HOT/2, MAXHOT);
+    for( int j = HEIGHT-1; j >= 0; j--) {
+      /* Calculate the color on the palette from how hot this
+         pixel is */
+      byte index = constrain(heat, 0, HOT);
+      stack[i][j] = ColorFromPalette( gPal, index );
+      
+      /* The next higher pixel will be "cooler", so calculate
+         the drop */
+      unsigned int drop = random8(0,HOT);
+      if (drop > heat) heat = 0; // avoid wrap-arounds from going "negative"
+      else heat -= drop;
+ 
+      heat = constrain(heat, 0, MAXHOT);
+    }
+  }
+  
+  // 4. map stacks to led array
+  for( int i = 0; i < WIDTH; i++) {
+  for( int j = 0; j < HEIGHT; j++) {
+     leds(i, j) = stack[i][HEIGHT-j-1];
+     //leds((j*WIDTH) + i)  = stack[i][j];
+  }
+  }
+  FastLED.delay(20);
 }
 
