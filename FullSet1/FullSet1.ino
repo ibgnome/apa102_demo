@@ -1497,7 +1497,7 @@ cSprite SprMaus(23, 16, MausData, 5, _3BIT, MausColTab, MausMask);
 void setup()
 {
   FastLED.addLeds<CHIPSET, DATA_PIN, CLK_PIN, COLOR_ORDER, DATA_RATE_MHZ(5)>(leds[0], leds.Size()).setCorrection(TypicalLEDStrip);
-  FastLED.setBrightness(20);
+  FastLED.setBrightness(30);
   FastLED.setDither(0);
   FastLED.clear(true);
   gPal = HeatColors_p;
@@ -1523,8 +1523,8 @@ void setup()
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
 
-SimplePatternList gPatterns = { Dcon, MultiMario, MultiMario, Matrix, Maus, TrippyRainbow, Brow, Brow, Glitter, CompCube, Plasma, Noise, Fireplace, Wave};
-//SimplePatternList gPatterns = { Noise };
+SimplePatternList gPatterns = { Dcon, MultiMario, MultiMario, Matrix, Maus, TrippyRainbow, Brow, Brow, Glitter, Glitter, CompCube, Plasma, Noise, Fireplace, Wave};
+//SimplePatternList gPatterns = { Brow };
 
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 
@@ -1773,7 +1773,7 @@ void Wave()
 
 void Glitter()
 {
-  FastLED.clear();
+  fadeToBlackBy( leds[0], 1024, 90);
 int star1, star2, star3, star4, star5, star6, star7, star8, star9, star10, star11, star12, star13, star14, star15, star16, star17, star18, star19, star20, star21, star22, star23, star24;
 star1 = random16(1023);
 star2 = random16(1023);
@@ -1831,6 +1831,7 @@ delay(30);
 
 void Matrix()
 {
+  fadeToBlackBy( leds[0], 1024, 10);
   int star1, star2, star3, star4;
 star1 = random16(64);
 star2 = random16(64);
@@ -1883,7 +1884,7 @@ if (SprBrow.GetCurrentFrame() != 19)
 {
   if (randbrow == 2)
   {
-    for (int right=SprBrow.m_X; right > 3; right--)
+    for (int right=SprBrow.m_X; right > 11; right--)
     {
       FastLED.clear();
         for (int16_t x=0; x<64; x++)
@@ -1901,7 +1902,7 @@ if (SprBrow.GetCurrentFrame() != 19)
 
   if (randbrow == 5)
   {
-    for (int right=SprBrow.m_X; right < 37; right++)
+    for (int right=SprBrow.m_X; right < 29; right++)
     {
       FastLED.clear();
         for (int16_t x=0; x<64; x++)
