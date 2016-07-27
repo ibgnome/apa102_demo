@@ -1475,7 +1475,7 @@ void setup()
   ScrollingMsg.SetOptionsChangeMode(Options);
   
 
-    PlasmaShift = (random8(0, 5) * 32) + 64;
+  PlasmaShift = (random8(0, 5) * 32) + 64;
   PlasmaTime = 0;
 
 }
@@ -1483,8 +1483,8 @@ void setup()
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
 
-SimplePatternList gPatterns = { Dcon, MultiMario, MultiMario, Matrix, Maus, TrippyRainbow, Brow, Brow, Glitter, Glitter, CompCube, Plasma, Noise, Fireplace, Wave};
-//SimplePatternList gPatterns = { Brow };
+SimplePatternList gPatterns = { Dcon, MultiMario, MultiMario, Matrix, Maus, Circles, TrippyRainbow, Brow, Brow, Glitter, Glitter, CompCube, Plasma, Noise, Fireplace, Wave, Lines};
+//SimplePatternList gPatterns = { Maus };
 
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 
@@ -1497,7 +1497,7 @@ void loop()
   // send the 'leds' array out to the actual LED strip
   FastLED.show();  
 
-EVERY_N_MILLISECONDS( 5 ) { gHue=gHue+16; }
+EVERY_N_MILLISECONDS( 5 ) { gHue=gHue+12; }
   // do some periodic updates
   EVERY_N_SECONDS( 20 ) { nextPattern(); } // change patterns periodically
 }
@@ -2058,19 +2058,34 @@ void Maus()
     Sprites.RemoveSprite(&SprCompCube2);
     Sprites.RemoveSprite(&SprCompCube3);
     Sprites.RemoveSprite(&SprCompCube4);
-  
-    FastLED.clear();
+
+    fadeToBlackBy( leds[0], 1024, 50);
+    //FastLED.clear();
     Sprites.UpdateSprites();
     if (mauscount == 0)
     {
-    	SprMaus.SetPositionFrameMotionOptions(20/*X*/, 0/*Y*/, 0/*Frame*/, 20/*FrameRate*/, +1/*XChange*/, 3/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION | SPRITE_X_KEEPIN | SPRITE_Y_KEEPIN);
+    	SprMaus.SetPositionFrameMotionOptions(20/*X*/, 0/*Y*/, 0/*Frame*/, 6/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION | SPRITE_X_KEEPIN | SPRITE_Y_KEEPIN);
   	Sprites.AddSprite(&SprMaus);
     	mauscount = 1;
     }
     
     Sprites.RenderSprites();
+    
     FastLED.show();
   
+}
+
+void Circles()
+{
+  fadeToBlackBy( leds[0], 1024, 10);
+  leds.DrawCircle(random16(WIDTH), random16(HEIGHT), random16(1,12), CHSV(gHue,255,200));
+  //FastLED.delay(20);
+}
+
+void Lines()
+{
+  fadeToBlackBy( leds[0], 1024, 15);
+  leds.DrawLine(random16(64), random16(16), random16(64), random16(16), CHSV(gHue,255,200));
 }
 
 
