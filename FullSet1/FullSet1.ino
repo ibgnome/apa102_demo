@@ -1,3 +1,6 @@
+#include <Button.h>
+
+
 /* This is the "full set" for my led tophat created for DragonCon 2016.  
  * Top hat was created using a Teensy 3.2 running FastLED (https://github.com/FastLED) as the main LED library, 
  * I'm running 1024 LED's in a circular format around the ~ 7 inch tall hat.  The matrix is formed
@@ -5,6 +8,7 @@
  
  Josh Parsons - UAHLunchbox
  */
+ 
 
 #include <FastLED.h>
 // Libraries from https://github.com/AaronLiddiment
@@ -44,15 +48,22 @@ CRGBPalette16 gPal;
 #define PACMAN_FRAMES  3
 #define PINKY_FRAMES  2
 #define MARIO_FRAMES  3
-
 #define MARIO_SIZE 16
-
 #define BROW_HEIGHT 14
 #define BROW_WIDTH 24
-
 #define POWER_PILL_SIZE	4
 
 #define ARRAY_SIZE(A) (sizeof(A) / sizeof((A)[0]))
+
+#define PIN1 5
+#define PIN2 6
+#define PIN3 7
+#define PIN4 8
+
+Button btnA(PIN1);
+Button btnB(PIN2);
+Button btnC(PIN3);
+Button btnD(PIN4);
 
 cLEDText ScrollingMsg;
 
@@ -1478,21 +1489,62 @@ void setup()
   PlasmaShift = (random8(0, 5) * 32) + 64;
   PlasmaTime = 0;
 
+  btnA.begin();
+  btnB.begin();
+  btnC.begin();
+  btnD.begin();
+
 }
 
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
+  SimplePatternList gPatterns = { Dcon, MultiMario, MultiMario, Matrix, Maus, Circles, TrippyRainbow, Brow, Brow, Glitter, Glitter, CompCube, Plasma, Noise, Fireplace, Wave, Lines};
+  SimplePatternList gPatterns1 = { Dcon, MultiMario, MultiMario, Matrix, Maus, Circles, TrippyRainbow, Brow, Brow, Glitter, Glitter, CompCube, Plasma, Noise, Fireplace, Wave, Lines};
+  SimplePatternList gPatterns2 = { Maus, CompCube, MultiMario, Brow };
+  SimplePatternList gPatterns3 = { Circles, TrippyRainbow, Glitter, Plasma, Noise, Lines };
+  SimplePatternList gPatterns4 = { Fireplace, Wave, Dcon };
 
-SimplePatternList gPatterns = { Dcon, MultiMario, MultiMario, Matrix, Maus, Circles, TrippyRainbow, Brow, Brow, Glitter, Glitter, CompCube, Plasma, Noise, Fireplace, Wave, Lines};
+//SimplePatternList gPatterns = { Dcon, MultiMario, MultiMario, Matrix, Maus, Circles, TrippyRainbow, Brow, Brow, Glitter, Glitter, CompCube, Plasma, Noise, Fireplace, Wave, Lines};
 //SimplePatternList gPatterns = { Maus };
 
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
+uint8_t gCurrentPatternNumber1 = 0; // Index number of which pattern is current
+uint8_t gCurrentPatternNumber2 = 0; // Index number of which pattern is current
+uint8_t gCurrentPatternNumber3 = 0; // Index number of which pattern is current
+uint8_t gCurrentPatternNumber4 = 0; // Index number of which pattern is current
 
 void loop()
 {
   random16_add_entropy( random());
   // Call the current pattern function once, updating the 'leds' array
-  gPatterns[gCurrentPatternNumber]();
+  btnA.read();
+  btnB.read();
+  btnC.read();
+  btnD.read();
+  if (btnA.pressed())
+  {
+        gPatterns1[gCurrentPatternNumber1]();
+        uint8_t gCurrentPatternNumber1 = 0;
+  }   
+    
+  if (btnB.pressed())
+  {
+        gPatterns2[gCurrentPatternNumber2]();
+        uint8_t gCurrentPatternNumber2 = 0;
+  }   
+     
+  if (btnC.pressed())
+  {
+        gPatterns3[gCurrentPatternNumber3]();
+        uint8_t gCurrentPatternNumber3 = 0;
+  } 
+       
+  if (btnD.pressed())
+  {
+        gPatterns4[gCurrentPatternNumber4]();
+        uint8_t gCurrentPatternNumber4 = 0;
+  } 
+  //gPatterns[gCurrentPatternNumber]();
 
   // send the 'leds' array out to the actual LED strip
   FastLED.show();  
@@ -1506,6 +1558,10 @@ void nextPattern()
 {
   // add one to the current pattern number, and wrap around at the end
   gCurrentPatternNumber = (gCurrentPatternNumber + 1) % ARRAY_SIZE( gPatterns);
+  gCurrentPatternNumber1 = (gCurrentPatternNumber1 + 1) % ARRAY_SIZE( gPatterns1);
+  gCurrentPatternNumber2 = (gCurrentPatternNumber2 + 1) % ARRAY_SIZE( gPatterns2);
+  gCurrentPatternNumber3 = (gCurrentPatternNumber3 + 1) % ARRAY_SIZE( gPatterns3);
+  gCurrentPatternNumber4 = (gCurrentPatternNumber4 + 1) % ARRAY_SIZE( gPatterns4);
 }
 
 void cooldown()
