@@ -1,6 +1,3 @@
-#include <Button.h>
-
-
 /* This is the "full set" for my led tophat created for DragonCon 2016.  
  * Top hat was created using a Teensy 3.2 running FastLED (https://github.com/FastLED) as the main LED library, 
  * I'm running 1024 LED's in a circular format around the ~ 7 inch tall hat.  The matrix is formed
@@ -9,8 +6,8 @@
  Josh Parsons - UAHLunchbox
  */
  
-
 #include <FastLED.h>
+#include <Button.h> // https://github.com/JChristensen/Button
 // Libraries from https://github.com/AaronLiddiment
 #include <LEDMatrix.h>
 #include <LEDSprites.h>
@@ -31,14 +28,14 @@
 #define MATRIX_TYPE    VERTICAL_ZIGZAG_MATRIX
 #define WIDTH   64
 #define HEIGHT  16
+// Sets params for the Fire function
 #define SPARKING 200
 #define COOLING  200
 #define HOT 300
 #define MAXHOT HOT*HEIGHT
 #define MAX_DIMENSION ((WIDTH>HEIGHT) ? WIDTH : HEIGHT)
-
+//Define the matrix.
 cLEDMatrix<MATRIX_WIDTH, MATRIX_HEIGHT, MATRIX_TYPE> leds;
-
 
 cLEDSprites Sprites(&leds);
 CRGBPalette16 gPal;
@@ -1466,6 +1463,9 @@ cSprite SprCompCube2(15, 15, CompCubeData, 1, _2BIT, CompCubeColTab, CompCubeMas
 cSprite SprCompCube3(15, 15, CompCubeData, 1, _2BIT, CompCubeColTab, CompCubeMask);
 cSprite SprCompCube4(15, 15, CompCubeData, 1, _2BIT, CompCubeColTab, CompCubeMask);
 cSprite SprMaus(23, 16, MausData, 5, _3BIT, MausColTab, MausMask);
+
+int state=1;
+
 void setup()
 {
   FastLED.addLeds<CHIPSET, DATA_PIN, CLK_PIN, COLOR_ORDER, DATA_RATE_MHZ(5)>(leds[0], leds.Size()).setCorrection(TypicalLEDStrip);
@@ -1485,7 +1485,6 @@ void setup()
   Options = INSTANT_OPTIONS_MODE;
   ScrollingMsg.SetOptionsChangeMode(Options);
   
-
   PlasmaShift = (random8(0, 5) * 32) + 64;
   PlasmaTime = 0;
 
@@ -1504,9 +1503,6 @@ typedef void (*SimplePatternList[])();
   SimplePatternList gPatterns3 = { Circles, TrippyRainbow, Glitter, Plasma, Noise, Lines };
   SimplePatternList gPatterns4 = { Fireplace, Wave, Dcon };
 
-//SimplePatternList gPatterns = { Dcon, MultiMario, MultiMario, Matrix, Maus, Circles, TrippyRainbow, Brow, Brow, Glitter, Glitter, CompCube, Plasma, Noise, Fireplace, Wave, Lines};
-//SimplePatternList gPatterns = { Maus };
-
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 uint8_t gCurrentPatternNumber1 = 0; // Index number of which pattern is current
 uint8_t gCurrentPatternNumber2 = 0; // Index number of which pattern is current
@@ -1516,37 +1512,47 @@ uint8_t gCurrentPatternNumber4 = 0; // Index number of which pattern is current
 void loop()
 {
   random16_add_entropy( random());
-  // Call the current pattern function once, updating the 'leds' array
+
   btnA.read();
   btnB.read();
   btnC.read();
   btnD.read();
   if (btnA.pressed())
   {
-        gPatterns1[gCurrentPatternNumber1]();
-        uint8_t gCurrentPatternNumber1 = 0;
+        state = 1;
   }   
     
   if (btnB.pressed())
   {
-        gPatterns2[gCurrentPatternNumber2]();
-        uint8_t gCurrentPatternNumber2 = 0;
+        state = 2;
   }   
      
   if (btnC.pressed())
   {
-        gPatterns3[gCurrentPatternNumber3]();
-        uint8_t gCurrentPatternNumber3 = 0;
+        state = 3;
   } 
        
   if (btnD.pressed())
   {
-        gPatterns4[gCurrentPatternNumber4]();
-        uint8_t gCurrentPatternNumber4 = 0;
-  } 
-  //gPatterns[gCurrentPatternNumber]();
+        state = 4;
+  }
+    if (state == 1)
+  {
+  	gPatterns1[gCurrentPatternNumber1]();
+  }
+   if (state == 2)
+  {
+  	gPatterns2[gCurrentPatternNumber2]();
+  }
+  if (state == 3)
+  {
+  	gPatterns3[gCurrentPatternNumber3]();
+  }
+  if (state == 4)
+  {
+  	gPatterns4[gCurrentPatternNumber4]();
+  }
 
-  // send the 'leds' array out to the actual LED strip
   FastLED.show();  
 
 EVERY_N_MILLISECONDS( 5 ) { gHue=gHue+12; }
@@ -1572,7 +1578,7 @@ void cooldown()
 
 void TrippyRainbow()
 {
-    int16_t sx, sy, x, y;
+  int16_t sx, sy, x, y;
   uint8_t h;
 
   FastLED.clear();
@@ -1614,7 +1620,6 @@ void TrippyRainbow()
 
 void Dcon()
 {
-  
     FastLED.clear();
     if (ScrollingMsg.UpdateText() == -1)
   {
@@ -1726,7 +1731,6 @@ void MultiMario()
   delay(10);
   count++;
   eye_count=0;
-  
 }
 
 void Plasma()
@@ -1753,7 +1757,6 @@ void Plasma()
 
 void Wave()
 {
- 
   uint8_t h = sin8(angle);
   leds.ShiftLeft();
 
@@ -1768,7 +1771,6 @@ void Wave()
   angle += 12;
   FastLED.show();
   delay(20);
-  
 }
 
 void Glitter()
@@ -1831,8 +1833,7 @@ delay(30);
 
 void Matrix()
 {
-  fadeToBlackBy( leds[0], 1024, 10);
-  int star1, star2, star3, star4;
+int star1, star2, star3, star4;
 star1 = random16(64);
 star2 = random16(64);
 star3 = random16(64);
