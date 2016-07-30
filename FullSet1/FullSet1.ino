@@ -1465,6 +1465,7 @@ cSprite SprCompCube4(15, 15, CompCubeData, 1, _2BIT, CompCubeColTab, CompCubeMas
 cSprite SprMaus(23, 16, MausData, 5, _3BIT, MausColTab, MausMask);
 
 int state=1;
+int nextstate = 0;
 
 void setup()
 {
@@ -1500,7 +1501,7 @@ typedef void (*SimplePatternList[])();
   SimplePatternList gPatterns = { Dcon, MultiMario, MultiMario, Matrix, Maus, Circles, TrippyRainbow, Brow, Brow, Glitter, Glitter, CompCube, Plasma, Noise, Fireplace, Wave, Lines};
   SimplePatternList gPatterns1 = { Dcon, MultiMario, MultiMario, Matrix, Maus, Circles, TrippyRainbow, Brow, Brow, Glitter, Glitter, CompCube, Plasma, Noise, Fireplace, Wave, Lines};
   SimplePatternList gPatterns2 = { Maus, CompCube, MultiMario, Brow };
-  SimplePatternList gPatterns3 = { Circles, TrippyRainbow, Glitter, Plasma, Noise, Lines };
+  SimplePatternList gPatterns3 = { Circles, TrippyRainbow, Glitter, Plasma,  Lines, Noise};
   SimplePatternList gPatterns4 = { Fireplace, Wave, Dcon };
 
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
@@ -1519,22 +1520,102 @@ void loop()
   btnD.read();
   if (btnA.pressed())
   {
-        state = 1;
+        state = 2;
+        Sprites.RemoveSprite(&SprMushroom);
+        Sprites.RemoveSprite(&SprMarioRight);
+  Sprites.RemoveSprite(&SprLuigiRight);
+  Sprites.RemoveSprite(&SprGoomba);
+  Sprites.RemoveSprite(&SprMushroom2);
+  Sprites.RemoveSprite(&SprMarioRight2);
+  Sprites.RemoveSprite(&SprLuigiRight2);
+  Sprites.RemoveSprite(&SprGoomba2);
+  Sprites.RemoveSprite(&SprBrow);
+  Sprites.RemoveSprite(&SprMaus);
+  Sprites.RemoveSprite(&SprCompCube1);
+  Sprites.RemoveSprite(&SprCompCube2);
+  Sprites.RemoveSprite(&SprCompCube3);
+  Sprites.RemoveSprite(&SprCompCube4);
+  count = 0;
+  mcount = 0;
+  eye_count = 0;
+  cube_count = 0;
+  mauscount = 0;
+  nextstate = 0;
   }   
     
   if (btnB.pressed())
   {
-        state = 2;
+        state = 1;
+        Sprites.RemoveSprite(&SprMushroom);
+        Sprites.RemoveSprite(&SprMarioRight);
+  Sprites.RemoveSprite(&SprLuigiRight);
+  Sprites.RemoveSprite(&SprGoomba);
+  Sprites.RemoveSprite(&SprMushroom2);
+  Sprites.RemoveSprite(&SprMarioRight2);
+  Sprites.RemoveSprite(&SprLuigiRight2);
+  Sprites.RemoveSprite(&SprGoomba2);
+  Sprites.RemoveSprite(&SprBrow);
+  Sprites.RemoveSprite(&SprMaus);
+  Sprites.RemoveSprite(&SprCompCube1);
+  Sprites.RemoveSprite(&SprCompCube2);
+  Sprites.RemoveSprite(&SprCompCube3);
+  Sprites.RemoveSprite(&SprCompCube4);
+  count = 0;
+  mcount = 0;
+  eye_count = 0;
+  cube_count = 0;
+  mauscount = 0;
+  nextstate = 0;
   }   
      
   if (btnC.pressed())
   {
-        state = 3;
+        //state = 4;
+        Sprites.RemoveSprite(&SprMushroom);
+        Sprites.RemoveSprite(&SprMarioRight);
+  Sprites.RemoveSprite(&SprLuigiRight);
+  Sprites.RemoveSprite(&SprGoomba);
+  Sprites.RemoveSprite(&SprMushroom2);
+  Sprites.RemoveSprite(&SprMarioRight2);
+  Sprites.RemoveSprite(&SprLuigiRight2);
+  Sprites.RemoveSprite(&SprGoomba2);
+  Sprites.RemoveSprite(&SprBrow);
+  Sprites.RemoveSprite(&SprMaus);
+  Sprites.RemoveSprite(&SprCompCube1);
+  Sprites.RemoveSprite(&SprCompCube2);
+  Sprites.RemoveSprite(&SprCompCube3);
+  Sprites.RemoveSprite(&SprCompCube4);
+  count = 0;
+  mcount = 0;
+  eye_count = 0;
+  cube_count = 0;
+  mauscount = 0;
+  nextstate = 1;
   } 
        
   if (btnD.pressed())
   {
-        state = 4;
+        state = 3;
+        Sprites.RemoveSprite(&SprMushroom);
+        Sprites.RemoveSprite(&SprMarioRight);
+  Sprites.RemoveSprite(&SprLuigiRight);
+  Sprites.RemoveSprite(&SprGoomba);
+  Sprites.RemoveSprite(&SprMushroom2);
+  Sprites.RemoveSprite(&SprMarioRight2);
+  Sprites.RemoveSprite(&SprLuigiRight2);
+  Sprites.RemoveSprite(&SprGoomba2);
+  Sprites.RemoveSprite(&SprBrow);
+  Sprites.RemoveSprite(&SprMaus);
+  Sprites.RemoveSprite(&SprCompCube1);
+  Sprites.RemoveSprite(&SprCompCube2);
+  Sprites.RemoveSprite(&SprCompCube3);
+  Sprites.RemoveSprite(&SprCompCube4);
+  count = 0;
+  mcount = 0;
+  eye_count = 0;
+  cube_count = 0;
+  mauscount = 0;
+  nextstate = 0;
   }
     if (state == 1)
   {
@@ -1542,15 +1623,15 @@ void loop()
   }
    if (state == 2)
   {
-  	gPatterns2[gCurrentPatternNumber2]();
+  	MultiMario();
   }
   if (state == 3)
   {
   	gPatterns3[gCurrentPatternNumber3]();
   }
-  if (state == 4)
+  if (nextstate == 1)
   {
-  	gPatterns4[gCurrentPatternNumber4]();
+  	nextPattern();
   }
 
   FastLED.show();  
@@ -1568,6 +1649,7 @@ void nextPattern()
   gCurrentPatternNumber2 = (gCurrentPatternNumber2 + 1) % ARRAY_SIZE( gPatterns2);
   gCurrentPatternNumber3 = (gCurrentPatternNumber3 + 1) % ARRAY_SIZE( gPatterns3);
   gCurrentPatternNumber4 = (gCurrentPatternNumber4 + 1) % ARRAY_SIZE( gPatterns4);
+  nextstate = 0;
 }
 
 void cooldown()
