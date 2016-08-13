@@ -1539,7 +1539,7 @@ int nextstate = 0;
 void setup()
 {
   FastLED.addLeds<CHIPSET, DATA_PIN, CLK_PIN, COLOR_ORDER, DATA_RATE_MHZ(5)>(leds[0], leds.Size()).setCorrection(TypicalLEDStrip);
-  FastLED.setBrightness(30);
+  FastLED.setBrightness(100);
   FastLED.setDither(0);
   FastLED.clear(true);
   gPal = HeatColors_p;
@@ -1569,6 +1569,7 @@ void setup()
 typedef void (*SimplePatternList[])();
   SimplePatternList gPatterns = { Dcon, MultiMario, MultiMario, Matrix, Maus, Circles, TrippyRainbow, Brow, Brow, Glitter, Glitter, CompCube, Plasma, Noise, Fireplace, Wave, Lines};
   SimplePatternList gPatterns1 = { Dcon, MultiMario, MultiMario, Matrix, Maus, Circles, TrippyRainbow, Brow, Brow, Glitter, Glitter, CompCube, Plasma, Noise, Fireplace, Wave, Lines};
+  //SimplePatternList gPatterns1 = {Test};
   SimplePatternList gPatterns2 = { Maus, CompCube, MultiMario, Brow };
   SimplePatternList gPatterns3 = { Circles, TrippyRainbow, Glitter, Plasma,  Lines, Noise};
   SimplePatternList gPatterns4 = { Fireplace, Wave, Dcon };
@@ -2295,5 +2296,4 @@ void Lines()
   fadeToBlackBy( leds[0], 1024, 15);
   leds.DrawLine(random16(64), random16(16), random16(64), random16(16), CHSV(gHue,255,200));
 }
-
 
