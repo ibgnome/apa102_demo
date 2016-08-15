@@ -1535,11 +1535,12 @@ cSprite SprMaus(23, 16, MausData, 7, _4BIT, MausColTab, MausMask);
 
 int state=1;
 int nextstate = 0;
+int bright = 20;
 
 void setup()
 {
   FastLED.addLeds<CHIPSET, DATA_PIN, CLK_PIN, COLOR_ORDER, DATA_RATE_MHZ(5)>(leds[0], leds.Size()).setCorrection(TypicalLEDStrip);
-  FastLED.setBrightness(100);
+  FastLED.setBrightness(20);
   FastLED.setDither(0);
   FastLED.clear(true);
   gPal = HeatColors_p;
@@ -1665,27 +1666,52 @@ void loop()
        
   if (btnD.pressed())
   {
-  state = 3;
-  Sprites.RemoveSprite(&SprMushroom);
-  Sprites.RemoveSprite(&SprMarioRight);
-  Sprites.RemoveSprite(&SprLuigiRight);
-  Sprites.RemoveSprite(&SprGoomba);
-  Sprites.RemoveSprite(&SprMushroom2);
-  Sprites.RemoveSprite(&SprMarioRight2);
-  Sprites.RemoveSprite(&SprLuigiRight2);
-  Sprites.RemoveSprite(&SprGoomba2);
-  Sprites.RemoveSprite(&SprBrow);
-  Sprites.RemoveSprite(&SprMaus);
-  Sprites.RemoveSprite(&SprCompCube1);
-  Sprites.RemoveSprite(&SprCompCube2);
-  Sprites.RemoveSprite(&SprCompCube3);
-  Sprites.RemoveSprite(&SprCompCube4);
-  count = 0;
-  mcount = 0;
-  eye_count = 0;
-  cube_count = 0;
-  mauscount = 0;
-  nextstate = 0;
+//  state = 3;
+//  Sprites.RemoveSprite(&SprMushroom);
+//  Sprites.RemoveSprite(&SprMarioRight);
+//  Sprites.RemoveSprite(&SprLuigiRight);
+//  Sprites.RemoveSprite(&SprGoomba);
+//  Sprites.RemoveSprite(&SprMushroom2);
+//  Sprites.RemoveSprite(&SprMarioRight2);
+//  Sprites.RemoveSprite(&SprLuigiRight2);
+//  Sprites.RemoveSprite(&SprGoomba2);
+//  Sprites.RemoveSprite(&SprBrow);
+//  Sprites.RemoveSprite(&SprMaus);
+//  Sprites.RemoveSprite(&SprCompCube1);
+//  Sprites.RemoveSprite(&SprCompCube2);
+//  Sprites.RemoveSprite(&SprCompCube3);
+//  Sprites.RemoveSprite(&SprCompCube4);
+//  count = 0;
+//  mcount = 0;
+//  eye_count = 0;
+//  cube_count = 0;
+//  mauscount = 0;
+//  nextstate = 0;
+if ( bright == 20 )
+{
+  bright = 40;
+  FastLED.setBrightness(40);
+}
+else if ( bright == 40 )
+{
+  bright = 60;
+  FastLED.setBrightness(60);
+}
+else if ( bright == 60 )
+{
+  bright = 80;
+  FastLED.setBrightness(80);
+}
+else if ( bright == 80 )
+{
+  bright = 100;
+  FastLED.setBrightness(100);
+}
+else
+{
+  bright = 20;
+  FastLED.setBrightness(20);
+}
   }
     if (state == 1)
   {
