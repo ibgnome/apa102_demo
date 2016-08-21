@@ -1694,15 +1694,30 @@ if ( bright == 20 )
 }
 else if ( bright == 40 )
 {
+  bright = 50;
+  FastLED.setBrightness(50);
+}
+else if ( bright == 50 )
+{
   bright = 60;
   FastLED.setBrightness(60);
 }
 else if ( bright == 60 )
 {
+  bright = 70;
+  FastLED.setBrightness(70);
+}
+else if ( bright == 70 )
+{
   bright = 80;
   FastLED.setBrightness(80);
 }
 else if ( bright == 80 )
+{
+  bright = 90;
+  FastLED.setBrightness(90);
+}
+else if ( bright == 90 )
 {
   bright = 100;
   FastLED.setBrightness(100);
