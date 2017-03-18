@@ -2,12 +2,14 @@
  * Top hat was created using a Teensy 3.2 running FastLED (https://github.com/FastLED) as the main LED library, 
  * I'm running 1024 LED's in a circular format around the ~ 7 inch tall hat.  The matrix is formed
  * from four 16x16 APA102 panels and can be run from a USB power bank, utilizing under 3amp.
+ * Must be compiled on Arduino IDE 1.6.5 with Teensyduino 1.35.  Make sure to change "CPU Speed" to 24Mhz optimized as some flicker
+ * can occur at higher rates due to the number of leds being driven.
  
  Josh Parsons - UAHLunchbox
  */
  
 #include <FastLED.h>
-#include <Button.h> // https://github.com/JChristensen/Button
+#include <Button.h> // https://github.com/madleech/Button
 // Libraries from https://github.com/AaronLiddiment
 #include <LEDMatrix.h>
 #include <LEDSprites.h>
@@ -1569,8 +1571,8 @@ void setup()
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
   SimplePatternList gPatterns = { Dcon, MultiMario, MultiMario, Matrix, Maus, Circles, TrippyRainbow, Brow, Brow, Glitter, Glitter, CompCube, Plasma, Noise, Fireplace, Wave, Lines};
-  SimplePatternList gPatterns1 = { Dcon, MultiMario, MultiMario, Matrix, Maus, Circles, TrippyRainbow, Brow, Brow, Glitter, Glitter, CompCube, Plasma, Noise, Fireplace, Wave, Lines};
-  //SimplePatternList gPatterns1 = {Test};
+  //SimplePatternList gPatterns1 = { Dcon, MultiMario, MultiMario, Matrix, Maus, Circles, TrippyRainbow, Brow, Brow, Glitter, Glitter, slantBars, Plasma, Noise, Fireplace, Wave, Lines};
+  SimplePatternList gPatterns1 = {threeSine};
   SimplePatternList gPatterns2 = { Maus, CompCube, MultiMario, Brow };
   SimplePatternList gPatterns3 = { Circles, TrippyRainbow, Glitter, Plasma,  Lines, Noise};
   SimplePatternList gPatterns4 = { Fireplace, Wave, Dcon };
@@ -2337,4 +2339,70 @@ void Lines()
   fadeToBlackBy( leds[0], 1024, 15);
   leds.DrawLine(random16(64), random16(16), random16(64), random16(16), CHSV(gHue,255,200));
 }
+
+void slantBars() 
+{
+
+  static byte slantPos = 0;
+for (int16_t x=0; x<64; x++)
+    {
+      for (int16_t y=0; y<16; y++)
+      {
+  //for (byte x = 0; x < MATRIX_WIDTH; x++) {
+    //for (byte y = MATRIX_HEIGHT; y > MATRIX_HEIGHT; y--) {
+      leds(x, y) = CHSV(gHue, 255, quadwave8(x * 16 + y * 16 + slantPos));
+    }
+  }
+
+  slantPos -= 6;
+FastLED.delay(10);
+}
+
+void plasma2() {
+
+  static byte offset  = 0; // counter for radial color wave motion
+  static int plasVector = 0; // counter for orbiting plasma center
+
+  // Calculate current center of plasma pattern (can be offscreen)
+  int xOffset = cos8(plasVector / 256);
+  int yOffset = sin8(plasVector / 256);
+
+  // Draw one frame of the animation into the LED array
+for (int16_t x=0; x<64; x++)
+    {
+      for (int16_t y=0; y<16; y++)
+      {
+      byte color = sin8(sqrt(sq(((float)x - 7.5) * 10 + xOffset - 127) + sq(((float)y - 2) * 10 + yOffset - 127)) + offset);
+      leds(x, y) = CHSV(color, 255, 255);
+    }
+  }
+    offset++; // wraps at 255 for sin8
+  plasVector += 1024; // using an int for slower orbit (wraps at 65536)
+}
+
+
+void threeSine() {
+
+  static byte sineOffset = 0; // counter for current position of sine waves
+
+  // Draw one frame of the animation into the LED array
+for (int16_t x=0; x<64; x++)
+    {
+      for (int16_t y=0; y<16; y++)
+      {
+
+      // Calculate "sine" waves with varying periods
+      // sin8 is used for speed; cos8, quadwave8, or triwave8 would also work here
+      byte sinDistanceR = qmul8(abs(y * (255 / MATRIX_HEIGHT) - sin8(sineOffset * 2 + x * 8)), 2);
+      byte sinDistanceG = qmul8(abs(y * (255 / MATRIX_HEIGHT) - sin8(sineOffset * 3 + x * 8)), 2);
+      byte sinDistanceB = qmul8(abs(y * (255 / MATRIX_HEIGHT) - sin8(sineOffset * 4 + x * 8)), 2);
+
+      leds(x, y) = CRGB(255 - sinDistanceR, 255 - sinDistanceG, 255 - sinDistanceB);
+    }
+  }
+
+  sineOffset++; // byte will wrap from 255 to 0, matching sin8 0-255 cycle
+  FastLED.delay(10);
+}
+
 
