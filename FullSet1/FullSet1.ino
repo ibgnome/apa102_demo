@@ -233,6 +233,8 @@ const uint8_t MarioMask[] =
 
 const struct CRGB MarioColTab[] =  {  CRGB::Red, CRGB(152,102,17), CRGB::Gold  };
 const struct CRGB LuigiColTab[] =  {  CRGB::White, CRGB::Green, CRGB::Gold  };
+//const struct CRGB MarioColTab[] =  {  CRGB(215,1,1), CRGB(112,104,1), CRGB(247,170,1)};
+//const struct CRGB LuigiColTab[] =  {  CRGB::White, CRGB(38,127,0), CRGB(246,169,1)  };
 
 const uint8_t MushroomData[] =
 {
@@ -1511,6 +1513,159 @@ const uint8_t GhostMask[] =
 };
 const struct CRGB GhostColTab[] =  {  CRGB(0, 0, 255), CRGB(255, 255, 255), CRGB(255, 90, 120)  };
 
+const uint8_t OctorokData[] =
+{
+  B8_2BIT(00100100),B8_2BIT(00000000),
+  B8_2BIT(00110110),B8_2BIT(11000000),
+  B8_2BIT(00111111),B8_2BIT(10000000),
+  B8_2BIT(01111122),B8_2BIT(11110000),
+  B8_2BIT(01111222),B8_2BIT(22110001),
+  B8_2BIT(12111200),B8_2BIT(02100001),
+  B8_2BIT(11121120),B8_2BIT(00211111),
+  B8_2BIT(21111122),B8_2BIT(22211111),
+  B8_2BIT(21111122),B8_2BIT(22211111),
+  B8_2BIT(11121120),B8_2BIT(00211111),
+  B8_2BIT(12111200),B8_2BIT(02100001),
+  B8_2BIT(01111222),B8_2BIT(22110001),
+  B8_2BIT(01111122),B8_2BIT(11110000),
+  B8_2BIT(00111111),B8_2BIT(10000000),
+  B8_2BIT(00110110),B8_2BIT(11000000),
+  B8_2BIT(00100100),B8_2BIT(00000000),
+
+  B8_2BIT(01001000),B8_2BIT(10000000),
+  B8_2BIT(01101101),B8_2BIT(10000000),
+  B8_2BIT(00111111),B8_2BIT(10010000),
+  B8_2BIT(01111122),B8_2BIT(11110000),
+  B8_2BIT(01112222),B8_2BIT(22100100),
+  B8_2BIT(12111200),B8_2BIT(02101100),
+  B8_2BIT(11121120),B8_2BIT(00211100),
+  B8_2BIT(21111122),B8_2BIT(22211100),
+  B8_2BIT(21111122),B8_2BIT(22211100),
+  B8_2BIT(11121120),B8_2BIT(00211100),
+  B8_2BIT(12111200),B8_2BIT(02101100),
+  B8_2BIT(01112222),B8_2BIT(22100100),
+  B8_2BIT(01111122),B8_2BIT(11110000),
+  B8_2BIT(00111111),B8_2BIT(10010000),
+  B8_2BIT(01101101),B8_2BIT(10000000),
+  B8_2BIT(01001000),B8_2BIT(10000000)
+};
+
+const uint8_t OctorokMask[] = 
+{
+  B8_2BIT(00100100),B8_2BIT(00000000),
+  B8_2BIT(00110110),B8_2BIT(11000000),
+  B8_2BIT(00111111),B8_2BIT(10000000),
+  B8_2BIT(01111111),B8_2BIT(11110000),
+  B8_2BIT(01111111),B8_2BIT(11110001),
+  B8_2BIT(11111100),B8_2BIT(01100001),
+  B8_2BIT(11111110),B8_2BIT(00111111),
+  B8_2BIT(11111111),B8_2BIT(11111111),
+  B8_2BIT(11111111),B8_2BIT(11111111),
+  B8_2BIT(11111110),B8_2BIT(00111111),
+  B8_2BIT(11111100),B8_2BIT(01100001),
+  B8_2BIT(01111111),B8_2BIT(11110001),
+  B8_2BIT(01111111),B8_2BIT(11110000),
+  B8_2BIT(00111111),B8_2BIT(10000000),
+  B8_2BIT(00110110),B8_2BIT(11000000),
+  B8_2BIT(00100100),B8_2BIT(00000000),
+
+  B8_2BIT(01001000),B8_2BIT(10000000),
+  B8_2BIT(01101101),B8_2BIT(10000000),
+  B8_2BIT(00111111),B8_2BIT(10010000),
+  B8_2BIT(01111111),B8_2BIT(11110000),
+  B8_2BIT(01111111),B8_2BIT(11100100),
+  B8_2BIT(11111100),B8_2BIT(01101100),
+  B8_2BIT(11111110),B8_2BIT(00211100),
+  B8_2BIT(11111111),B8_2BIT(11111100),
+  B8_2BIT(11111111),B8_2BIT(11111100),
+  B8_2BIT(11111110),B8_2BIT(00111100),
+  B8_2BIT(11111100),B8_2BIT(01101100),
+  B8_2BIT(01111111),B8_2BIT(11100100),
+  B8_2BIT(01111111),B8_2BIT(11110000),
+  B8_2BIT(00111111),B8_2BIT(10010000),
+  B8_2BIT(01101101),B8_2BIT(10000000),
+  B8_2BIT(01001000),B8_2BIT(10000000)
+};
+
+const struct CRGB OctorokColTab[] =  { CRGB(248,556,0), CRGB(252,224,168)};
+
+
+const uint8_t LinkData[] =
+{
+  B8_2BIT(00000111),B8_2BIT(10000000),
+  B8_2BIT(00011111),B8_2BIT(22220000),
+  B8_2BIT(01113112),B8_2BIT(22222000),
+  B8_2BIT(11113322),B8_2BIT(22220000),
+  B8_2BIT(10113332),B8_2BIT(33130020),
+  B8_2BIT(00122332),B8_2BIT(33233320),
+  B8_2BIT(00022233),B8_2BIT(33330020),
+  B8_2BIT(00001111),B8_2BIT(33330020),
+  B8_2BIT(00211111),B8_2BIT(11222320),
+  B8_2BIT(02221333),B8_2BIT(11122320),
+  B8_2BIT(02222333),B8_2BIT(11122020),
+  B8_2BIT(02222331),B8_2BIT(11200020),
+  B8_2BIT(00122112),B8_2BIT(22200000),
+  B8_2BIT(01111111),B8_2BIT(11100000),
+  B8_2BIT(00002222),B8_2BIT(00000000),
+  B8_2BIT(00002222),B8_2BIT(20000000),
+
+  B8_2BIT(00000000),B8_2BIT(00000000),
+  B8_2BIT(00001111),B8_2BIT(00000000),
+  B8_2BIT(00111111),B8_2BIT(22220000),
+  B8_2BIT(01113112),B8_2BIT(22222000),
+  B8_2BIT(11113322),B8_2BIT(22220000),
+  B8_2BIT(10113332),B8_2BIT(33130000),
+  B8_2BIT(00122332),B8_2BIT(33233300),
+  B8_2BIT(00022233),B8_2BIT(33330200),
+  B8_2BIT(00001111),B8_2BIT(33330200),
+  B8_2BIT(00122113),B8_2BIT(33223200),
+  B8_2BIT(00222223),B8_2BIT(33123200),
+  B8_2BIT(01222223),B8_2BIT(31120200),
+  B8_2BIT(01122221),B8_2BIT(11200200),
+  B8_2BIT(22111112),B8_2BIT(22210200),
+  B8_2BIT(22211111),B8_2BIT(11122000),
+  B8_2BIT(02220000),B8_2BIT(02220000)
+};
+
+const uint8_t LinkMask[] = 
+{
+  B8_2BIT(00000111),B8_2BIT(10000000),
+  B8_2BIT(00011111),B8_2BIT(11110000),
+  B8_2BIT(01111111),B8_2BIT(11111000),
+  B8_2BIT(11111111),B8_2BIT(11110000),
+  B8_2BIT(10111111),B8_2BIT(11110010),
+  B8_2BIT(00111111),B8_2BIT(11111110),
+  B8_2BIT(00011111),B8_2BIT(11110010),
+  B8_2BIT(00001111),B8_2BIT(11110010),
+  B8_2BIT(00111111),B8_2BIT(11111110),
+  B8_2BIT(01111111),B8_2BIT(11111110),
+  B8_2BIT(01111111),B8_2BIT(11111010),
+  B8_2BIT(01111111),B8_2BIT(11100010),
+  B8_2BIT(00111111),B8_2BIT(11100000),
+  B8_2BIT(01111111),B8_2BIT(11100000),
+  B8_2BIT(00001111),B8_2BIT(00000000),
+  B8_2BIT(00001111),B8_2BIT(10000000),
+
+  B8_2BIT(00000000),B8_2BIT(00000000),
+  B8_2BIT(00001111),B8_2BIT(00000000),
+  B8_2BIT(00111111),B8_2BIT(11110000),
+  B8_2BIT(01111111),B8_2BIT(11111000),
+  B8_2BIT(11111111),B8_2BIT(11110000),
+  B8_2BIT(10111111),B8_2BIT(11110000),
+  B8_2BIT(00111111),B8_2BIT(11111100),
+  B8_2BIT(00011111),B8_2BIT(11110100),
+  B8_2BIT(00001111),B8_2BIT(11110100),
+  B8_2BIT(00111111),B8_2BIT(11111100),
+  B8_2BIT(00111111),B8_2BIT(11111100),
+  B8_2BIT(01111111),B8_2BIT(11110100),
+  B8_2BIT(01111111),B8_2BIT(11100100),
+  B8_2BIT(11111111),B8_2BIT(11110100),
+  B8_2BIT(11111111),B8_2BIT(11111000),
+  B8_2BIT(01110000),B8_2BIT(01110000)
+};
+
+const struct CRGB LinkColTab[] =  { CRGB(0,255,0), CRGB(177,62,0), CRGB(255,140,27)};
+
 cSprite SprPacmanRight(MY_SPRITE_WIDTH, MY_SPRITE_HEIGHT, PacmanRightData, PACMAN_FRAMES, _2BIT, PacmanRightColTab, PacmanRightMask);
 cSprite SprMarioRight(MARIO_SIZE, MARIO_SIZE, MarioData, MARIO_FRAMES, _2BIT, MarioColTab, MarioMask);
 cSprite SprMarioRight2(MARIO_SIZE, MARIO_SIZE, MarioData, MARIO_FRAMES, _2BIT, MarioColTab, MarioMask);
@@ -1534,7 +1689,10 @@ cSprite SprCompCube2(15, 15, CompCubeData, 1, _2BIT, CompCubeColTab, CompCubeMas
 cSprite SprCompCube3(15, 15, CompCubeData, 1, _2BIT, CompCubeColTab, CompCubeMask);
 cSprite SprCompCube4(15, 15, CompCubeData, 1, _2BIT, CompCubeColTab, CompCubeMask);
 cSprite SprMaus(23, 16, MausData, 7, _4BIT, MausColTab, MausMask);
-
+cSprite SprOctorok(MARIO_SIZE, MARIO_SIZE, OctorokData, 2, _2BIT, OctorokColTab, OctorokMask);
+cSprite SprOctorok2(MARIO_SIZE, MARIO_SIZE, OctorokData, 2, _2BIT, OctorokColTab, OctorokMask);
+cSprite SprLink(MARIO_SIZE, MARIO_SIZE, LinkData, 2, _2BIT, LinkColTab, LinkMask);
+cSprite SprLink2(MARIO_SIZE, MARIO_SIZE, LinkData, 2, _2BIT, LinkColTab, LinkMask);
 int state=1;
 int nextstate = 0;
 int bright = 20;
@@ -1571,8 +1729,8 @@ void setup()
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
   SimplePatternList gPatterns = { Dcon, MultiMario, MultiMario, Matrix, Maus, Circles, TrippyRainbow, Brow, Brow, Glitter, Glitter, CompCube, Plasma, Noise, Fireplace, Wave, Lines};
-  //SimplePatternList gPatterns1 = { Dcon, MultiMario, MultiMario, Matrix, Maus, Circles, TrippyRainbow, Brow, Brow, Glitter, Glitter, slantBars, Plasma, Noise, Fireplace, Wave, Lines};
-  SimplePatternList gPatterns1 = {threeSine};
+  //SimplePatternList gPatterns1 = { Dcon, MultiMario, MultiMario, Matrix, Maus, Circles, TrippyRainbow, threeSine, Brow, Brow, Glitter, Glitter, slantBars, Plasma, Noise, Fireplace, Wave, Lines};
+  SimplePatternList gPatterns1 = {Zelda};
   SimplePatternList gPatterns2 = { Maus, CompCube, MultiMario, Brow };
   SimplePatternList gPatterns3 = { Circles, TrippyRainbow, Glitter, Plasma,  Lines, Noise};
   SimplePatternList gPatterns4 = { Fireplace, Wave, Dcon };
@@ -1827,6 +1985,114 @@ void Dcon()
   delay(10);
 }
 
+void Zelda()
+{
+  FastLED.clear();
+  //Sprites.RemoveSprite(&SprMushroom);
+  //Sprites.RemoveSprite(&SprMarioRight);
+  //Sprites.RemoveSprite(&SprLuigiRight);
+  //Sprites.RemoveSprite(&SprGoomba);
+  //Sprites.RemoveSprite(&SprMushroom2);
+  //Sprites.RemoveSprite(&SprMarioRight2);
+  //Sprites.RemoveSprite(&SprLuigiRight2);
+  //Sprites.RemoveSprite(&SprGoomba2);
+  Sprites.RemoveSprite(&SprCompCube1);
+  Sprites.RemoveSprite(&SprCompCube2);
+  Sprites.RemoveSprite(&SprCompCube3);
+  Sprites.RemoveSprite(&SprCompCube4);
+  Sprites.RemoveSprite(&SprMaus);
+  Sprites.RemoveSprite(&SprBrow);
+//
+//      for (int16_t x=0; x<64; x++)
+//    {
+//      for (int16_t y=0; y<16; y++)
+//      {
+//        leds(x, y) = CHSV(150,200,100);
+//      }
+//    }
+
+  Sprites.UpdateSprites();
+  Sprites.DetectCollisions();
+  if (count == 0)
+  {
+  SprLink.SetPositionFrameMotionOptions(-10/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprLink);
+  count = 1;
+  }
+  if (mcount == 0)
+  {
+   if (SprLink.m_X == 0)
+   {
+    SprMarioRight.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprMarioRight);
+   }
+
+   if (SprMarioRight.m_X == 0)
+   {
+    SprLuigiRight.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprLuigiRight);
+   }
+   
+   if (SprLuigiRight.m_X == 1)
+   {
+    SprOctorok.SetPositionFrameMotionOptions(-16/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprOctorok);
+    mcount = 1;
+   }
+    
+  }
+
+  
+   if (SprLink.m_X == 49)
+   {
+    SprLink2.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprLink2);
+   }
+      if (SprLink2.m_X == 49)
+   {
+    SprLink.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprLink);
+   }
+
+      if (SprMarioRight.m_X == 49)
+   {
+    SprMarioRight2.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprMarioRight2);
+   }
+      if (SprMarioRight2.m_X == 49)
+   {
+    SprMarioRight.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprMarioRight);
+   }
+
+      if (SprLuigiRight.m_X == 49)
+   {
+    SprLuigiRight2.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprLuigiRight2);
+   }
+      if (SprLuigiRight2.m_X == 49)
+   {
+    SprLuigiRight.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprLuigiRight);
+   }
+
+      if (SprOctorok.m_X == 49)
+   {
+    SprOctorok2.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprOctorok2);
+   }
+      if (SprOctorok2.m_X == 49)
+   {
+    SprOctorok.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprOctorok);
+   }
+
+   Sprites.RenderSprites();
+  FastLED.show();
+  delay(10);
+  count++;
+  eye_count=0;
+}
 void MultiMario()
 {
     FastLED.clear();
@@ -2350,7 +2616,7 @@ for (int16_t x=0; x<64; x++)
       {
   //for (byte x = 0; x < MATRIX_WIDTH; x++) {
     //for (byte y = MATRIX_HEIGHT; y > MATRIX_HEIGHT; y--) {
-      leds(x, y) = CHSV(gHue, 255, quadwave8(x * 16 + y * 16 + slantPos));
+      leds(x, y) = CHSV(gHue, 255, squarewave8(x * 16 + y * 16 + slantPos));
     }
   }
 
@@ -2393,9 +2659,9 @@ for (int16_t x=0; x<64; x++)
 
       // Calculate "sine" waves with varying periods
       // sin8 is used for speed; cos8, quadwave8, or triwave8 would also work here
-      byte sinDistanceR = qmul8(abs(y * (255 / MATRIX_HEIGHT) - sin8(sineOffset * 2 + x * 8)), 2);
-      byte sinDistanceG = qmul8(abs(y * (255 / MATRIX_HEIGHT) - sin8(sineOffset * 3 + x * 8)), 2);
-      byte sinDistanceB = qmul8(abs(y * (255 / MATRIX_HEIGHT) - sin8(sineOffset * 4 + x * 8)), 2);
+      byte sinDistanceR = qmul8(abs(y * (255 / MATRIX_HEIGHT) - quadwave8(sineOffset * 2 + x * 4)), 2);
+      byte sinDistanceG = qmul8(abs(y * (255 / MATRIX_HEIGHT) - quadwave8(sineOffset * 3 + x * 4)), 2);
+      byte sinDistanceB = qmul8(abs(y * (255 / MATRIX_HEIGHT) - quadwave8(sineOffset * 4 + x * 4)), 2);
 
       leds(x, y) = CRGB(255 - sinDistanceR, 255 - sinDistanceG, 255 - sinDistanceB);
     }
@@ -2403,6 +2669,42 @@ for (int16_t x=0; x<64; x++)
 
   sineOffset++; // byte will wrap from 255 to 0, matching sin8 0-255 cycle
   FastLED.delay(10);
+}
+
+
+void rider() {
+
+  static byte riderPos = 0;
+
+  // Draw one frame of the animation into the LED array
+  for (byte x = 0; x < 64; x++) {
+    int brightness = abs(x * (256 / 64) - triwave8(riderPos) * 2 + 127) * 3;
+    if (brightness > 255) brightness = 255;
+    brightness = 255 - brightness;
+    CRGB riderColor = CHSV(gHue, 255, brightness);
+    for (byte y = 0; y <  16; y++) {
+      leds(x, y) = riderColor;
+    }
+  }
+  riderPos++;
+}
+
+void quad()
+{
+  static byte riderPos = 0;
+
+  // Draw one frame of the animation into the LED array
+  for (byte x = 0; x < 64; x++) {
+
+    for (byte y = 0; y <  16; y++) {
+          int brightness = abs(x * (256 / 64) - quadwave8(riderPos) * 2 + 127) * 3;
+    if (brightness > 255) brightness = 255;
+    brightness = 255 - brightness;
+    CRGB riderColor = CHSV(gHue, 255, brightness);
+      leds(x, y) = riderColor;
+    }
+  }
+  riderPos++;
 }
 
 
