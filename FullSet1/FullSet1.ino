@@ -107,7 +107,7 @@ const unsigned char TxtDemo[] = { EFFECT_FRAME_RATE "\x02"
 uint16_t Options;
 uint8_t angle = 0;
 int randcount, randbrow, countup, countdown;
-int count, eye_count, mcount, cube_count, mauscount = 0;
+int count, eye_count, mcount, cube_count, mauscount, zcount = 0;
 uint8_t hue = 0;
 uint8_t gHue = 0;
 int16_t counter = 0;
@@ -1666,6 +1666,158 @@ const uint8_t LinkMask[] =
 
 const struct CRGB LinkColTab[] =  { CRGB(0,255,0), CRGB(177,62,0), CRGB(255,140,27)};
 
+
+const uint8_t FairyData[] =
+{
+  B8_2BIT(00000233),B8_2BIT(32000000),
+  B8_2BIT(00000323),B8_2BIT(23000000),
+  B8_2BIT(00001333),B8_2BIT(33310000),
+  B8_2BIT(00001322),B8_2BIT(23310000),
+  B8_2BIT(00001322),B8_2BIT(23310000),
+  B8_2BIT(00000132),B8_2BIT(33100000),
+  B8_2BIT(00000322),B8_2BIT(23100000),
+  B8_2BIT(00000232),B8_2BIT(32000000),
+  B8_2BIT(00000213),B8_2BIT(12000000),
+  B8_2BIT(00002133),B8_2BIT(31200000),
+  B8_2BIT(00000023),B8_2BIT(20100000),
+  B8_2BIT(00000022),B8_2BIT(23000000),
+  B8_2BIT(00000022),B8_2BIT(00000000),
+  B8_2BIT(00000020),B8_2BIT(00000000),
+  B8_2BIT(00000020),B8_2BIT(00000000),
+  B8_2BIT(00000030),B8_2BIT(00000000),
+  
+  B8_2BIT(00000233),B8_2BIT(32000000),
+  B8_2BIT(00000323),B8_2BIT(23000000),
+  B8_2BIT(00000333),B8_2BIT(33300000),
+  B8_2BIT(00000322),B8_2BIT(23300000),
+  B8_2BIT(00000122),B8_2BIT(23310000),
+  B8_2BIT(00001332),B8_2BIT(33010000),
+  B8_2BIT(00001322),B8_2BIT(23110000),
+  B8_2BIT(00001232),B8_2BIT(31100000),
+  B8_2BIT(00000203),B8_2BIT(02100000),
+  B8_2BIT(00002033),B8_2BIT(30210000),
+  B8_2BIT(00000023),B8_2BIT(20000000),
+  B8_2BIT(00000022),B8_2BIT(23000000),
+  B8_2BIT(00000022),B8_2BIT(00000000),
+  B8_2BIT(00000020),B8_2BIT(00000000),
+  B8_2BIT(00000020),B8_2BIT(00000000),
+  B8_2BIT(00000030),B8_2BIT(00000000)
+};
+
+const uint8_t FairyMask[] = 
+{ B8_2BIT(10000111),B8_2BIT(11000001),
+  B8_2BIT(00000111),B8_2BIT(11000000),
+  B8_2BIT(00000111),B8_2BIT(11100000),
+  B8_2BIT(00000111),B8_2BIT(11100000),
+  B8_2BIT(00000111),B8_2BIT(11110000),
+  B8_2BIT(00001111),B8_2BIT(11010000),
+  B8_2BIT(00001111),B8_2BIT(11110000),
+  B8_2BIT(00001111),B8_2BIT(11100000),
+  B8_2BIT(00000101),B8_2BIT(01100000),
+  B8_2BIT(00001011),B8_2BIT(10110000),
+  B8_2BIT(00000011),B8_2BIT(10000000),
+  B8_2BIT(00000011),B8_2BIT(11000000),
+  B8_2BIT(00000011),B8_2BIT(00000000),
+  B8_2BIT(00000010),B8_2BIT(00000000),
+  B8_2BIT(00000010),B8_2BIT(00000000),
+  B8_2BIT(00000010),B8_2BIT(00000000),
+
+  B8_2BIT(10000111),B8_2BIT(11000001),
+  B8_2BIT(00000111),B8_2BIT(11000000),
+  B8_2BIT(00000111),B8_2BIT(11100000),
+  B8_2BIT(00000111),B8_2BIT(11100000),
+  B8_2BIT(00000111),B8_2BIT(11110000),
+  B8_2BIT(00001111),B8_2BIT(11010000),
+  B8_2BIT(00001111),B8_2BIT(11110000),
+  B8_2BIT(00001111),B8_2BIT(11100000),
+  B8_2BIT(00000101),B8_2BIT(01100000),
+  B8_2BIT(00001011),B8_2BIT(10110000),
+  B8_2BIT(00000011),B8_2BIT(10000000),
+  B8_2BIT(00000011),B8_2BIT(11000000),
+  B8_2BIT(00000011),B8_2BIT(00000000),
+  B8_2BIT(00000010),B8_2BIT(00000000),
+  B8_2BIT(00000010),B8_2BIT(00000000),
+  B8_2BIT(00000010),B8_2BIT(00000000)
+};
+
+const struct CRGB FairyColTab[] =  { CRGB::White, CRGB(255,155,59), CRGB(219,43,0)};
+
+
+const uint8_t TriforceData[] =
+{
+  B8_2BIT(00000000),B8_2BIT(00000000),
+  B8_2BIT(00000000),B8_2BIT(00000000),
+  B8_2BIT(00000000),B8_2BIT(00000000),
+  B8_2BIT(00000001),B8_2BIT(10000000),
+  B8_2BIT(00000001),B8_2BIT(10000000),
+  B8_2BIT(00000011),B8_2BIT(11000000),
+  B8_2BIT(00000011),B8_2BIT(11000000),
+  B8_2BIT(00000111),B8_2BIT(11100000),
+  B8_2BIT(00000111),B8_2BIT(11100000),
+  B8_2BIT(00001111),B8_2BIT(11110000),
+  B8_2BIT(00001111),B8_2BIT(11110000),
+  B8_2BIT(00011111),B8_2BIT(11111000),
+  B8_2BIT(00011111),B8_2BIT(11111000),
+  B8_2BIT(00000000),B8_2BIT(00000000),
+  B8_2BIT(00000000),B8_2BIT(00000000),
+  B8_2BIT(00000000),B8_2BIT(00000000),
+  
+  B8_2BIT(00000000),B8_2BIT(00000000),
+  B8_2BIT(00000000),B8_2BIT(00000000),
+  B8_2BIT(00000000),B8_2BIT(00000000),
+  B8_2BIT(00000002),B8_2BIT(20000000),
+  B8_2BIT(00000002),B8_2BIT(20000000),
+  B8_2BIT(00000022),B8_2BIT(22000000),
+  B8_2BIT(00000022),B8_2BIT(22000000),
+  B8_2BIT(00000222),B8_2BIT(22200000),
+  B8_2BIT(00000222),B8_2BIT(22200000),
+  B8_2BIT(00002222),B8_2BIT(22220000),
+  B8_2BIT(00002222),B8_2BIT(22220000),
+  B8_2BIT(00022222),B8_2BIT(22222000),
+  B8_2BIT(00022222),B8_2BIT(22222000),
+  B8_2BIT(00000000),B8_2BIT(00000000),
+  B8_2BIT(00000000),B8_2BIT(00000000),
+  B8_2BIT(00000000),B8_2BIT(00000000)
+};
+
+const uint8_t TriforceMask[] = 
+{ B8_2BIT(10000000),B8_2BIT(00000001),
+  B8_2BIT(00000000),B8_2BIT(00000000),
+  B8_2BIT(00000000),B8_2BIT(00000000),
+  B8_2BIT(00000001),B8_2BIT(10000000),
+  B8_2BIT(00000001),B8_2BIT(10000000),
+  B8_2BIT(00000011),B8_2BIT(11000000),
+  B8_2BIT(00000011),B8_2BIT(11000000),
+  B8_2BIT(00000111),B8_2BIT(11100000),
+  B8_2BIT(00000111),B8_2BIT(11100000),
+  B8_2BIT(00001111),B8_2BIT(11110000),
+  B8_2BIT(00001111),B8_2BIT(11110000),
+  B8_2BIT(00011111),B8_2BIT(11111000),
+  B8_2BIT(00011111),B8_2BIT(11111000),
+  B8_2BIT(00000000),B8_2BIT(00000000),
+  B8_2BIT(00000000),B8_2BIT(00000000),
+  B8_2BIT(00000000),B8_2BIT(00000000),
+
+  B8_2BIT(10000000),B8_2BIT(00000001),
+  B8_2BIT(00000000),B8_2BIT(00000000),
+  B8_2BIT(00000000),B8_2BIT(00000000),
+  B8_2BIT(00000001),B8_2BIT(10000000),
+  B8_2BIT(00000001),B8_2BIT(10000000),
+  B8_2BIT(00000011),B8_2BIT(11000000),
+  B8_2BIT(00000011),B8_2BIT(11000000),
+  B8_2BIT(00000111),B8_2BIT(11100000),
+  B8_2BIT(00000111),B8_2BIT(11100000),
+  B8_2BIT(00001111),B8_2BIT(11110000),
+  B8_2BIT(00001111),B8_2BIT(11110000),
+  B8_2BIT(00011111),B8_2BIT(11111000),
+  B8_2BIT(00011111),B8_2BIT(11111000),
+  B8_2BIT(00000000),B8_2BIT(00000000),
+  B8_2BIT(00000000),B8_2BIT(00000000),
+  B8_2BIT(00000000),B8_2BIT(00000000)
+};
+
+const struct CRGB TriforceColTab[] =  { CRGB(231,193,124), CRGB(155,142,255)};
+
 cSprite SprPacmanRight(MY_SPRITE_WIDTH, MY_SPRITE_HEIGHT, PacmanRightData, PACMAN_FRAMES, _2BIT, PacmanRightColTab, PacmanRightMask);
 cSprite SprMarioRight(MARIO_SIZE, MARIO_SIZE, MarioData, MARIO_FRAMES, _2BIT, MarioColTab, MarioMask);
 cSprite SprMarioRight2(MARIO_SIZE, MARIO_SIZE, MarioData, MARIO_FRAMES, _2BIT, MarioColTab, MarioMask);
@@ -1693,6 +1845,11 @@ cSprite SprOctorok(MARIO_SIZE, MARIO_SIZE, OctorokData, 2, _2BIT, OctorokColTab,
 cSprite SprOctorok2(MARIO_SIZE, MARIO_SIZE, OctorokData, 2, _2BIT, OctorokColTab, OctorokMask);
 cSprite SprLink(MARIO_SIZE, MARIO_SIZE, LinkData, 2, _2BIT, LinkColTab, LinkMask);
 cSprite SprLink2(MARIO_SIZE, MARIO_SIZE, LinkData, 2, _2BIT, LinkColTab, LinkMask);
+cSprite SprFairy(MARIO_SIZE, MARIO_SIZE, FairyData, 2, _2BIT, FairyColTab, FairyMask);
+cSprite SprFairy2(MARIO_SIZE, MARIO_SIZE, FairyData, 2, _2BIT, FairyColTab, FairyMask);
+cSprite SprTriforce(MARIO_SIZE, MARIO_SIZE, TriforceData, 2, _2BIT, TriforceColTab, TriforceMask);
+cSprite SprTriforce2(MARIO_SIZE, MARIO_SIZE, TriforceData, 2, _2BIT, TriforceColTab, TriforceMask);
+
 int state=1;
 int nextstate = 0;
 int bright = 20;
@@ -1728,10 +1885,9 @@ void setup()
 
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
-  SimplePatternList gPatterns = { Dcon, MultiMario, MultiMario, Matrix, Maus, Circles, TrippyRainbow, Brow, Brow, Glitter, Glitter, CompCube, Plasma, Noise, Fireplace, Wave, Lines};
-  //SimplePatternList gPatterns1 = { Dcon, MultiMario, MultiMario, Matrix, Maus, Circles, TrippyRainbow, threeSine, Brow, Brow, Glitter, Glitter, slantBars, Plasma, Noise, Fireplace, Wave, Lines};
-  SimplePatternList gPatterns1 = {Zelda};
-  SimplePatternList gPatterns2 = { Maus, CompCube, MultiMario, Brow };
+  SimplePatternList gPatterns = { Dcon, MultiMario, Matrix, Maus, Circles, TrippyRainbow, Glitter, Glitter, CompCube, Plasma, Noise, Fireplace, Wave, Lines};
+  SimplePatternList gPatterns1 = { Dcon, MultiMario, MultiMario, Matrix, Maus, Circles, TrippyRainbow, threeSine, threeSine, plasma2, Glitter, Glitter, slantBars, Plasma, Zelda, Zelda, Fireplace, Wave, Lines};
+  SimplePatternList gPatterns2 = { Zelda, Zelda, MultiMario, MultiMario};
   SimplePatternList gPatterns3 = { Circles, TrippyRainbow, Glitter, Plasma,  Lines, Noise};
   SimplePatternList gPatterns4 = { Fireplace, Wave, Dcon };
 
@@ -1766,6 +1922,15 @@ void loop()
   Sprites.RemoveSprite(&SprCompCube2);
   Sprites.RemoveSprite(&SprCompCube3);
   Sprites.RemoveSprite(&SprCompCube4);
+      Sprites.RemoveSprite(&SprLink);
+    Sprites.RemoveSprite(&SprOctorok);
+    Sprites.RemoveSprite(&SprFairy);
+    Sprites.RemoveSprite(&SprTriforce);
+    Sprites.RemoveSprite(&SprLink2);
+    Sprites.RemoveSprite(&SprOctorok2);
+    Sprites.RemoveSprite(&SprFairy2);
+    Sprites.RemoveSprite(&SprTriforce2);
+  zcount = 0;
   count = 0;
   mcount = 0;
   eye_count = 0;
@@ -1791,7 +1956,16 @@ void loop()
   Sprites.RemoveSprite(&SprCompCube2);
   Sprites.RemoveSprite(&SprCompCube3);
   Sprites.RemoveSprite(&SprCompCube4);
+      Sprites.RemoveSprite(&SprLink);
+    Sprites.RemoveSprite(&SprOctorok);
+    Sprites.RemoveSprite(&SprFairy);
+    Sprites.RemoveSprite(&SprTriforce);
+    Sprites.RemoveSprite(&SprLink2);
+    Sprites.RemoveSprite(&SprOctorok2);
+    Sprites.RemoveSprite(&SprFairy2);
+    Sprites.RemoveSprite(&SprTriforce2);
   count = 0;
+  zcount = 0;
   mcount = 0;
   eye_count = 0;
   cube_count = 0;
@@ -1816,7 +1990,16 @@ void loop()
   Sprites.RemoveSprite(&SprCompCube2);
   Sprites.RemoveSprite(&SprCompCube3);
   Sprites.RemoveSprite(&SprCompCube4);
+  Sprites.RemoveSprite(&SprLink);
+    Sprites.RemoveSprite(&SprOctorok);
+    Sprites.RemoveSprite(&SprFairy);
+    Sprites.RemoveSprite(&SprTriforce);
+    Sprites.RemoveSprite(&SprLink2);
+    Sprites.RemoveSprite(&SprOctorok2);
+    Sprites.RemoveSprite(&SprFairy2);
+    Sprites.RemoveSprite(&SprTriforce2);
   count = 0;
+  zcount = 0;
   mcount = 0;
   eye_count = 0;
   cube_count = 0;
@@ -1843,6 +2026,7 @@ void loop()
 //  Sprites.RemoveSprite(&SprCompCube4);
 //  count = 0;
 //  mcount = 0;
+//  zcount = 0;
 //  eye_count = 0;
 //  cube_count = 0;
 //  mauscount = 0;
@@ -1894,7 +2078,7 @@ else
   }
    if (state == 2)
   {
-  	MultiMario();
+  	gPatterns2[gCurrentPatternNumber2]();
   }
   if (state == 3)
   {
@@ -1902,6 +2086,7 @@ else
   }
   if (nextstate == 1)
   {
+    count = 0;
   	nextPattern();
   }
 
@@ -1909,7 +2094,7 @@ else
 
 EVERY_N_MILLISECONDS( 5 ) { gHue=gHue+12; }
   // do some periodic updates
-  EVERY_N_SECONDS( 40 ) { nextPattern(); } // change patterns periodically
+  EVERY_N_SECONDS( 40 ) { count=0; nextPattern(); } // change patterns periodically
 }
 
 void nextPattern()
@@ -1988,14 +2173,14 @@ void Dcon()
 void Zelda()
 {
   FastLED.clear();
-  //Sprites.RemoveSprite(&SprMushroom);
-  //Sprites.RemoveSprite(&SprMarioRight);
-  //Sprites.RemoveSprite(&SprLuigiRight);
-  //Sprites.RemoveSprite(&SprGoomba);
-  //Sprites.RemoveSprite(&SprMushroom2);
-  //Sprites.RemoveSprite(&SprMarioRight2);
-  //Sprites.RemoveSprite(&SprLuigiRight2);
-  //Sprites.RemoveSprite(&SprGoomba2);
+  Sprites.RemoveSprite(&SprMushroom);
+  Sprites.RemoveSprite(&SprMarioRight);
+  Sprites.RemoveSprite(&SprLuigiRight);
+  Sprites.RemoveSprite(&SprGoomba);
+  Sprites.RemoveSprite(&SprMushroom2);
+  Sprites.RemoveSprite(&SprMarioRight2);
+  Sprites.RemoveSprite(&SprLuigiRight2);
+  Sprites.RemoveSprite(&SprGoomba2);
   Sprites.RemoveSprite(&SprCompCube1);
   Sprites.RemoveSprite(&SprCompCube2);
   Sprites.RemoveSprite(&SprCompCube3);
@@ -2019,25 +2204,25 @@ void Zelda()
     Sprites.AddSprite(&SprLink);
   count = 1;
   }
-  if (mcount == 0)
+  if (zcount == 0)
   {
    if (SprLink.m_X == 0)
    {
-    SprMarioRight.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
-    Sprites.AddSprite(&SprMarioRight);
+    SprFairy.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprFairy);
    }
 
-   if (SprMarioRight.m_X == 0)
+   if (SprFairy.m_X == 0)
    {
-    SprLuigiRight.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
-    Sprites.AddSprite(&SprLuigiRight);
+    SprTriforce.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprTriforce);
    }
    
-   if (SprLuigiRight.m_X == 1)
+   if (SprTriforce.m_X == 1)
    {
-    SprOctorok.SetPositionFrameMotionOptions(-16/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    SprOctorok.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
     Sprites.AddSprite(&SprOctorok);
-    mcount = 1;
+    zcount = 1;
    }
     
   }
@@ -2054,26 +2239,26 @@ void Zelda()
     Sprites.AddSprite(&SprLink);
    }
 
-      if (SprMarioRight.m_X == 49)
+      if (SprFairy.m_X == 49)
    {
-    SprMarioRight2.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
-    Sprites.AddSprite(&SprMarioRight2);
+    SprFairy2.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprFairy2);
    }
-      if (SprMarioRight2.m_X == 49)
+      if (SprFairy2.m_X == 49)
    {
-    SprMarioRight.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
-    Sprites.AddSprite(&SprMarioRight);
+    SprFairy.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprFairy);
    }
 
-      if (SprLuigiRight.m_X == 49)
+      if (SprTriforce.m_X == 49)
    {
-    SprLuigiRight2.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
-    Sprites.AddSprite(&SprLuigiRight2);
+    SprTriforce2.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 9/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprTriforce2);
    }
-      if (SprLuigiRight2.m_X == 49)
+      if (SprTriforce2.m_X == 49)
    {
-    SprLuigiRight.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
-    Sprites.AddSprite(&SprLuigiRight);
+    SprTriforce.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 9/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprTriforce);
    }
 
       if (SprOctorok.m_X == 49)
@@ -2092,6 +2277,9 @@ void Zelda()
   delay(10);
   count++;
   eye_count=0;
+  mcount=0;
+  mauscount=0;
+  
 }
 void MultiMario()
 {
@@ -2102,6 +2290,14 @@ void MultiMario()
     Sprites.RemoveSprite(&SprCompCube2);
     Sprites.RemoveSprite(&SprCompCube3);
     Sprites.RemoveSprite(&SprCompCube4);
+    Sprites.RemoveSprite(&SprLink);
+    Sprites.RemoveSprite(&SprOctorok);
+    Sprites.RemoveSprite(&SprFairy);
+    Sprites.RemoveSprite(&SprTriforce);
+    Sprites.RemoveSprite(&SprLink2);
+    Sprites.RemoveSprite(&SprOctorok2);
+    Sprites.RemoveSprite(&SprFairy2);
+    Sprites.RemoveSprite(&SprTriforce2);
     
     for (int16_t x=0; x<64; x++)
     {
@@ -2192,6 +2388,7 @@ void MultiMario()
   delay(10);
   count++;
   eye_count=0;
+  zcount = 0;
 }
 
 void Plasma()
@@ -2325,6 +2522,14 @@ void Brow()
   Sprites.RemoveSprite(&SprCompCube3);
   Sprites.RemoveSprite(&SprCompCube4);
   Sprites.RemoveSprite(&SprMaus);
+      Sprites.RemoveSprite(&SprLink);
+    Sprites.RemoveSprite(&SprOctorok);
+    Sprites.RemoveSprite(&SprFairy);
+    Sprites.RemoveSprite(&SprTriforce);
+    Sprites.RemoveSprite(&SprLink2);
+    Sprites.RemoveSprite(&SprOctorok2);
+    Sprites.RemoveSprite(&SprFairy2);
+    Sprites.RemoveSprite(&SprTriforce2);
   
     for (int16_t x=0; x<64; x++)
     {
@@ -2428,6 +2633,7 @@ if (SprBrow.GetCurrentFrame() != 19)
   FastLED.delay(30);
   count = 0;
   mcount = 0;
+  zcount = 0;
   cube_count = 0;
   mauscount = 0;
 }
@@ -2444,6 +2650,14 @@ void CompCube()
   Sprites.RemoveSprite(&SprGoomba2);
   Sprites.RemoveSprite(&SprBrow);
   Sprites.RemoveSprite(&SprMaus);
+      Sprites.RemoveSprite(&SprLink);
+    Sprites.RemoveSprite(&SprOctorok);
+    Sprites.RemoveSprite(&SprFairy);
+    Sprites.RemoveSprite(&SprTriforce);
+    Sprites.RemoveSprite(&SprLink2);
+    Sprites.RemoveSprite(&SprOctorok2);
+    Sprites.RemoveSprite(&SprFairy2);
+    Sprites.RemoveSprite(&SprTriforce2);
   
   FastLED.clear();
   Sprites.UpdateSprites();
@@ -2482,6 +2696,11 @@ void CompCube()
    }
       Sprites.RenderSprites();
       FastLED.delay(30);
+        count = 0;
+  mcount = 0;
+  zcount = 0;
+  eye_count = 0;
+  mauscount = 0;
 }
 
 void Fireplace () {
@@ -2576,6 +2795,14 @@ void Maus()
     Sprites.RemoveSprite(&SprCompCube2);
     Sprites.RemoveSprite(&SprCompCube3);
     Sprites.RemoveSprite(&SprCompCube4);
+        Sprites.RemoveSprite(&SprLink);
+    Sprites.RemoveSprite(&SprOctorok);
+    Sprites.RemoveSprite(&SprFairy);
+    Sprites.RemoveSprite(&SprTriforce);
+    Sprites.RemoveSprite(&SprLink2);
+    Sprites.RemoveSprite(&SprOctorok2);
+    Sprites.RemoveSprite(&SprFairy2);
+    Sprites.RemoveSprite(&SprTriforce2);
 
     fadeToBlackBy( leds[0], 1024, 50);
     //FastLED.clear();
@@ -2590,7 +2817,11 @@ void Maus()
     Sprites.RenderSprites();
     
     FastLED.show();
-  
+  count = 0;
+  mcount = 0;
+  zcount = 0;
+  cube_count = 0;
+  eye_count=0;
 }
 
 void Circles()
