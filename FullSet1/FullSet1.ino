@@ -284,7 +284,8 @@ else
 
 EVERY_N_MILLISECONDS( 5 ) { gHue=gHue+12; }
   // do some periodic updates
-  EVERY_N_SECONDS( 40 ) { count=0; nextPattern(); } // change patterns periodically
+  EVERY_N_SECONDS( 40 ) { nextPattern(); } // change patterns periodically
+	// removed " count=0;  " from the above.
 }
 
 void nextPattern()
