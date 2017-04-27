@@ -122,6 +122,7 @@ void loop()
   Sprites.RemoveSprite(&SprTriforce2);
   zcount = 0;
   count = 0;
+  count2 = 0;
   mcount = 0;
   eye_count = 0;
   cube_count = 0;
@@ -155,6 +156,7 @@ void loop()
   Sprites.RemoveSprite(&SprFairy2);
   Sprites.RemoveSprite(&SprTriforce2);
   count = 0;
+  count2 = 0;
   zcount = 0;
   mcount = 0;
   eye_count = 0;
@@ -189,6 +191,7 @@ void loop()
   Sprites.RemoveSprite(&SprFairy2);
   Sprites.RemoveSprite(&SprTriforce2);
   count = 0;
+  count2 = 0;
   zcount = 0;
   mcount = 0;
   eye_count = 0;
@@ -277,6 +280,7 @@ else
   if (nextstate == 1)
   {
     count = 0;
+    count2 = 0;
   	nextPattern();
   }
 
@@ -389,11 +393,11 @@ void Zelda()
 
   Sprites.UpdateSprites();
   Sprites.DetectCollisions();
-  if (count == 0)
+  if (count2 == 0)
   {
   SprLink.SetPositionFrameMotionOptions(-10/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
     Sprites.AddSprite(&SprLink);
-  count = 1;
+  count2 = 1;
   }
   if (zcount == 0)
   {
@@ -466,10 +470,11 @@ void Zelda()
    Sprites.RenderSprites();
   FastLED.show();
   delay(10);
-  count++;
+  count2++;
   eye_count=0;
   mcount=0;
   mauscount=0;
+  count=0;
   
 }
 void MultiMario()
@@ -580,6 +585,7 @@ void MultiMario()
   count++;
   eye_count=0;
   zcount = 0;
+  count2 = 0;
 }
 
 void Plasma()
@@ -1009,6 +1015,7 @@ void Maus()
     
     FastLED.show();
   count = 0;
+  count2 = 0;
   mcount = 0;
   zcount = 0;
   cube_count = 0;
