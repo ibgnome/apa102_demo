@@ -76,8 +76,9 @@ void setup()
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
   SimplePatternList gPatterns = { Dcon, MultiMario, Matrix, Maus, Circles, TrippyRainbow, Glitter, Glitter, CompCube, Plasma, Noise, Fireplace, Wave, Lines};
-  SimplePatternList gPatterns1 = { Dcon, MultiMario, MultiMario, Matrix, Maus, Circles, TrippyRainbow, threeSine, threeSine, plasma2, Glitter, Glitter, slantBars, Plasma, Zelda, Zelda, Fireplace, Wave, Lines};
+  SimplePatternList gPatterns1 = { Dcon, MultiMario, MultiMario, Matrix, Maus, Circles, TrippyRainbow, threeSine, threeSine, plasma2, toast, Glitter, Glitter, Zelda, Zelda, Fireplace, Wave, Lines};
   SimplePatternList gPatterns2 = { Zelda, Zelda, MultiMario, MultiMario};
+  //SimplePatternList gPatterns2 = { toast };
   SimplePatternList gPatterns3 = { Circles, TrippyRainbow, Glitter, Plasma,  Lines, Noise};
   SimplePatternList gPatterns4 = { Fireplace, Wave, Dcon };
 
@@ -115,11 +116,17 @@ void loop()
   Sprites.RemoveSprite(&SprLink);
   Sprites.RemoveSprite(&SprOctorok);
   Sprites.RemoveSprite(&SprFairy);
-  Sprites.RemoveSprite(&SprTriforce);
+  Sprites.RemoveSprite(&SprRupee);
   Sprites.RemoveSprite(&SprLink2);
   Sprites.RemoveSprite(&SprOctorok2);
   Sprites.RemoveSprite(&SprFairy2);
-  Sprites.RemoveSprite(&SprTriforce2);
+  Sprites.RemoveSprite(&SprRupee2);
+  Sprites.RemoveSprite(&SprToast);
+  Sprites.RemoveSprite(&SprToast2);
+  Sprites.RemoveSprite(&SprToast3);
+  Sprites.RemoveSprite(&SprToast4);
+  Sprites.RemoveSprite(&SprToast5);
+  Sprites.RemoveSprite(&SprToast6);
   zcount = 0;
   count = 0;
   count2 = 0;
@@ -128,6 +135,7 @@ void loop()
   cube_count = 0;
   mauscount = 0;
   nextstate = 0;
+  toastcount = 0;
   }   
     
   if (btnB.pressed())
@@ -150,11 +158,17 @@ void loop()
   Sprites.RemoveSprite(&SprLink);
   Sprites.RemoveSprite(&SprOctorok);
   Sprites.RemoveSprite(&SprFairy);
-  Sprites.RemoveSprite(&SprTriforce);
+  Sprites.RemoveSprite(&SprRupee);
   Sprites.RemoveSprite(&SprLink2);
   Sprites.RemoveSprite(&SprOctorok2);
   Sprites.RemoveSprite(&SprFairy2);
-  Sprites.RemoveSprite(&SprTriforce2);
+  Sprites.RemoveSprite(&SprRupee2);
+  Sprites.RemoveSprite(&SprToast);
+  Sprites.RemoveSprite(&SprToast2);
+  Sprites.RemoveSprite(&SprToast3);
+  Sprites.RemoveSprite(&SprToast4);
+  Sprites.RemoveSprite(&SprToast5);
+  Sprites.RemoveSprite(&SprToast6);
   count = 0;
   count2 = 0;
   zcount = 0;
@@ -162,6 +176,7 @@ void loop()
   eye_count = 0;
   cube_count = 0;
   mauscount = 0;
+  toastcount = 0;
   nextstate = 0;
   }   
      
@@ -185,11 +200,17 @@ void loop()
   Sprites.RemoveSprite(&SprLink);
   Sprites.RemoveSprite(&SprOctorok);
   Sprites.RemoveSprite(&SprFairy);
-  Sprites.RemoveSprite(&SprTriforce);
+  Sprites.RemoveSprite(&SprRupee);
   Sprites.RemoveSprite(&SprLink2);
   Sprites.RemoveSprite(&SprOctorok2);
   Sprites.RemoveSprite(&SprFairy2);
-  Sprites.RemoveSprite(&SprTriforce2);
+  Sprites.RemoveSprite(&SprRupee2);
+  Sprites.RemoveSprite(&SprToast);
+  Sprites.RemoveSprite(&SprToast2);
+  Sprites.RemoveSprite(&SprToast3);
+  Sprites.RemoveSprite(&SprToast4);
+  Sprites.RemoveSprite(&SprToast5);
+  Sprites.RemoveSprite(&SprToast6);
   count = 0;
   count2 = 0;
   zcount = 0;
@@ -197,6 +218,7 @@ void loop()
   eye_count = 0;
   cube_count = 0;
   mauscount = 0;
+  toastcount = 0;
   nextstate = 1;
   }
        
@@ -244,21 +266,21 @@ else if ( bright == 60 )
   bright = 70;
   FastLED.setBrightness(70);
 }
-else if ( bright == 70 )
-{
-  bright = 80;
-  FastLED.setBrightness(80);
-}
-else if ( bright == 80 )
-{
-  bright = 90;
-  FastLED.setBrightness(90);
-}
-else if ( bright == 90 )
-{
-  bright = 100;
-  FastLED.setBrightness(100);
-}
+//else if ( bright == 70 )
+//{
+//  bright = 80;
+//  FastLED.setBrightness(80);
+//}
+//else if ( bright == 80 )
+//{
+//  bright = 90;
+//  FastLED.setBrightness(90);
+//}
+//else if ( bright == 90 )
+//{
+//  bright = 100;
+//  FastLED.setBrightness(100);
+//}
 else
 {
   bright = 20;
@@ -382,6 +404,12 @@ void Zelda()
 //  Sprites.RemoveSprite(&SprCompCube4);
   Sprites.RemoveSprite(&SprMaus);
 //  Sprites.RemoveSprite(&SprBrow);
+    Sprites.RemoveSprite(&SprToast);
+    Sprites.RemoveSprite(&SprToast2);
+    Sprites.RemoveSprite(&SprToast3);
+    Sprites.RemoveSprite(&SprToast4);
+    Sprites.RemoveSprite(&SprToast5);
+    Sprites.RemoveSprite(&SprToast6);
 //    
 //    for (int16_t x=0; x<64; x++)
 //    {
@@ -409,11 +437,11 @@ void Zelda()
 
    if (SprFairy.m_X == 0)
    {
-    SprTriforce.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
-    Sprites.AddSprite(&SprTriforce);
+    SprRupee.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprRupee);
    }
    
-   if (SprTriforce.m_X == 1)
+   if (SprRupee.m_X == 1)
    {
     SprOctorok.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 4/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
     Sprites.AddSprite(&SprOctorok);
@@ -445,15 +473,15 @@ void Zelda()
     Sprites.AddSprite(&SprFairy);
    }
 
-      if (SprTriforce.m_X == 49)
+      if (SprRupee.m_X == 49)
    {
-    SprTriforce2.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 9/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
-    Sprites.AddSprite(&SprTriforce2);
+    SprRupee2.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 9/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprRupee2);
    }
-      if (SprTriforce2.m_X == 49)
+      if (SprRupee2.m_X == 49)
    {
-    SprTriforce.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 9/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
-    Sprites.AddSprite(&SprTriforce);
+    SprRupee.SetPositionFrameMotionOptions(-15/*X*/, 0/*Y*/, 0/*Frame*/, 9/*FrameRate*/, +1/*XChange*/, 2/*XRate*/, 0/*YChange*/, 0/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION);
+    Sprites.AddSprite(&SprRupee);
    }
 
       if (SprOctorok.m_X == 49)
@@ -474,6 +502,7 @@ void Zelda()
   eye_count=0;
   mcount=0;
   mauscount=0;
+  toastcount = 0;
   count=0;
   
 }
@@ -489,11 +518,17 @@ void MultiMario()
     Sprites.RemoveSprite(&SprLink);
     Sprites.RemoveSprite(&SprOctorok);
     Sprites.RemoveSprite(&SprFairy);
-    Sprites.RemoveSprite(&SprTriforce);
+    Sprites.RemoveSprite(&SprRupee);
     Sprites.RemoveSprite(&SprLink2);
     Sprites.RemoveSprite(&SprOctorok2);
     Sprites.RemoveSprite(&SprFairy2);
-    Sprites.RemoveSprite(&SprTriforce2);
+    Sprites.RemoveSprite(&SprRupee2);
+    Sprites.RemoveSprite(&SprToast);
+    Sprites.RemoveSprite(&SprToast2);
+    Sprites.RemoveSprite(&SprToast3);
+    Sprites.RemoveSprite(&SprToast4);
+    Sprites.RemoveSprite(&SprToast5);
+    Sprites.RemoveSprite(&SprToast6);
     
     for (int16_t x=0; x<64; x++)
     {
@@ -585,6 +620,7 @@ void MultiMario()
   count++;
   eye_count=0;
   zcount = 0;
+  toastcount = 0;
   count2 = 0;
 }
 
@@ -722,11 +758,17 @@ void Brow()
   Sprites.RemoveSprite(&SprLink);
   Sprites.RemoveSprite(&SprOctorok);
   Sprites.RemoveSprite(&SprFairy);
-  Sprites.RemoveSprite(&SprTriforce);
+  Sprites.RemoveSprite(&SprRupee);
   Sprites.RemoveSprite(&SprLink2);
   Sprites.RemoveSprite(&SprOctorok2);
   Sprites.RemoveSprite(&SprFairy2);
-  Sprites.RemoveSprite(&SprTriforce2);
+  Sprites.RemoveSprite(&SprRupee2);
+  Sprites.RemoveSprite(&SprToast);
+  Sprites.RemoveSprite(&SprToast2);
+  Sprites.RemoveSprite(&SprToast3);
+  Sprites.RemoveSprite(&SprToast4);
+  Sprites.RemoveSprite(&SprToast5);
+  Sprites.RemoveSprite(&SprToast6);
   
     for (int16_t x=0; x<64; x++)
     {
@@ -832,6 +874,7 @@ if (SprBrow.GetCurrentFrame() != 19)
   mcount = 0;
   zcount = 0;
   cube_count = 0;
+  toastcount = 0;
   mauscount = 0;
 }
 
@@ -850,11 +893,17 @@ void CompCube()
   Sprites.RemoveSprite(&SprLink);
   Sprites.RemoveSprite(&SprOctorok);
   Sprites.RemoveSprite(&SprFairy);
-  Sprites.RemoveSprite(&SprTriforce);
+  Sprites.RemoveSprite(&SprRupee);
   Sprites.RemoveSprite(&SprLink2);
   Sprites.RemoveSprite(&SprOctorok2);
   Sprites.RemoveSprite(&SprFairy2);
-  Sprites.RemoveSprite(&SprTriforce2);
+  Sprites.RemoveSprite(&SprRupee2);
+  Sprites.RemoveSprite(&SprToast);
+  Sprites.RemoveSprite(&SprToast2);
+  Sprites.RemoveSprite(&SprToast3);
+  Sprites.RemoveSprite(&SprToast4);
+  Sprites.RemoveSprite(&SprToast5);
+  Sprites.RemoveSprite(&SprToast6);
   
   FastLED.clear();
   Sprites.UpdateSprites();
@@ -897,6 +946,7 @@ void CompCube()
   mcount = 0;
   zcount = 0;
   eye_count = 0;
+  toastcount = 0;
   mauscount = 0;
 }
 
@@ -995,11 +1045,17 @@ void Maus()
     Sprites.RemoveSprite(&SprLink);
     Sprites.RemoveSprite(&SprOctorok);
     Sprites.RemoveSprite(&SprFairy);
-    Sprites.RemoveSprite(&SprTriforce);
+    Sprites.RemoveSprite(&SprRupee);
     Sprites.RemoveSprite(&SprLink2);
     Sprites.RemoveSprite(&SprOctorok2);
     Sprites.RemoveSprite(&SprFairy2);
-    Sprites.RemoveSprite(&SprTriforce2);
+    Sprites.RemoveSprite(&SprRupee2);
+    Sprites.RemoveSprite(&SprToast);
+    Sprites.RemoveSprite(&SprToast2);
+    Sprites.RemoveSprite(&SprToast3);
+    Sprites.RemoveSprite(&SprToast4);
+    Sprites.RemoveSprite(&SprToast5);
+    Sprites.RemoveSprite(&SprToast6);
 
     fadeToBlackBy( leds[0], 1024, 50);
     //FastLED.clear();
@@ -1136,4 +1192,62 @@ void quad()
   riderPos++;
 }
 
+void toast()
+{
+    Sprites.RemoveSprite(&SprMushroom);
+    Sprites.RemoveSprite(&SprMarioRight);
+    Sprites.RemoveSprite(&SprLuigiRight);
+    Sprites.RemoveSprite(&SprGoomba);
+    Sprites.RemoveSprite(&SprMushroom2);
+    Sprites.RemoveSprite(&SprMarioRight2);
+    Sprites.RemoveSprite(&SprLuigiRight2);
+    Sprites.RemoveSprite(&SprGoomba2);
+    Sprites.RemoveSprite(&SprBrow);
+    Sprites.RemoveSprite(&SprCompCube1);
+    Sprites.RemoveSprite(&SprCompCube2);
+    Sprites.RemoveSprite(&SprCompCube3);
+    Sprites.RemoveSprite(&SprCompCube4);
+    Sprites.RemoveSprite(&SprLink);
+    Sprites.RemoveSprite(&SprOctorok);
+    Sprites.RemoveSprite(&SprFairy);
+    Sprites.RemoveSprite(&SprTriforce);
+    Sprites.RemoveSprite(&SprLink2);
+    Sprites.RemoveSprite(&SprOctorok2);
+    Sprites.RemoveSprite(&SprFairy2);
+    Sprites.RemoveSprite(&SprTriforce2);
+    Sprites.RemoveSprite(&SprMaus);
+
+    FastLED.clear();
+     Sprites.UpdateSprites();
+    if (toastcount == 0)
+    {
+      SprToast.SetPositionFrameMotionOptions(0/*X*/, 0/*Y*/, 0/*Frame*/, 6/*FrameRate*/, 0/*XChange*/, 0/*XRate*/, +1/*YChange*/, 1/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION | SPRITE_X_KEEPIN | SPRITE_Y_KEEPIN);
+      SprToast2.SetPositionFrameMotionOptions(11/*X*/, 4/*Y*/, 0/*Frame*/, 6/*FrameRate*/, 0/*XChange*/, 0/*XRate*/, +1/*YChange*/, 1/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION | SPRITE_X_KEEPIN | SPRITE_Y_KEEPIN);
+      SprToast3.SetPositionFrameMotionOptions(22/*X*/, 0/*Y*/, 0/*Frame*/, 6/*FrameRate*/, 0/*XChange*/, 0/*XRate*/, +1/*YChange*/, 1/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION | SPRITE_X_KEEPIN | SPRITE_Y_KEEPIN);
+      SprToast4.SetPositionFrameMotionOptions(33/*X*/, 4/*Y*/, 0/*Frame*/, 6/*FrameRate*/, 0/*XChange*/, 0/*XRate*/, +1/*YChange*/, 1/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION | SPRITE_X_KEEPIN | SPRITE_Y_KEEPIN);
+      SprToast5.SetPositionFrameMotionOptions(44/*X*/, 0/*Y*/, 0/*Frame*/, 6/*FrameRate*/, 0/*XChange*/, 0/*XRate*/, +1/*YChange*/, 1/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION | SPRITE_X_KEEPIN | SPRITE_Y_KEEPIN);
+      SprToast6.SetPositionFrameMotionOptions(55/*X*/, 4/*Y*/, 0/*Frame*/, 6/*FrameRate*/, 0/*XChange*/, 0/*XRate*/, +1/*YChange*/, 1/*YRate*/, SPRITE_DETECT_EDGE | SPRITE_DETECT_COLLISION | SPRITE_X_KEEPIN | SPRITE_Y_KEEPIN);
+      
+      Sprites.AddSprite(&SprToast);
+      Sprites.AddSprite(&SprToast2);
+      Sprites.AddSprite(&SprToast3);
+      Sprites.AddSprite(&SprToast4);
+      Sprites.AddSprite(&SprToast5);
+      Sprites.AddSprite(&SprToast6);
+      toastcount = 1;
+    }
+    
+    Sprites.RenderSprites();
+    
+    FastLED.show();
+  count = 0;
+  count2 = 0;
+  mcount = 0;
+  zcount = 0;
+  cube_count = 0;
+  eye_count=0;
+
+  FastLED.delay(50);
+  
+}
 

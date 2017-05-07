@@ -18,7 +18,7 @@ Button btnD(PIN4);
 uint16_t Options;
 uint8_t angle = 0;
 int randcount, randbrow, countup, countdown;
-int count, eye_count, mcount, cube_count, mauscount, zcount, count2 = 0;
+int count, eye_count, mcount, cube_count, mauscount, zcount, count2, toastcount = 0;
 uint8_t hue = 0;
 uint8_t gHue = 0;
 int16_t counter = 0;
